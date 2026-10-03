@@ -1,0 +1,54 @@
+import { THEMA, LANGUAGE_CODES } from './standards.ts';
+export const GENRES: Record<string, string> = Object.fromEntries([...THEMA.map(item => [item.label, `Thema ${item.code}: ${item.heading}`]), ['Other / uncertain', 'No selected category fits, or insufficient evidence.']]);
+export const LANGUAGES: Record<string, string> = Object.fromEntries(LANGUAGE_CODES.map(item => [item.label, item.label === 'Multilingual' ? 'Substantial content in several languages with no single dominant language.' : item.label === 'Other / uncertain' ? 'Unlisted or unidentifiable language; do not force a match.' : `Text in ${item.label}; ISO 639-2 code ${item.iso639_2}.`]));
+export const TIME_PERIODS: Record<string, string> = {
+  'BC / BCE': 'Main events take place before 1 CE, including prehistory and ancient civilizations before the common era.',
+  '1–499 CE': 'Main events take place in the first five centuries of the common era.',
+  '500–1499': 'Main events take place between 500 and 1499 CE, broadly medieval times.',
+  '1500s': 'Main events take place in 1500–1599 CE.',
+  '1600s': 'Main events take place in 1600–1699 CE.',
+  '1700s': 'Main events take place in 1700–1799 CE.',
+  '1800s': 'Main events take place in 1800–1899 CE.',
+  '1900s': 'Main events take place in 1900–1999 CE.',
+  '2000s / present': 'Main events take place in 2000–2026 CE or explicitly in the contemporary present.',
+  'Future': 'Main events take place after the contemporary present or in an explicitly futuristic setting.',
+  'Multiple periods': 'Substantial main events span more than one listed period; not merely a passing recollection.',
+  'Timeless / imaginary': 'The setting is a fairy-tale or imaginary world without a supported real-world historical period.',
+  'Not applicable / uncertain': 'The work has no narrative or historical temporal focus, or the excerpts do not support a period. Do not infer from the publication date.',
+};
+export const LEVELS = [
+  { label: 'Early reader', range: 'Grades K–2', description: 'Very short, simple sentences, basic concrete vocabulary, frequent repetition; early independent literacy (approximately US grades K–2).' },
+  { label: 'Elementary', range: 'Grades 3–5', description: 'Common vocabulary and straightforward sentences; simple plots or explanations with limited inference (approximately US grades 3–5).' },
+  { label: 'Middle school', range: 'Grades 6–8', description: 'Moderately varied vocabulary, longer sentences, figurative language and inference without specialized prerequisites (approximately US grades 6–8).' },
+  { label: 'High school', range: 'Grades 9–12', description: 'Complex sentences, abstract ideas, substantial figurative language or demanding vocabulary; strong secondary-school literacy (approximately US grades 9–12).' },
+  { label: 'College & adult', range: 'College / adult', description: 'Dense literary or expository prose, sophisticated abstraction, substantial interpretation, or vocabulary requiring advanced literacy.' },
+  { label: 'Advanced', range: 'Specialist', description: 'Highly technical, specialized, or scholarly prose requiring subject knowledge, dense syntax, or advanced academic literacy.' },
+] as const;
+export type Excerpt = { page: number; text: string };
+export type Judgment = { label: string; confidence: number; probabilities: Record<string, number> };
+export type Classification = {
+  genre: Judgment & { code?: string; standard?: string; heading?: string }; language: Judgment & { iso639_1?: string | null; iso639_2?: string };
+  subcategory?: Judgment & { code?: string; parentCode: string; heading?: string };
+  timePeriod?: Judgment;
+  readingLevel: Judgment & { score: number; range: string };
+  model: string; reviewed: boolean; taxonomyVersion?: string;
+  evidence?: { strategy: string; pages: number[]; characters: number; questionCount: number };
+};
+export type Book = {
+  id: string; hash: string; title: string; author: string; filename: string;
+  pageCount: number; size: number; addedAt: string; cover?: string;
+  samples: Excerpt[]; status: 'extracting' | 'ready' | 'classifying' | 'complete' | 'error';
+  evidenceStrategy?: 'full-text-v1' | 'distributed-pages-and-within-page-v1';
+  message?: string; result?: Classification; example?: boolean;
+  corrections?: { genre: string; language: string; readingLevel: string; subcategory?: string; timePeriod?: string };
+};
+export function needsReview(result: Classification, threshold = 0.7) {
+  return !result.reviewed && (result.genre.confidence < threshold || result.language.confidence < threshold ||
+    result.readingLevel.confidence < threshold || (result.subcategory && result.subcategory.confidence < threshold) || (result.timePeriod && result.timePeriod.confidence < threshold) || result.genre.label === 'Other / uncertain' || result.language.label === 'Other / uncertain');
+}
+export function sampledPageNumbers(pageCount: number): number[] {
+  return [...new Set([
+    ...Array.from({ length: Math.min(3, pageCount) }, (_, i) => i + 1),
+    ...Array.from({ length: Math.min(15, pageCount) }, (_, i) => 1 + Math.round(i * (pageCount - 1) / Math.max(1, Math.min(15, pageCount) - 1))),
+  ])].sort((a, b) => a - b);
+}

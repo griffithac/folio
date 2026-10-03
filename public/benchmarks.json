@@ -1,0 +1,213 @@
+{
+  "runAt": "2026-10-03T22:42:59.665Z",
+  "model": "jev-1.13.0",
+  "samplingVersion": "distributed-pages-and-within-page-v1",
+  "notes": "Exploratory agreement, not accuracy. Full text is chunked only when needed. Chunk probabilities are averaged by character count; aggregate support is not provider confidence. Public-domain status is recorded by Gutenberg for the USA. Source images are omitted. Generated PDF pagination affects sampling.",
+  "books": [
+    {
+      "title": "The Tale of Peter Rabbit",
+      "author": "Beatrix Potter",
+      "source": "https://www.gutenberg.org/ebooks/14838",
+      "scope": "Entire work, excluding Gutenberg license and illustrations",
+      "pageCount": 3,
+      "fullMethod": "entire-work-single-request",
+      "fullCharacters": 5326,
+      "sampledCharacters": 2994,
+      "sampledPages": [
+        1,
+        2,
+        3
+      ],
+      "fullLabels": {
+        "genre": "Children’s fiction",
+        "language": "English",
+        "readingLevel": "Elementary",
+        "timePeriod": "Timeless / imaginary",
+        "subcategory": null
+      },
+      "sampledLabels": {
+        "genre": "Children’s fiction",
+        "language": "English",
+        "readingLevel": "Elementary",
+        "timePeriod": "Timeless / imaginary",
+        "subcategory": null
+      },
+      "agreement": {
+        "genre": true,
+        "language": true,
+        "readingLevel": true,
+        "timePeriod": true,
+        "subcategory": true
+      },
+      "probabilityShift": {
+        "genre": 0,
+        "language": 0,
+        "reading_level": 0.05000000000000001,
+        "time_period": 0.01999999999999995
+      },
+      "fullRequests": 1
+    },
+    {
+      "title": "Alice’s Adventures in Wonderland",
+      "author": "Lewis Carroll",
+      "source": "https://www.gutenberg.org/ebooks/11",
+      "scope": "Entire work, excluding Gutenberg license and illustrations",
+      "pageCount": 58,
+      "fullMethod": "entire-work-chunked-weighted-baseline",
+      "fullCharacters": 143004,
+      "sampledCharacters": 16531,
+      "sampledPages": [
+        1,
+        2,
+        3,
+        5,
+        9,
+        13,
+        17,
+        21,
+        25,
+        30,
+        34,
+        38,
+        42,
+        46,
+        50,
+        54,
+        58
+      ],
+      "fullLabels": {
+        "genre": "Fantasy",
+        "language": "English",
+        "readingLevel": "Middle school",
+        "timePeriod": "Timeless / imaginary",
+        "subcategory": "FMK"
+      },
+      "sampledLabels": {
+        "genre": "Fantasy",
+        "language": "English",
+        "readingLevel": "Middle school",
+        "timePeriod": "Timeless / imaginary",
+        "subcategory": "FMK"
+      },
+      "agreement": {
+        "genre": true,
+        "language": true,
+        "readingLevel": true,
+        "timePeriod": true,
+        "subcategory": true
+      },
+      "probabilityShift": {
+        "genre": 0.057556292131688655,
+        "language": 0,
+        "reading_level": 0.017696078431372546,
+        "time_period": 0.011707504685183593
+      },
+      "fullRequests": 8
+    },
+    {
+      "title": "La Parure",
+      "author": "Guy de Maupassant",
+      "source": "https://www.gutenberg.org/ebooks/14790",
+      "scope": "La Parure story only, extracted from the collection",
+      "pageCount": 8,
+      "fullMethod": "entire-work-single-request",
+      "fullCharacters": 16060,
+      "sampledCharacters": 7984,
+      "sampledPages": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "fullLabels": {
+        "genre": "Literary fiction",
+        "language": "French",
+        "readingLevel": "College & adult",
+        "timePeriod": "1800s",
+        "subcategory": "FBC"
+      },
+      "sampledLabels": {
+        "genre": "Literary fiction",
+        "language": "French",
+        "readingLevel": "High school",
+        "timePeriod": "1800s",
+        "subcategory": "FBC"
+      },
+      "agreement": {
+        "genre": true,
+        "language": true,
+        "readingLevel": false,
+        "timePeriod": true,
+        "subcategory": true
+      },
+      "probabilityShift": {
+        "genre": 0,
+        "language": 0,
+        "reading_level": 0.25,
+        "time_period": 0
+      },
+      "fullRequests": 1
+    },
+    {
+      "title": "The Autobiography of Benjamin Franklin",
+      "author": "Benjamin Franklin",
+      "source": "https://www.gutenberg.org/ebooks/148",
+      "scope": "Entire work, excluding Gutenberg license and illustrations",
+      "pageCount": 101,
+      "fullMethod": "entire-work-chunked-weighted-baseline",
+      "fullCharacters": 376824,
+      "sampledCharacters": 16434,
+      "sampledPages": [
+        1,
+        2,
+        3,
+        8,
+        15,
+        22,
+        30,
+        37,
+        44,
+        51,
+        58,
+        65,
+        72,
+        80,
+        87,
+        94,
+        101
+      ],
+      "fullLabels": {
+        "genre": "Memoir",
+        "language": "English",
+        "readingLevel": "College & adult",
+        "timePeriod": "1700s",
+        "subcategory": null
+      },
+      "sampledLabels": {
+        "genre": "Memoir",
+        "language": "English",
+        "readingLevel": "College & adult",
+        "timePeriod": "1700s",
+        "subcategory": null
+      },
+      "agreement": {
+        "genre": true,
+        "language": true,
+        "readingLevel": true,
+        "timePeriod": true,
+        "subcategory": true
+      },
+      "probabilityShift": {
+        "genre": 0.05512101140054773,
+        "language": 0,
+        "reading_level": 0.02862861707322258,
+        "time_period": 0.006949981954440285
+      },
+      "fullRequests": 20
+    }
+  ]
+}
