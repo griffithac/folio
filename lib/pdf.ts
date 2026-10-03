@@ -1,5 +1,5 @@
 import { sampledPageNumbers, type Book } from './catalog';
-import { budgetSamples } from './evidence';
+import { budgetSamples, EVIDENCE_BYTE_BUDGET } from './evidence';
 export const MAX_PDF_BYTES = 25 * 1024 * 1024;
 export async function extractBook(file: File, onProgress: (message: string) => void): Promise<Partial<Book>> {
   if (!file.name.toLowerCase().endsWith('.pdf')) throw new Error('Choose a PDF file to add to your library.');
@@ -41,7 +41,7 @@ export async function extractBook(file: File, onProgress: (message: string) => v
       const context = canvas.getContext('2d');
       if (context && canvas.height < 2000) { await page.render({ canvasContext: context, canvas, viewport }).promise; cover = canvas.toDataURL('image/jpeg', 0.7); }
     } catch { /* Thumbnail failures do not prevent classification. */ }
-    const full = pdf.numPages <= 18 && new TextEncoder().encode(JSON.stringify(samples)).length <= 20000;
+    const full = pdf.numPages <= 18 && new TextEncoder().encode(JSON.stringify(samples)).length <= EVIDENCE_BYTE_BUDGET;
     return { title: title.slice(0, 240), author, hash, cover, pageCount: pdf.numPages, samples: full ? samples : budgetSamples(samples), evidenceStrategy: full ? 'full-text-v1' : 'distributed-pages-and-within-page-v1' };
   } finally { await pdf.destroy(); }
 }

@@ -1,14 +1,20 @@
 {
-  "runAt": "2026-10-03T22:42:59.665Z",
-  "model": "jev-1.13.0",
+  "runAt": "2026-10-03T23:24:43.928Z",
+  "taxonomyVersion": "thema-1.6-folio-subjects-v3",
+  "questionCount": 70,
   "samplingVersion": "distributed-pages-and-within-page-v1",
   "notes": "Exploratory agreement, not accuracy. Full text is chunked only when needed. Chunk probabilities are averaged by character count; aggregate support is not provider confidence. Public-domain status is recorded by Gutenberg for the USA. Source images are omitted. Generated PDF pagination affects sampling.",
+  "model": "jev-1.13.0",
   "books": [
     {
       "title": "The Tale of Peter Rabbit",
       "author": "Beatrix Potter",
+      "language": "English",
       "source": "https://www.gutenberg.org/ebooks/14838",
+      "textSource": "https://www.gutenberg.org/cache/epub/14838/pg14838.txt",
       "scope": "Entire work, excluding Gutenberg license and illustrations",
+      "textCharacters": 5395,
+      "pdfId": 14838,
       "pageCount": 3,
       "fullMethod": "entire-work-single-request",
       "fullCharacters": 5326,
@@ -42,20 +48,24 @@
       "probabilityShift": {
         "genre": 0,
         "language": 0,
-        "reading_level": 0.05000000000000001,
-        "time_period": 0.01999999999999995
+        "reading_level": 0.04000000000000001,
+        "time_period": 0.004999999999999999
       },
       "fullRequests": 1
     },
     {
       "title": "Alice’s Adventures in Wonderland",
       "author": "Lewis Carroll",
+      "language": "English",
       "source": "https://www.gutenberg.org/ebooks/11",
+      "textSource": "https://www.gutenberg.org/cache/epub/11/pg11.txt",
       "scope": "Entire work, excluding Gutenberg license and illustrations",
+      "textCharacters": 144513,
+      "pdfId": 11,
       "pageCount": 58,
       "fullMethod": "entire-work-chunked-weighted-baseline",
       "fullCharacters": 143004,
-      "sampledCharacters": 16531,
+      "sampledCharacters": 11845,
       "sampledPages": [
         1,
         2,
@@ -97,20 +107,24 @@
         "subcategory": true
       },
       "probabilityShift": {
-        "genre": 0.057556292131688655,
-        "language": 0,
-        "reading_level": 0.017696078431372546,
-        "time_period": 0.011707504685183593
+        "genre": 0.022931246678414643,
+        "language": 1.1102230246251565e-16,
+        "reading_level": 0.05043809963357665,
+        "time_period": 0.005553271237168222
       },
-      "fullRequests": 8
+      "fullRequests": 12
     },
     {
       "title": "La Parure",
       "author": "Guy de Maupassant",
+      "language": "French",
       "source": "https://www.gutenberg.org/ebooks/14790",
+      "textSource": "https://www.gutenberg.org/cache/epub/14790/pg14790.txt",
       "scope": "La Parure story only, extracted from the collection",
+      "textCharacters": 16412,
+      "pdfId": 14790,
       "pageCount": 8,
-      "fullMethod": "entire-work-single-request",
+      "fullMethod": "entire-work-chunked-weighted-baseline",
       "fullCharacters": 16060,
       "sampledCharacters": 7984,
       "sampledPages": [
@@ -127,14 +141,14 @@
         "genre": "Literary fiction",
         "language": "French",
         "readingLevel": "College & adult",
-        "timePeriod": "1800s",
+        "timePeriod": "1850–1899",
         "subcategory": "FBC"
       },
       "sampledLabels": {
         "genre": "Literary fiction",
         "language": "French",
         "readingLevel": "High school",
-        "timePeriod": "1800s",
+        "timePeriod": "1850–1899",
         "subcategory": "FBC"
       },
       "agreement": {
@@ -147,20 +161,24 @@
       "probabilityShift": {
         "genre": 0,
         "language": 0,
-        "reading_level": 0.25,
-        "time_period": 0
+        "reading_level": 0.23211457036114563,
+        "time_period": 0.05045703611457033
       },
-      "fullRequests": 1
+      "fullRequests": 2
     },
     {
       "title": "The Autobiography of Benjamin Franklin",
       "author": "Benjamin Franklin",
+      "language": "English",
       "source": "https://www.gutenberg.org/ebooks/148",
+      "textSource": "https://www.gutenberg.org/cache/epub/148/pg148.txt",
       "scope": "Entire work, excluding Gutenberg license and illustrations",
+      "textCharacters": 378588,
+      "pdfId": 148,
       "pageCount": 101,
       "fullMethod": "entire-work-chunked-weighted-baseline",
       "fullCharacters": 376824,
-      "sampledCharacters": 16434,
+      "sampledCharacters": 12321,
       "sampledPages": [
         1,
         2,
@@ -202,12 +220,256 @@
         "subcategory": true
       },
       "probabilityShift": {
-        "genre": 0.05512101140054773,
+        "genre": 0.04433459652251444,
         "language": 0,
-        "reading_level": 0.02862861707322258,
-        "time_period": 0.006949981954440285
+        "reading_level": 0.028772583487251344,
+        "time_period": 0.032083067957455
       },
-      "fullRequests": 20
+      "fullRequests": 33
+    },
+    {
+      "title": "Pride and Prejudice",
+      "author": "Jane Austen",
+      "language": "English",
+      "source": "https://www.gutenberg.org/ebooks/1342",
+      "textSource": "https://www.gutenberg.org/cache/epub/1342/pg1342.txt",
+      "scope": "Entire work, excluding Gutenberg license and illustrations",
+      "textCharacters": 721216,
+      "pdfId": 1342,
+      "pageCount": 233,
+      "fullMethod": "entire-work-chunked-weighted-baseline",
+      "fullCharacters": 711941,
+      "sampledCharacters": 12043,
+      "sampledPages": [
+        1,
+        2,
+        3,
+        18,
+        34,
+        51,
+        67,
+        84,
+        100,
+        117,
+        134,
+        150,
+        167,
+        183,
+        200,
+        216,
+        233
+      ],
+      "fullLabels": {
+        "genre": "Romance",
+        "language": "English",
+        "readingLevel": "College & adult",
+        "timePeriod": "1800–1849",
+        "subcategory": "FRH"
+      },
+      "sampledLabels": {
+        "genre": "Romance",
+        "language": "English",
+        "readingLevel": "College & adult",
+        "timePeriod": "1700s",
+        "subcategory": "FRH"
+      },
+      "agreement": {
+        "genre": true,
+        "language": true,
+        "readingLevel": true,
+        "timePeriod": false,
+        "subcategory": true
+      },
+      "probabilityShift": {
+        "genre": 0.00896851705408168,
+        "language": 0,
+        "reading_level": 0.21569601975444597,
+        "time_period": 0.20497732958208614
+      },
+      "fullRequests": 60
+    },
+    {
+      "title": "The Time Machine",
+      "author": "H. G. Wells",
+      "language": "English",
+      "source": "https://www.gutenberg.org/ebooks/35",
+      "textSource": "https://www.gutenberg.org/cache/epub/35/pg35.txt",
+      "scope": "Entire work, excluding Gutenberg license and illustrations",
+      "textCharacters": 179629,
+      "pdfId": 35,
+      "pageCount": 51,
+      "fullMethod": "entire-work-chunked-weighted-baseline",
+      "fullCharacters": 179202,
+      "sampledCharacters": 12448,
+      "sampledPages": [
+        1,
+        2,
+        3,
+        5,
+        8,
+        12,
+        15,
+        19,
+        22,
+        26,
+        30,
+        33,
+        37,
+        40,
+        44,
+        47,
+        51
+      ],
+      "fullLabels": {
+        "genre": "Science fiction",
+        "language": "English",
+        "readingLevel": "College & adult",
+        "timePeriod": "Future",
+        "subcategory": "FLG"
+      },
+      "sampledLabels": {
+        "genre": "Science fiction",
+        "language": "English",
+        "readingLevel": "College & adult",
+        "timePeriod": "Multiple periods",
+        "subcategory": "FLG"
+      },
+      "agreement": {
+        "genre": true,
+        "language": true,
+        "readingLevel": true,
+        "timePeriod": false,
+        "subcategory": true
+      },
+      "probabilityShift": {
+        "genre": 0.002583453309672842,
+        "language": 0,
+        "reading_level": 0.023817423912679464,
+        "time_period": 0.42511673976852943
+      },
+      "fullRequests": 16
+    },
+    {
+      "title": "The Adventures of Sherlock Holmes",
+      "author": "Arthur Conan Doyle",
+      "language": "English",
+      "source": "https://www.gutenberg.org/ebooks/1661",
+      "textSource": "https://www.gutenberg.org/cache/epub/1661/pg1661.txt",
+      "scope": "Entire work, excluding Gutenberg license and illustrations",
+      "textCharacters": 562137,
+      "pdfId": 1661,
+      "pageCount": 206,
+      "fullMethod": "entire-work-chunked-weighted-baseline",
+      "fullCharacters": 559008,
+      "sampledCharacters": 12307,
+      "sampledPages": [
+        1,
+        2,
+        3,
+        16,
+        30,
+        45,
+        60,
+        74,
+        89,
+        104,
+        118,
+        133,
+        147,
+        162,
+        177,
+        191,
+        206
+      ],
+      "fullLabels": {
+        "genre": "Crime & mystery",
+        "language": "English",
+        "readingLevel": "High school",
+        "timePeriod": "1850–1899",
+        "subcategory": "FFD"
+      },
+      "sampledLabels": {
+        "genre": "Crime & mystery",
+        "language": "English",
+        "readingLevel": "College & adult",
+        "timePeriod": "1850–1899",
+        "subcategory": "FFD"
+      },
+      "agreement": {
+        "genre": true,
+        "language": true,
+        "readingLevel": false,
+        "timePeriod": true,
+        "subcategory": true
+      },
+      "probabilityShift": {
+        "genre": 0.0031574145629401145,
+        "language": 5.551115123125783e-17,
+        "reading_level": 0.0896096835823459,
+        "time_period": 0.05459667840174013
+      },
+      "fullRequests": 48
+    },
+    {
+      "title": "Dracula",
+      "author": "Bram Stoker",
+      "language": "English",
+      "source": "https://www.gutenberg.org/ebooks/345",
+      "textSource": "https://www.gutenberg.org/cache/epub/345/pg345.txt",
+      "scope": "Entire work, excluding Gutenberg license and illustrations",
+      "textCharacters": 845651,
+      "pdfId": 345,
+      "pageCount": 258,
+      "fullMethod": "entire-work-chunked-weighted-baseline",
+      "fullCharacters": 836665,
+      "sampledCharacters": 12031,
+      "sampledPages": [
+        1,
+        2,
+        3,
+        19,
+        38,
+        56,
+        74,
+        93,
+        111,
+        130,
+        148,
+        166,
+        185,
+        203,
+        221,
+        240,
+        258
+      ],
+      "fullLabels": {
+        "genre": "Horror",
+        "language": "English",
+        "readingLevel": "College & adult",
+        "timePeriod": "1850–1899",
+        "subcategory": "FKC"
+      },
+      "sampledLabels": {
+        "genre": "Horror",
+        "language": "English",
+        "readingLevel": "College & adult",
+        "timePeriod": "1850–1899",
+        "subcategory": "FKC"
+      },
+      "agreement": {
+        "genre": true,
+        "language": true,
+        "readingLevel": true,
+        "timePeriod": true,
+        "subcategory": true
+      },
+      "probabilityShift": {
+        "genre": 0.004971643369807433,
+        "language": 0,
+        "reading_level": 0.03081578648563049,
+        "time_period": 0.05143290325279529
+      },
+      "fullRequests": 71
     }
   ]
 }

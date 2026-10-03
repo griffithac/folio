@@ -879,6 +879,80 @@ export const SUBCATEGORIES: Record<string, { code: string; heading: string }[]> 
       "heading": "Inventions and inventors"
     }
   ],
+  "UM": [
+  {
+    "code": "UMA",
+    "heading": "Programming techniques"
+  },
+  {
+    "code": "UMB",
+    "heading": "Algorithms and data structures"
+  },
+  {
+    "code": "UMC",
+    "heading": "Compilers and interpreters"
+  },
+  {
+    "code": "UMF",
+    "heading": "Agile programming"
+  },
+  {
+    "code": "UMG",
+    "heading": "Aspect programming / AOP"
+  },
+  {
+    "code": "UMH",
+    "heading": "Extreme programming"
+  },
+  {
+    "code": "UMJ",
+    "heading": "Functional programming"
+  },
+  {
+    "code": "UMK",
+    "heading": "Games development and programming"
+  },
+  {
+    "code": "UML",
+    "heading": "Graphics programming"
+  },
+  {
+    "code": "UMN",
+    "heading": "Object-oriented programming (OOP)"
+  },
+  {
+    "code": "UMP",
+    "heading": "Microsoft programming"
+  },
+  {
+    "code": "UMQ",
+    "heading": "Macintosh programming"
+  },
+  {
+    "code": "UMR",
+    "heading": "Network programming"
+  },
+  {
+    "code": "UMS",
+    "heading": "Mobile and handheld device programming / Apps programming"
+  },
+  {
+    "code": "UMT",
+    "heading": "Database programming"
+  },
+  {
+    "code": "UMW",
+    "heading": "Web programming"
+  },
+  {
+    "code": "UMX",
+    "heading": "Programming and scripting languages: general"
+  },
+  {
+    "code": "UMZ",
+    "heading": "Software Engineering"
+  }
+],
   "UY": [
     {
       "code": "UYA",

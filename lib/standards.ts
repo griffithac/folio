@@ -134,6 +134,12 @@ export const THEMA = [
     "url": "https://ns.editeur.org/thema/en/TB"
   },
   {
+    "code": "UM",
+    "label": "Programming & software engineering",
+    "heading": "Computer programming / software engineering",
+    "url": "https://ns.editeur.org/thema/en/UM"
+  },
+  {
     "code": "UY",
     "label": "Computing",
     "heading": "Computer science",
@@ -183,7 +189,7 @@ export const THEMA = [
   }
 ] as const;
 
-export const TAXONOMY_VERSION = "thema-1.6-folio-subjects-v2";
+export const TAXONOMY_VERSION = "thema-1.6-folio-subjects-v3";
 export function themaForLabel(label: string) { return THEMA.find(item => item.label === label); }
 
 // ISO 639-2/T and ISO 639-1 codes from the Library of Congress registration table.

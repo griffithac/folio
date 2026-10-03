@@ -8,7 +8,7 @@ from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer
 from reportlab.lib.styles import getSampleStyleSheet
 root=Path('outputs/corpus'); root.mkdir(parents=True,exist_ok=True)
 books=[]
-for n,title,author,lang in [(14838,'The Tale of Peter Rabbit','Beatrix Potter','English'),(11,'Alice’s Adventures in Wonderland','Lewis Carroll','English'),(14790,'La Parure','Guy de Maupassant','French'),(148,'The Autobiography of Benjamin Franklin','Benjamin Franklin','English')]:
+for n,title,author,lang in [(14838,'The Tale of Peter Rabbit','Beatrix Potter','English'),(11,'Alice’s Adventures in Wonderland','Lewis Carroll','English'),(14790,'La Parure','Guy de Maupassant','French'),(148,'The Autobiography of Benjamin Franklin','Benjamin Franklin','English'),(1342,'Pride and Prejudice','Jane Austen','English'),(35,'The Time Machine','H. G. Wells','English'),(1661,'The Adventures of Sherlock Holmes','Arthur Conan Doyle','English'),(345,'Dracula','Bram Stoker','English')]:
  source=root/f'pg{n}.txt'; url=f'https://www.gutenberg.org/cache/epub/{n}/pg{n}.txt'
  if not source.exists(): source.write_text(urllib.request.urlopen(urllib.request.Request(url,headers={'User-Agent':'Mozilla/5.0'}),timeout=30).read().decode('utf-8-sig'))
  text=source.read_text()

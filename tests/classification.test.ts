@@ -4,16 +4,21 @@ import { TypeSafeClient } from '@typesafe-ai/sdk';
 import { GENRES, LANGUAGES, LEVELS, TIME_PERIODS, needsReview, sampledPageNumbers } from '../lib/catalog.ts';
 import { bookQuestions, inputSchema, normalizeClassification, prepareRequest } from '../lib/classification.ts';
 import { budgetSamples } from '../lib/evidence.ts';
+import { PROGRAMMING_LANGUAGES, COMPUTING_TOPICS, BOOK_FORMS, AUDIENCES, TECHNICAL_LEVELS } from '../lib/details.ts';
 import { SUBCATEGORIES } from '../lib/subcategories.ts';
 import { languageCodes, themaForLabel } from '../lib/standards.ts';
 
 function answer() {
   const probabilities = (keys: string[], selected: string) => Object.fromEntries(keys.map(key => [key, key === selected ? 1 : 0]));
+  const extra = (criteria:Record<string,string>, selected:string) => ({type:'choice',choice:selected,confidence:1,probabilities:probabilities(Object.keys(criteria),selected)});
   return { model: 'jev-fixture', usage: { input_tokens: 900, output_tokens: 30 }, answers: {
     genre: { type: 'choice', choice: 'Fantasy', confidence: 1, probabilities: probabilities(Object.keys(GENRES), 'Fantasy') },
     language: { type: 'choice', choice: 'English', confidence: 1, probabilities: probabilities(Object.keys(LANGUAGES), 'English') },
     time_period: { type: 'choice', choice: 'Timeless / imaginary', confidence: 1, probabilities: probabilities(Object.keys(TIME_PERIODS), 'Timeless / imaginary') },
     subcategory_FM: { type: 'choice', choice: 'FMB', confidence: 1, probabilities: probabilities([...SUBCATEGORIES.FM.map(i => i.code), 'Unspecified'], 'FMB') },
+    form:extra(BOOK_FORMS,'Novel'),audience:extra(AUDIENCES,'General / adult'),technical_level:extra(TECHNICAL_LEVELS,'Not applicable / uncertain'),
+    ...Object.fromEntries(PROGRAMMING_LANGUAGES.map((_,i)=>[`programming_${i}`,{type:'noul',noul:0}])),
+    ...Object.fromEntries(COMPUTING_TOPICS.map((_,i)=>[`computing_${i}`,{type:'noul',noul:0}])),
     reading_level: { type: 'score', score: 2.2, confidence: 0.8, probabilities: { '0': 0, '1': 0, '2': 0.8, '3': 0.2, '4': 0, '5': 0 } },
   } };
 }
@@ -85,7 +90,7 @@ test('official SDK sends the typed contract and consumes answers without text pa
 
 test('scoped subcategory fanout uses only the chosen parent and preserves setting', () => {
   const questions = bookQuestions();
-  assert.equal(Object.keys(questions).length, 31);
+  assert.equal(Object.keys(questions).length, 70);
   const result = normalizeClassification(answer());
   assert.equal(result.subcategory?.code, 'FMB');
   assert.equal(result.subcategory?.parentCode, 'FM');
@@ -97,6 +102,7 @@ test('distributed text remains bounded for multibyte scripts and a full fanout r
   const samples = budgetSamples(Array.from({length: 18}, (_, i) => ({page: i + 1, text: '開始' + '中文'.repeat(2500) + '結束'})));
   assert.ok(samples.every(s => s.text.length <= 1000 && s.text.includes('開始') && s.text.includes('結束')));
   const payload = prepareRequest({title: 'Book', pageCount: 5000, samples});
+  assert.ok(Buffer.byteLength(JSON.stringify(samples)) <= 14000);
   assert.ok(Buffer.byteLength(JSON.stringify(payload)) < 60000);
   assert.throws(() => prepareRequest({title: 'Book', pageCount: 1, samples: [{page:1, text: 'a'.repeat(40000)}]}));
 });
@@ -104,4 +110,10 @@ test('full-text mode permits short complete works while bounding aggregate evide
   assert.equal(inputSchema.safeParse({title:'Short story',pageCount:8,strategy:'full-text-v1',samples:[{page:1,text:'a'.repeat(16000)}]}).success,true);
   assert.equal(inputSchema.safeParse({title:'Long story',pageCount:100,strategy:'full-text-v1',samples:[{page:1,text:'a'.repeat(16000)}]}).success,false);
   assert.equal(inputSchema.safeParse({title:'Short story',pageCount:8,strategy:'full-text-v1',samples:[{page:1,text:'a'.repeat(22000)}]}).success,false);
+});
+
+test('additional metadata preserves independent language and topic probabilities',()=>{
+  const fixture=answer();(fixture.answers as Record<string,unknown>).programming_0={type:'noul',noul:.93};(fixture.answers as Record<string,unknown>).programming_1={type:'noul',noul:.89};
+  const result=normalizeClassification(fixture);assert.equal(result.technical?.languages.Python,.93);assert.equal(result.technical?.languages.JavaScript,.89);assert.equal(result.form?.label,'Novel');assert.equal(result.audience?.label,'General / adult');
+  delete (fixture.answers as Record<string,unknown>).programming_0;assert.throws(()=>normalizeClassification(fixture));
 });

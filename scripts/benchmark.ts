@@ -3,7 +3,7 @@ import { execFileSync } from 'node:child_process';
 import { TypeSafeClient } from '@typesafe-ai/sdk';
 import { prepareRequest, normalizeClassification, type BookState } from '../lib/classification.ts';
 import { sampledPageNumbers, LEVELS } from '../lib/catalog.ts';
-import { budgetSamples, SAMPLING_VERSION } from '../lib/evidence.ts';
+import { budgetSamples, SAMPLING_VERSION, EVIDENCE_BYTE_BUDGET } from '../lib/evidence.ts';
 import { themaForLabel } from '../lib/standards.ts';
 // This developer experiment requires pdftotext. It never embeds a key in output.
 const manifest = JSON.parse(await readFile(process.argv[2] || 'outputs/corpus/manifest.json', 'utf8'));
@@ -18,7 +18,12 @@ async function evaluate(state: BookState) {
   const raw = await client.systemOne(payload);
   return {result:normalizeClassification(raw),answers:raw.answers,usage:raw.usage,model:raw.model,characters:state.samples.reduce((n,s)=>n+s.text.length,0)};
 }
+// Resume only a report with this exact taxonomy/question version.
+const existing = await readFile(out, 'utf8').then(JSON.parse).catch(() => null);
+if (existing?.taxonomyVersion === 'thema-1.6-folio-subjects-v3' && existing?.questionCount === Object.keys(prepareRequest({title:'Budget',pageCount:1,samples:[{page:1,text:'text'}]}).questions).length) report.books = existing.books;
+report.taxonomyVersion = 'thema-1.6-folio-subjects-v3'; report.questionCount = Object.keys(prepareRequest({title:'Budget',pageCount:1,samples:[{page:1,text:'text'}]}).questions).length;
 for (const book of manifest) {
+  if (report.books.some((record:any) => record.source === book.source)) continue;
   const extracted = execFileSync('pdftotext', ['-enc','UTF-8',book.pdf,'-'], {maxBuffer:10000000}).toString();
   const pageText = extracted.split('\f'); if (!pageText.at(-1)?.trim()) pageText.pop();
   const pages = pageText.map((text,i)=>({page:i+1,text:text.trim()})).filter(s=>s.text);
@@ -28,10 +33,10 @@ for (const book of manifest) {
   for (const page of pages) {
     // Every extracted character appears exactly once in the full baseline.
     // Even a single unusually long PDF page is split without truncation.
-    for (let start=0;start<page.text.length;start+=18000) {
-      const part={page:page.page,text:page.text.slice(start,start+18000)};
+    for (let start=0;start<page.text.length;start+=10000) {
+      const part={page:page.page,text:page.text.slice(start,start+10000)};
       const trial=[...block,part];
-      if (Buffer.byteLength(JSON.stringify({title:book.title,pageCount:pageText.length,samples:trial}))>22000 && block.length) {blocks.push(block);block=[];}
+      if (Buffer.byteLength(JSON.stringify({title:book.title,pageCount:pageText.length,samples:trial}))>EVIDENCE_BYTE_BUDGET && block.length) {blocks.push(block);block=[];}
       block.push(part);
     }
   }
@@ -51,7 +56,7 @@ for (const book of manifest) {
   const sampledLabels={genre:sample.result.genre.label,language:sample.result.language.label,readingLevel:sample.result.readingLevel.label,timePeriod:sample.result.timePeriod?.label,subcategory:sample.result.subcategory?.code || (sample.result.subcategory ? 'Unspecified' : null)};
   const agreement=Object.fromEntries(Object.entries(fullLabels).map(([name,label])=>[name,label===sampledLabels[name as keyof typeof sampledLabels]]));
   const probabilityShift=Object.fromEntries(['genre','language','reading_level','time_period'].map(name=>[name,Object.entries(averaged[name]).reduce((n,[label,p])=>n+Math.abs(p-(sample.answers as Record<string, any>)[name].probabilities[label]),0)/2]));
-  const record={...book,pageCount:pageText.length,fullMethod:full.length===1?'entire-work-single-request':'entire-work-chunked-weighted-baseline',fullCharacters:weight,sampledCharacters:sample.characters,sampledPages:sampled.map(s=>s.page),fullLabels,sampledLabels,agreement,probabilityShift,sample:{result:sample.result,usage:sample.usage},fullChunks:full.map(({answers,...rest})=>rest),aggregateProbabilities:averaged};
+  const record={...book,pdfId:Number(book.source.split('/').at(-1)),pageCount:pageText.length,fullMethod:full.length===1?'entire-work-single-request':'entire-work-chunked-weighted-baseline',fullCharacters:weight,sampledCharacters:sample.characters,sampledPages:sampled.map(s=>s.page),fullLabels,sampledLabels,agreement,probabilityShift,sample:{result:sample.result,usage:sample.usage},fullChunks:full.map(({answers,...rest})=>rest),aggregateProbabilities:averaged};
   report.books.push(record);
   await mkdir(out.slice(0,out.lastIndexOf('/')) || '.',{recursive:true});await writeFile(out,JSON.stringify(report,null,2));
   console.log(JSON.stringify({title:book.title,pages:pageText.length,fullCalls:full.length,fullLabels,sampledLabels,agreement}));

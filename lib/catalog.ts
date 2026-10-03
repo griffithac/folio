@@ -1,15 +1,29 @@
+import type { DetailedSubject } from './hierarchy.ts';
 import { THEMA, LANGUAGE_CODES } from './standards.ts';
 export const GENRES: Record<string, string> = Object.fromEntries([...THEMA.map(item => [item.label, `Thema ${item.code}: ${item.heading}`]), ['Other / uncertain', 'No selected category fits, or insufficient evidence.']]);
 export const LANGUAGES: Record<string, string> = Object.fromEntries(LANGUAGE_CODES.map(item => [item.label, item.label === 'Multilingual' ? 'Substantial content in several languages with no single dominant language.' : item.label === 'Other / uncertain' ? 'Unlisted or unidentifiable language; do not force a match.' : `Text in ${item.label}; ISO 639-2 code ${item.iso639_2}.`]));
 export const TIME_PERIODS: Record<string, string> = {
+  'Prehistory': 'Before approximately 3000 BCE, before widespread written records; use only when the setting supports this.',
+  'Ancient BCE (3000–1 BCE)': 'Ancient civilizations from approximately 3000 BCE through 1 BCE.',
   'BC / BCE': 'Main events take place before 1 CE, including prehistory and ancient civilizations before the common era.',
   '1–499 CE': 'Main events take place in the first five centuries of the common era.',
+  '500–999': 'Early medieval setting between 500 and 999 CE.',
+  '1000–1499': 'Medieval setting between 1000 and 1499 CE.',
   '500–1499': 'Main events take place between 500 and 1499 CE, broadly medieval times.',
   '1500s': 'Main events take place in 1500–1599 CE.',
   '1600s': 'Main events take place in 1600–1699 CE.',
   '1700s': 'Main events take place in 1700–1799 CE.',
+  '1800–1849': 'First half of the nineteenth century, including the Regency and early Victorian period.',
+  '1850–1899': 'Second half of the nineteenth century, including the later Victorian period.',
   '1800s': 'Main events take place in 1800–1899 CE.',
+  ...Object.fromEntries(Array.from({ length: 10 }, (_, i) => {
+    const year = 1900 + i * 10;
+    return [`${year}–${year + 9}`, `Main events take place in ${year} through ${year + 9} CE.`];
+  })),
   '1900s': 'Main events take place in 1900–1999 CE.',
+  '2000–2009': 'Main events take place in 2000 through 2009 CE.',
+  '2010–2019': 'Main events take place in 2010 through 2019 CE.',
+  '2020s / present': 'Main events take place in the 2020s up to the contemporary present, or explicitly today.',
   '2000s / present': 'Main events take place in 2000–2026 CE or explicitly in the contemporary present.',
   'Future': 'Main events take place after the contemporary present or in an explicitly futuristic setting.',
   'Multiple periods': 'Substantial main events span more than one listed period; not merely a passing recollection.',
@@ -29,7 +43,8 @@ export type Judgment = { label: string; confidence: number; probabilities: Recor
 export type Classification = {
   genre: Judgment & { code?: string; standard?: string; heading?: string }; language: Judgment & { iso639_1?: string | null; iso639_2?: string };
   subcategory?: Judgment & { code?: string; parentCode: string; heading?: string };
-  timePeriod?: Judgment;
+  timePeriod?: Judgment; form?: Judgment; audience?: Judgment;
+  technical?: { experience: Judgment; languages: Record<string, number>; topics: Record<string, number> };
   readingLevel: Judgment & { score: number; range: string };
   model: string; reviewed: boolean; taxonomyVersion?: string;
   evidence?: { strategy: string; pages: number[]; characters: number; questionCount: number };
@@ -39,8 +54,17 @@ export type Book = {
   pageCount: number; size: number; addedAt: string; cover?: string;
   samples: Excerpt[]; status: 'extracting' | 'ready' | 'classifying' | 'complete' | 'error';
   evidenceStrategy?: 'full-text-v1' | 'distributed-pages-and-within-page-v1';
+  revision?: number; pdfUrl?: string; sourceUrl?: string;
+  reference?: ReferenceLabels; detailedSubject?: DetailedSubject;
   message?: string; result?: Classification; example?: boolean;
   corrections?: { genre: string; language: string; readingLevel: string; subcategory?: string; timePeriod?: string };
+};
+export type ReferenceLabels = {
+  status: 'provisional' | 'verified'; sourceName: string; sourceUrl: string;
+  scope: 'work' | 'edition'; edition: string; notes: string;
+  labels: { detailedSubject?: string; genre?: string; subcategory?: string; language?: string; readingLevel?: string; timePeriod?: string };
+  readingMeasure?: { system: 'ATOS' | 'Lexile'; value: string; sourceUrl: string; edition: string };
+  split: 'development' | 'holdout'; updatedAt: string;
 };
 export function needsReview(result: Classification, threshold = 0.7) {
   return !result.reviewed && (result.genre.confidence < threshold || result.language.confidence < threshold ||

@@ -1,0 +1,179 @@
+LICENCE TO USE EDItEUR STANDARDS
+1.
+
+Introduction
+
+EDItEUR is the international organisation which coordinates development of the standards
+infrastructure for electronic commerce in the book and serials sectors. EDItEUR Standards are
+developed and published by EDItEUR, in some cases in collaboration with other organisations.
+EDItEUR encourages the use of its standards and This Licence governs any current or future use by
+You of the EDItEUR Standards.
+Whilst This Licence permits You to use the EDItEUR Standards, EDItEUR does not accept any liability
+for Your implementation of them, which is Your sole responsibility. PLEASE READ THE DISCLAIMER
+SET OUT IN PARAGRAPH 7 BELOW.
+1.1. Definitions
+
+“EDItEUR” means EDItEUR Limited (registered company number 2994705), a company
+limited by guarantee whose registered office is United House, 39-41 North Road, London,
+N7 9DP;
+“EDItEUR Standards” means the EDItEUR Specifications and supporting EDItEUR
+Documentation as published and updated from time to time on the EDItEUR Website or
+otherwise disseminated;
+“EDItEUR Specifications” means the EDItEUR message format specifications and controlled
+vocabularies, schemas and other technical tools (including, without limitation, ‘codelists’
+associated with the message format specifications, ‘DTDs’, ‘XSDs’ and similar, ‘XSLTs’,
+sample data files and other software);
+“EDItEUR Documentation” includes best practice and implementation guidance, application
+notes, explanatory documents, other documents associated with but not a part of the
+EDItEUR Specifications, and other materials created and made generally and freely available
+by EDItEUR for example via the EDItEUR Website. Note that training material provided on a
+commercial basis by EDItEUR is excluded from the scope of This Licence;
+“EDItEUR Website” means www.editeur.org, or another website controlled by EDItEUR. This
+Licence is available from the EDItEUR Website at doi.org/10.4400/nwgj;
+“You/Your/Yourself” means the individual and the organisation they work for who are
+seeking to make use of the EDItEUR Standards.
+2. Acceptance
+2.1. By downloading, importing, copying, abstracting from, modifying, circulating or
+
+implementing any of the EDItEUR Standards, You enter into a licence with EDItEUR to use
+those standards in accordance with the terms and conditions set out below, as modified
+from time to time (“The/This Licence”).
+
+2.2. No registration is required to use any of EDItEUR’s Standards, and use within the terms and
+
+conditions set out in This Licence is without charge.
+3. Scope of Your rights to use the EDItEUR Standards
+3.1. All EDItEUR Standards are copyright documents. EDItEUR grants You a non-exclusive, non-
+
+transferable, royalty-free, perpetual worldwide licence to use the EDItEUR Standards and
+the proprietary know-how and information they contain for the purposes of:
+3.1.1. Assessing the suitability of the EDItEUR Standards;
+3.1.2. Implementing any of the EDItEUR Standards, on Your own behalf or on behalf of third
+parties, whether for commercial use or otherwise;
+3.1.3. Informing business processes and systems which You wish to develop or implement;
+and
+3.1.4. Informing the structure of data architectures or computer systems which You wish to
+develop or implement.
+3.2. For the purposes specified in paragraphs 3.1.1 to 3.1.4, You can:
+
+3.2.1. Download and import copies of the EDItEUR Standards into electronic files and print
+out or make copies of them;
+3.2.2. Copy and use as required any controlled vocabularies, schemas or other technical
+tools as published and updated from time to time on the EDItEUR website in support
+of implementation of the EDItEUR Specifications; and
+3.2.3. Subject to paragraph 4 and paragraph 5.3 below, make copies of the EDItEUR
+Standards available in print or electronic form to others.
+4. Preserving the Integrity of the EDItEUR Standards
+4.1. You must ensure that any copyright notices, and/or references to This Licence, which appear
+
+in the EDItEUR Standards are kept intact.
+4.2. Except as provided in paragraph 4.3, You may not translate, abridge, abstract from or
+
+otherwise modify the EDItEUR Standards without written permission from EDItEUR.
+4.2.1. Permission to translate or to use unmodified extracts (‘quotations’) or to abridge,
+abstract, annotate or otherwise modify extracts from the EDItEUR Standards in
+documents You create in support of implementing any of the EDItEUR standards shall
+not be unreasonably withheld. For the avoidance of doubt, any translation, extract,
+abridgement, abstract, annotation or other modification that may in EDItEUR’s view
+reduce interoperability of implementations of the EDItEUR Standards shall provide
+reasonable grounds for withholding of permission.
+4.3. Notwithstanding paragraph 4.2, You may abstract from or modify any EDItEUR
+
+Specifications or subsets of them, to support any computer system implementation which is
+wholly internal to Your organisation and which may need to make use of these.
+2
+
+4.4. You must ensure that any documents which You create (whether in print or electronic form,
+
+and whether wholly internal to Your organisation or made available to others) which contain
+any reference to or unmodified or modified content from any EDItEUR Standards will
+attribute those standards and content clearly to EDItEUR and where practicable, links should
+be made to the EDItEUR Website and to This Licence.
+5. Changes to the EDItEUR Standards
+5.1. EDItEUR may make changes and improvements to the EDItEUR Standards at any time.
+
+EDItEUR will circulate notifications of these changes, including publishing changes on the
+EDItEUR Website. You should check the EDItEUR Website from time to time to ascertain
+whether the version of the EDItEUR Standards which You have downloaded continues to
+remain current.
+5.2. EDItEUR also reserves the right to withdraw any of the EDItEUR Standards at any time and
+
+will notify of such withdrawal on the EDItEUR Website. Any withdrawal of any of the
+EDItEUR Standards will not affect This Licence which will continue in full force and effect
+unless otherwise notified on the EDItEUR Website.
+5.3. If You make copies of the EDItEUR Standards available in print or electronic form to others,
+
+You must make reasonable efforts to ensure those copies are kept up to date with such
+changes, improvements and withdrawals EDItEUR makes to the Standards and that
+outdated versions are archived or removed.
+6. Changes to This Licence
+6.1. EDItEUR reserves the right to change the terms of This Licence at any time. Such changes
+
+will have no retrospective effect. EDItEUR will notify of such changes and make available any
+updated version of This Licence through the EDItEUR Website.
+7. Warranties and Disclaimer
+7.1. EDItEUR warrants that it has the necessary rights to license Your use of the EDItEUR
+
+Standards in accordance with paragraph 3.
+7.2. Except as expressly stated in paragraph 7.1, EDItEUR provides no other warranty, express or
+
+implied.
+7.3. Any implementations of the EDItEUR Standards are made at Your sole risk. Accordingly,
+
+EDItEUR accepts no responsibility or liability for:
+7.3.1. Any software, computer system, business process, service or any other
+implementation of the EDItEUR Standards made by You or any third party; or
+7.3.2. You making any decision, or refraining from making any such decision, based wholly
+or partly on any data, expression of opinion, statement or other information
+contained in the EDItEUR Standards.
+7.4. It is Your sole responsibility to obtain any patent licence or other permission required for
+
+Your implementation of the EDItEUR Standards.
+
+3
+
+8. Intellectual Property Rights
+8.1. EDItEUR reserves all its intellectual property rights in the EDItEUR Standards subject to the
+
+express rights granted under This Licence.
+8.2. Any intellectual property rights in any implementation of the EDItEUR Standards which You
+
+develop shall, subject to EDItEUR’s rights in the EDItEUR Standards, belong to You.
+9. Revocation and effect
+9.1. EDItEUR may revoke This Licence for any reason and at any time and will display notice of
+
+such revocation on the EDItEUR Website.
+9.2. In the event of EDItEUR revoking This Licence, Your right to continue to use the EDItEUR
+
+Standards for the purposes specified in paragraph 3 above will not be affected unless the
+reason for revocation is:
+9.2.1. The breach of This Licence by You; and/or
+9.2.2. EDItEUR is compelled to cease the use of any or all of the EDItEUR Standards in order
+to comply with either an order by a court of competent legal authority or any
+applicable law.
+9.3. Should EDItEUR be compelled to take action under paragraph 9.2.2 above, it will post notice
+
+accordingly on the EDItEUR Website.
+10. Governing Law and Jurisdiction
+10.1. This Licence shall be governed by English law.
+10.2. The English courts will have exclusive jurisdiction over any disputes arising under This
+
+Licence.
+11. Notices
+11.1. All notices by EDItEUR which are required under This Licence shall be displayed on the
+
+EDItEUR Website. Such notices shall be deemed to be given on the day on which they are
+posted on the EDItEUR Website.
+
+Original: 30th November 2011
+Revised: 1st June 2015 (new registered address, addition of §6.1.1.)
+Revised: 17th March 2020 (minor changes to definitions to clarify that EDItEUR’s associated documentation is within the
+scope of This licence, addition of §4.1.3, §5.2.1)
+Revised: 23rd September 2021 (change to definitions to ensure schemas and other software tools are within the scope of
+‘EDItEUR Specifications’, reordered §4.2.2, §4.2.3, renumbered sections)
+Revised: 25th February 2026 (change to definitions to ensure sample data files are within the scope of ‘EDItEUR
+Specifications’)
+
+4
+
+
