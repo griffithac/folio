@@ -7,13 +7,14 @@ import { budgetSamples } from '../lib/evidence.ts';
 import { PROGRAMMING_LANGUAGES, COMPUTING_TOPICS, BOOK_FORMS, AUDIENCES, TECHNICAL_LEVELS } from '../lib/details.ts';
 import { SUBCATEGORIES } from '../lib/subcategories.ts';
 import { languageCodes, themaForLabel } from '../lib/standards.ts';
+import { LANGUAGE_GROUPS } from '../lib/language-catalog.ts';
 
 function answer() {
   const probabilities = (keys: string[], selected: string) => Object.fromEntries(keys.map(key => [key, key === selected ? 1 : 0]));
   const extra = (criteria:Record<string,string>, selected:string) => ({type:'choice',choice:selected,confidence:1,probabilities:probabilities(Object.keys(criteria),selected)});
   return { model: 'jev-fixture', usage: { input_tokens: 900, output_tokens: 30 }, answers: {
     genre: { type: 'choice', choice: 'Fantasy', confidence: 1, probabilities: probabilities(Object.keys(GENRES), 'Fantasy') },
-    language: { type: 'choice', choice: 'English', confidence: 1, probabilities: probabilities(Object.keys(LANGUAGES), 'English') },
+    ...Object.fromEntries(LANGUAGE_GROUPS.map(group => [group.id, extra(group.criteria, Object.hasOwn(group.criteria,'eng') ? 'eng' : 'none')])),
     time_period: { type: 'choice', choice: 'Timeless / imaginary', confidence: 1, probabilities: probabilities(Object.keys(TIME_PERIODS), 'Timeless / imaginary') },
     subcategory_FM: { type: 'choice', choice: 'FMB', confidence: 1, probabilities: probabilities([...SUBCATEGORIES.FM.map(i => i.code), 'Unspecified'], 'FMB') },
     form:extra(BOOK_FORMS,'Novel'),audience:extra(AUDIENCES,'General / adult'),technical_level:extra(TECHNICAL_LEVELS,'Not applicable / uncertain'),
@@ -38,9 +39,9 @@ test('rejects unreadable, oversized, and inconsistent excerpt inputs', () => {
 });
 test('questions use independent subject, language, and ordered complexity judgments', () => {
   const questions = bookQuestions();
-  assert.equal(questions.genre.type, 'choice'); assert.equal(questions.language.type, 'choice'); assert.equal(questions.reading_level.type, 'score');
+  assert.equal(questions.genre.type, 'choice'); assert.equal(questions.reading_level.type, 'score');
   assert.ok(Object.hasOwn(questions.genre.criteria, 'Other / uncertain'));
-  assert.ok(Object.hasOwn(questions.language.criteria, 'Multilingual'));
+  for (const group of LANGUAGE_GROUPS) assert.ok(Object.hasOwn(group.criteria, 'mul'));
   assert.equal(questions.reading_level.criteria.length, LEVELS.length);
 });
 test('normalization preserves provider confidence, versions, and official codes', () => {
@@ -58,7 +59,7 @@ test('uses the most probable reading band rather than inventing one by rounding 
 test('rejects unknown categories, invalid distributions, and incomplete output', () => {
   const fixture = answer(); fixture.answers.genre.choice = 'invented category';
   assert.throws(() => normalizeClassification(fixture));
-  const invalid = answer(); invalid.answers.language.probabilities.English = 1.5;
+  const invalid = answer(); (invalid.answers as Record<string,any>).language_0.probabilities.eng = 1.5;
   assert.throws(() => normalizeClassification(invalid));
   const incomplete = answer(); delete (incomplete.answers.genre.probabilities as Record<string, number>).Fantasy;
   assert.throws(() => normalizeClassification(incomplete));
@@ -83,14 +84,14 @@ test('official SDK sends the typed contract and consumes answers without text pa
     request = JSON.parse(String(init?.body));
     return Response.json(answer());
   } });
-  const raw = await client.systemOne({ state: { title: 'Fixture', samples: [{ page: 1, text: 'A dragon flew over the forest.' }] }, questions: bookQuestions() });
+  const raw = await client.systemOne(prepareRequest({ title: 'Fixture', pageCount:1, samples: [{ page: 1, text: 'A dragon flew over the forest.' }] }));
   assert.equal(request?.model, 'jev-latest');
   assert.equal(normalizeClassification(raw).genre.code, 'FM');
 });
 
 test('scoped subcategory fanout uses only the chosen parent and preserves setting', () => {
   const questions = bookQuestions();
-  assert.equal(Object.keys(questions).length, 70);
+  assert.equal(Object.keys(questions).length, 72);
   const result = normalizeClassification(answer());
   assert.equal(result.subcategory?.code, 'FMB');
   assert.equal(result.subcategory?.parentCode, 'FM');

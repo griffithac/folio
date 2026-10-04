@@ -4,6 +4,7 @@ import { referenceSchema } from './references.ts';
 import { subjectNode, hierarchyQuestion } from './hierarchy.ts';
 import { SUBJECT_SEARCH_POLICY } from './subject-search.ts';
 import { inputSchema } from './classification.ts';
+import { languageAnalysisSchema, validateLanguageAnalysis } from './language-classification.ts';
 const webUrl = z.string().url().max(2000).refine(s => /^https?:\/\//.test(s));
 const judgment=z.object({label:z.string().max(240),confidence:z.number().finite().min(0).max(1),probabilities:z.record(z.number().finite().min(0).max(1))});
 const probability=z.number().finite().min(0).max(1);
@@ -36,7 +37,10 @@ const result=z.object({
   form:judgment.optional(),audience:judgment.optional(),technical:z.object({experience:judgment,languages:z.record(z.number().min(0).max(1)),topics:z.record(z.number().min(0).max(1))}).optional(),
   timePeriod:judgment.optional(),readingLevel:judgment.extend({score:z.number().finite().min(0).max(5),range:z.string().max(50)}),
   model:z.string().min(1).max(100),reviewed:z.boolean(),taxonomyVersion:z.string().max(100).optional(),
+  languageAnalysis:languageAnalysisSchema.optional(),
   evidence:z.object({strategy:z.string().max(100),pages:z.array(z.number().int().min(1).max(20000)).max(18),characters:z.number().int().min(0).max(22000),questionCount:z.number().int().min(1).max(100)}).optional(),
+}).superRefine((value,ctx)=>{
+  if(value.languageAnalysis)try{validateLanguageAnalysis(value.languageAnalysis,value.language,value.model);}catch{ctx.addIssue({code:z.ZodIssueCode.custom,message:'Language must match its recorded judgments.'});}
 });
 export const sharedBookSchema=z.object({
   id:z.string().uuid(),hash:z.string().max(64),title:z.string().trim().min(1).max(240),author:z.string().max(200),filename:z.string().min(1).max(240),

@@ -1,6 +1,7 @@
 import { env } from 'cloudflare:workers';
 import { APIError, TypeSafeClient } from '@typesafe-ai/sdk';
 import { inputSchema, prepareRequest, normalizeClassification } from '@/lib/classification';
+import { resolveLanguageConflict } from '@/lib/language-classification';
 export const dynamic = 'force-dynamic';
 const json = (body: unknown, status = 200) => Response.json(body, { status, headers: { 'Cache-Control': 'no-store' } });
 export async function GET() {
@@ -33,15 +34,19 @@ export async function POST(request: Request) {
   catch { return json({ error: 'These excerpts exceed the text budget. Please upload the PDF again.' }, 400); }
   if (!env.TYPESAFE_API_KEY) return json({ error: 'Jev is waiting for an API key from the site owner. Your book is ready; try again once Jev is connected.', code: 'NOT_CONFIGURED' }, 503);
   if (!env.DB) return json({ error: 'Classification is temporarily unavailable. Please try again later.' }, 503);
+  const db = env.DB;
   const configuredLimit = Number(env.CLASSIFICATION_DAILY_LIMIT ?? 250);
   const limit = Number.isFinite(configuredLimit) ? Math.max(1, Math.min(10000, Math.floor(configuredLimit))) : 250;
   try {
     const day = new Date().toISOString().slice(0, 10);
-    const quota = await env.DB.prepare('INSERT INTO classification_quota (day, used) VALUES (?, 1) ON CONFLICT(day) DO UPDATE SET used = used + 1 WHERE used < ? RETURNING used').bind(day, limit).first();
-    if (!quota) return json({ error: 'The public test site has reached its daily classification limit. Please try again tomorrow.', code: 'DAILY_LIMIT' }, 429);
-    const client = new TypeSafeClient({ apiKey: env.TYPESAFE_API_KEY, baseURL: 'https://api.typesafe.ai', defaultModel: env.TYPESAFE_MODEL || 'jev-latest', timeout: 20000, retry: { maxRetries: 1, maxRetryAfterMs: 2000 }, logLevel: 'off' });
-    const result = await client.systemOne(payload, { signal: AbortSignal.timeout(45000) });
-    return json({ ...normalizeClassification(result), evidence: { strategy: input.data.strategy, pages: input.data.samples.map(s => s.page), characters: input.data.samples.reduce((n, s) => n + s.text.length, 0), questionCount: Object.keys(payload.questions).length } });
+    const reserve = async () => Boolean(await db.prepare('INSERT INTO classification_quota (day, used) VALUES (?, 1) ON CONFLICT(day) DO UPDATE SET used = used + 1 WHERE used < ? RETURNING used').bind(day, limit).first());
+    if (!await reserve()) return json({ error: 'The public test site has reached its daily classification limit. Please try again tomorrow.', code: 'DAILY_LIMIT' }, 429);
+    // Each actual upstream request reserves quota; retries go through the app.
+    const client = new TypeSafeClient({ apiKey: env.TYPESAFE_API_KEY, baseURL: 'https://api.typesafe.ai', defaultModel: env.TYPESAFE_MODEL || 'jev-latest', timeout: 20000, retry: { maxRetries: 0 }, logLevel: 'off' });
+    const signal = AbortSignal.timeout(45000);
+    const result = await client.systemOne(payload, { signal });
+    const classification = await resolveLanguageConflict(normalizeClassification(result), payload.state, comparison => client.systemOne(comparison, { signal }), reserve);
+    return json({ ...classification, evidence: { strategy: input.data.strategy, pages: input.data.samples.map(s => s.page), characters: input.data.samples.reduce((n, s) => n + s.text.length, 0), questionCount: Object.keys(payload.questions).length } });
   } catch (error) {
     if (error instanceof APIError) {
       if (error.status === 401 || error.status === 403) return json({ error: 'Jev could not authenticate. The site owner needs to check the TypeSafe API key.' }, 502);

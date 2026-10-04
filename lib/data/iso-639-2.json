@@ -1,0 +1,4392 @@
+{
+  "source": "https://www.loc.gov/standards/iso639-2/ISO-639-2_utf-8.txt",
+  "retrievedAt": "2026-10-04T01:09:08.283322+00:00",
+  "sha256": "6ba1a2b155ce37bfd98ef306afd1b2fc19d12a12bfa81c46a90e479498d2ddac",
+  "version": "iso-639-2-loc-2026-10-03",
+  "reserved": [
+    {
+      "range": "qaa-qtz",
+      "english": "Reserved for local use"
+    }
+  ],
+  "languages": [
+    {
+      "label": "Afar",
+      "iso639_1": "aa",
+      "iso639_2": "aar",
+      "bibliographic": "aar",
+      "english": "Afar",
+      "french": "afar",
+      "collective": false
+    },
+    {
+      "label": "Abkhazian",
+      "iso639_1": "ab",
+      "iso639_2": "abk",
+      "bibliographic": "abk",
+      "english": "Abkhazian",
+      "french": "abkhaze",
+      "collective": false
+    },
+    {
+      "label": "Achinese",
+      "iso639_1": null,
+      "iso639_2": "ace",
+      "bibliographic": "ace",
+      "english": "Achinese",
+      "french": "aceh",
+      "collective": false
+    },
+    {
+      "label": "Acoli",
+      "iso639_1": null,
+      "iso639_2": "ach",
+      "bibliographic": "ach",
+      "english": "Acoli",
+      "french": "acoli",
+      "collective": false
+    },
+    {
+      "label": "Adangme",
+      "iso639_1": null,
+      "iso639_2": "ada",
+      "bibliographic": "ada",
+      "english": "Adangme",
+      "french": "adangme",
+      "collective": false
+    },
+    {
+      "label": "Adyghe",
+      "iso639_1": null,
+      "iso639_2": "ady",
+      "bibliographic": "ady",
+      "english": "Adyghe; Adygei",
+      "french": "adyghé",
+      "collective": false
+    },
+    {
+      "label": "Afro-Asiatic languages",
+      "iso639_1": null,
+      "iso639_2": "afa",
+      "bibliographic": "afa",
+      "english": "Afro-Asiatic languages",
+      "french": "afro-asiatiques, langues",
+      "collective": true
+    },
+    {
+      "label": "Afrihili",
+      "iso639_1": null,
+      "iso639_2": "afh",
+      "bibliographic": "afh",
+      "english": "Afrihili",
+      "french": "afrihili",
+      "collective": false
+    },
+    {
+      "label": "Afrikaans",
+      "iso639_1": "af",
+      "iso639_2": "afr",
+      "bibliographic": "afr",
+      "english": "Afrikaans",
+      "french": "afrikaans",
+      "collective": false
+    },
+    {
+      "label": "Ainu",
+      "iso639_1": null,
+      "iso639_2": "ain",
+      "bibliographic": "ain",
+      "english": "Ainu",
+      "french": "aïnou",
+      "collective": false
+    },
+    {
+      "label": "Akan",
+      "iso639_1": "ak",
+      "iso639_2": "aka",
+      "bibliographic": "aka",
+      "english": "Akan",
+      "french": "akan",
+      "collective": false
+    },
+    {
+      "label": "Akkadian",
+      "iso639_1": null,
+      "iso639_2": "akk",
+      "bibliographic": "akk",
+      "english": "Akkadian",
+      "french": "akkadien",
+      "collective": false
+    },
+    {
+      "label": "Albanian",
+      "iso639_1": "sq",
+      "iso639_2": "sqi",
+      "bibliographic": "alb",
+      "english": "Albanian",
+      "french": "albanais",
+      "collective": false
+    },
+    {
+      "label": "Aleut",
+      "iso639_1": null,
+      "iso639_2": "ale",
+      "bibliographic": "ale",
+      "english": "Aleut",
+      "french": "aléoute",
+      "collective": false
+    },
+    {
+      "label": "Algonquian languages",
+      "iso639_1": null,
+      "iso639_2": "alg",
+      "bibliographic": "alg",
+      "english": "Algonquian languages",
+      "french": "algonquines, langues",
+      "collective": true
+    },
+    {
+      "label": "Southern Altai",
+      "iso639_1": null,
+      "iso639_2": "alt",
+      "bibliographic": "alt",
+      "english": "Southern Altai",
+      "french": "altai du Sud",
+      "collective": false
+    },
+    {
+      "label": "Amharic",
+      "iso639_1": "am",
+      "iso639_2": "amh",
+      "bibliographic": "amh",
+      "english": "Amharic",
+      "french": "amharique",
+      "collective": false
+    },
+    {
+      "label": "English, Old (ca.450-1100)",
+      "iso639_1": null,
+      "iso639_2": "ang",
+      "bibliographic": "ang",
+      "english": "English, Old (ca.450-1100)",
+      "french": "anglo-saxon (ca.450-1100)",
+      "collective": false
+    },
+    {
+      "label": "Angika",
+      "iso639_1": null,
+      "iso639_2": "anp",
+      "bibliographic": "anp",
+      "english": "Angika",
+      "french": "angika",
+      "collective": false
+    },
+    {
+      "label": "Apache languages",
+      "iso639_1": null,
+      "iso639_2": "apa",
+      "bibliographic": "apa",
+      "english": "Apache languages",
+      "french": "apaches, langues",
+      "collective": true
+    },
+    {
+      "label": "Arabic",
+      "iso639_1": "ar",
+      "iso639_2": "ara",
+      "bibliographic": "ara",
+      "english": "Arabic",
+      "french": "arabe",
+      "collective": false
+    },
+    {
+      "label": "Official Aramaic (700-300 BCE)",
+      "iso639_1": null,
+      "iso639_2": "arc",
+      "bibliographic": "arc",
+      "english": "Official Aramaic (700-300 BCE); Imperial Aramaic (700-300 BCE)",
+      "french": "araméen d'empire (700-300 BCE)",
+      "collective": false
+    },
+    {
+      "label": "Aragonese",
+      "iso639_1": "an",
+      "iso639_2": "arg",
+      "bibliographic": "arg",
+      "english": "Aragonese",
+      "french": "aragonais",
+      "collective": false
+    },
+    {
+      "label": "Armenian",
+      "iso639_1": "hy",
+      "iso639_2": "hye",
+      "bibliographic": "arm",
+      "english": "Armenian",
+      "french": "arménien",
+      "collective": false
+    },
+    {
+      "label": "Mapudungun",
+      "iso639_1": null,
+      "iso639_2": "arn",
+      "bibliographic": "arn",
+      "english": "Mapudungun; Mapuche",
+      "french": "mapudungun; mapuche; mapuce",
+      "collective": false
+    },
+    {
+      "label": "Arapaho",
+      "iso639_1": null,
+      "iso639_2": "arp",
+      "bibliographic": "arp",
+      "english": "Arapaho",
+      "french": "arapaho",
+      "collective": false
+    },
+    {
+      "label": "Artificial languages",
+      "iso639_1": null,
+      "iso639_2": "art",
+      "bibliographic": "art",
+      "english": "Artificial languages",
+      "french": "artificielles, langues",
+      "collective": true
+    },
+    {
+      "label": "Arawak",
+      "iso639_1": null,
+      "iso639_2": "arw",
+      "bibliographic": "arw",
+      "english": "Arawak",
+      "french": "arawak",
+      "collective": false
+    },
+    {
+      "label": "Assamese",
+      "iso639_1": "as",
+      "iso639_2": "asm",
+      "bibliographic": "asm",
+      "english": "Assamese",
+      "french": "assamais",
+      "collective": false
+    },
+    {
+      "label": "Asturian",
+      "iso639_1": null,
+      "iso639_2": "ast",
+      "bibliographic": "ast",
+      "english": "Asturian; Bable; Leonese; Asturleonese",
+      "french": "asturien; bable; léonais; asturoléonais",
+      "collective": false
+    },
+    {
+      "label": "Athapascan languages",
+      "iso639_1": null,
+      "iso639_2": "ath",
+      "bibliographic": "ath",
+      "english": "Athapascan languages",
+      "french": "athapascanes, langues",
+      "collective": true
+    },
+    {
+      "label": "Australian languages",
+      "iso639_1": null,
+      "iso639_2": "aus",
+      "bibliographic": "aus",
+      "english": "Australian languages",
+      "french": "australiennes, langues",
+      "collective": true
+    },
+    {
+      "label": "Avaric",
+      "iso639_1": "av",
+      "iso639_2": "ava",
+      "bibliographic": "ava",
+      "english": "Avaric",
+      "french": "avar",
+      "collective": false
+    },
+    {
+      "label": "Avestan",
+      "iso639_1": "ae",
+      "iso639_2": "ave",
+      "bibliographic": "ave",
+      "english": "Avestan",
+      "french": "avestique",
+      "collective": false
+    },
+    {
+      "label": "Awadhi",
+      "iso639_1": null,
+      "iso639_2": "awa",
+      "bibliographic": "awa",
+      "english": "Awadhi",
+      "french": "awadhi",
+      "collective": false
+    },
+    {
+      "label": "Aymara",
+      "iso639_1": "ay",
+      "iso639_2": "aym",
+      "bibliographic": "aym",
+      "english": "Aymara",
+      "french": "aymara",
+      "collective": false
+    },
+    {
+      "label": "Azerbaijani",
+      "iso639_1": "az",
+      "iso639_2": "aze",
+      "bibliographic": "aze",
+      "english": "Azerbaijani",
+      "french": "azéri",
+      "collective": false
+    },
+    {
+      "label": "Banda languages",
+      "iso639_1": null,
+      "iso639_2": "bad",
+      "bibliographic": "bad",
+      "english": "Banda languages",
+      "french": "banda, langues",
+      "collective": true
+    },
+    {
+      "label": "Bamileke languages",
+      "iso639_1": null,
+      "iso639_2": "bai",
+      "bibliographic": "bai",
+      "english": "Bamileke languages",
+      "french": "bamiléké, langues",
+      "collective": true
+    },
+    {
+      "label": "Bashkir",
+      "iso639_1": "ba",
+      "iso639_2": "bak",
+      "bibliographic": "bak",
+      "english": "Bashkir",
+      "french": "bachkir",
+      "collective": false
+    },
+    {
+      "label": "Baluchi",
+      "iso639_1": null,
+      "iso639_2": "bal",
+      "bibliographic": "bal",
+      "english": "Baluchi",
+      "french": "baloutchi",
+      "collective": false
+    },
+    {
+      "label": "Bambara",
+      "iso639_1": "bm",
+      "iso639_2": "bam",
+      "bibliographic": "bam",
+      "english": "Bambara",
+      "french": "bambara",
+      "collective": false
+    },
+    {
+      "label": "Balinese",
+      "iso639_1": null,
+      "iso639_2": "ban",
+      "bibliographic": "ban",
+      "english": "Balinese",
+      "french": "balinais",
+      "collective": false
+    },
+    {
+      "label": "Basque",
+      "iso639_1": "eu",
+      "iso639_2": "eus",
+      "bibliographic": "baq",
+      "english": "Basque",
+      "french": "basque",
+      "collective": false
+    },
+    {
+      "label": "Basa",
+      "iso639_1": null,
+      "iso639_2": "bas",
+      "bibliographic": "bas",
+      "english": "Basa",
+      "french": "basa",
+      "collective": false
+    },
+    {
+      "label": "Baltic languages",
+      "iso639_1": null,
+      "iso639_2": "bat",
+      "bibliographic": "bat",
+      "english": "Baltic languages",
+      "french": "baltes, langues",
+      "collective": true
+    },
+    {
+      "label": "Beja",
+      "iso639_1": null,
+      "iso639_2": "bej",
+      "bibliographic": "bej",
+      "english": "Beja; Bedawiyet",
+      "french": "bedja",
+      "collective": false
+    },
+    {
+      "label": "Belarusian",
+      "iso639_1": "be",
+      "iso639_2": "bel",
+      "bibliographic": "bel",
+      "english": "Belarusian",
+      "french": "biélorusse",
+      "collective": false
+    },
+    {
+      "label": "Bemba",
+      "iso639_1": null,
+      "iso639_2": "bem",
+      "bibliographic": "bem",
+      "english": "Bemba",
+      "french": "bemba",
+      "collective": false
+    },
+    {
+      "label": "Bengali",
+      "iso639_1": "bn",
+      "iso639_2": "ben",
+      "bibliographic": "ben",
+      "english": "Bengali",
+      "french": "bengali",
+      "collective": false
+    },
+    {
+      "label": "Berber languages",
+      "iso639_1": null,
+      "iso639_2": "ber",
+      "bibliographic": "ber",
+      "english": "Berber languages",
+      "french": "berbères, langues",
+      "collective": true
+    },
+    {
+      "label": "Bhojpuri",
+      "iso639_1": null,
+      "iso639_2": "bho",
+      "bibliographic": "bho",
+      "english": "Bhojpuri",
+      "french": "bhojpuri",
+      "collective": false
+    },
+    {
+      "label": "Bihari languages",
+      "iso639_1": null,
+      "iso639_2": "bih",
+      "bibliographic": "bih",
+      "english": "Bihari languages",
+      "french": "langues biharis",
+      "collective": true
+    },
+    {
+      "label": "Bikol",
+      "iso639_1": null,
+      "iso639_2": "bik",
+      "bibliographic": "bik",
+      "english": "Bikol",
+      "french": "bikol",
+      "collective": false
+    },
+    {
+      "label": "Bini",
+      "iso639_1": null,
+      "iso639_2": "bin",
+      "bibliographic": "bin",
+      "english": "Bini; Edo",
+      "french": "bini; edo",
+      "collective": false
+    },
+    {
+      "label": "Bislama",
+      "iso639_1": "bi",
+      "iso639_2": "bis",
+      "bibliographic": "bis",
+      "english": "Bislama",
+      "french": "bichlamar",
+      "collective": false
+    },
+    {
+      "label": "Siksika",
+      "iso639_1": null,
+      "iso639_2": "bla",
+      "bibliographic": "bla",
+      "english": "Siksika",
+      "french": "blackfoot",
+      "collective": false
+    },
+    {
+      "label": "Bantu languages",
+      "iso639_1": null,
+      "iso639_2": "bnt",
+      "bibliographic": "bnt",
+      "english": "Bantu languages",
+      "french": "bantou, langues",
+      "collective": true
+    },
+    {
+      "label": "Bosnian",
+      "iso639_1": "bs",
+      "iso639_2": "bos",
+      "bibliographic": "bos",
+      "english": "Bosnian",
+      "french": "bosniaque",
+      "collective": false
+    },
+    {
+      "label": "Braj",
+      "iso639_1": null,
+      "iso639_2": "bra",
+      "bibliographic": "bra",
+      "english": "Braj",
+      "french": "braj",
+      "collective": false
+    },
+    {
+      "label": "Breton",
+      "iso639_1": "br",
+      "iso639_2": "bre",
+      "bibliographic": "bre",
+      "english": "Breton",
+      "french": "breton",
+      "collective": false
+    },
+    {
+      "label": "Batak languages",
+      "iso639_1": null,
+      "iso639_2": "btk",
+      "bibliographic": "btk",
+      "english": "Batak languages",
+      "french": "batak, langues",
+      "collective": true
+    },
+    {
+      "label": "Buriat",
+      "iso639_1": null,
+      "iso639_2": "bua",
+      "bibliographic": "bua",
+      "english": "Buriat",
+      "french": "bouriate",
+      "collective": false
+    },
+    {
+      "label": "Buginese",
+      "iso639_1": null,
+      "iso639_2": "bug",
+      "bibliographic": "bug",
+      "english": "Buginese",
+      "french": "bugi",
+      "collective": false
+    },
+    {
+      "label": "Bulgarian",
+      "iso639_1": "bg",
+      "iso639_2": "bul",
+      "bibliographic": "bul",
+      "english": "Bulgarian",
+      "french": "bulgare",
+      "collective": false
+    },
+    {
+      "label": "Burmese",
+      "iso639_1": "my",
+      "iso639_2": "mya",
+      "bibliographic": "bur",
+      "english": "Burmese",
+      "french": "birman",
+      "collective": false
+    },
+    {
+      "label": "Blin",
+      "iso639_1": null,
+      "iso639_2": "byn",
+      "bibliographic": "byn",
+      "english": "Blin; Bilin",
+      "french": "blin; bilen",
+      "collective": false
+    },
+    {
+      "label": "Caddo",
+      "iso639_1": null,
+      "iso639_2": "cad",
+      "bibliographic": "cad",
+      "english": "Caddo",
+      "french": "caddo",
+      "collective": false
+    },
+    {
+      "label": "Central American Indian languages",
+      "iso639_1": null,
+      "iso639_2": "cai",
+      "bibliographic": "cai",
+      "english": "Central American Indian languages",
+      "french": "amérindiennes de L'Amérique centrale, langues",
+      "collective": true
+    },
+    {
+      "label": "Galibi Carib",
+      "iso639_1": null,
+      "iso639_2": "car",
+      "bibliographic": "car",
+      "english": "Galibi Carib",
+      "french": "karib; galibi; carib",
+      "collective": false
+    },
+    {
+      "label": "Catalan",
+      "iso639_1": "ca",
+      "iso639_2": "cat",
+      "bibliographic": "cat",
+      "english": "Catalan; Valencian",
+      "french": "catalan; valencien",
+      "collective": false
+    },
+    {
+      "label": "Caucasian languages",
+      "iso639_1": null,
+      "iso639_2": "cau",
+      "bibliographic": "cau",
+      "english": "Caucasian languages",
+      "french": "caucasiennes, langues",
+      "collective": true
+    },
+    {
+      "label": "Cebuano",
+      "iso639_1": null,
+      "iso639_2": "ceb",
+      "bibliographic": "ceb",
+      "english": "Cebuano",
+      "french": "cebuano",
+      "collective": false
+    },
+    {
+      "label": "Celtic languages",
+      "iso639_1": null,
+      "iso639_2": "cel",
+      "bibliographic": "cel",
+      "english": "Celtic languages",
+      "french": "celtiques, langues; celtes, langues",
+      "collective": true
+    },
+    {
+      "label": "Chamorro",
+      "iso639_1": "ch",
+      "iso639_2": "cha",
+      "bibliographic": "cha",
+      "english": "Chamorro",
+      "french": "chamorro",
+      "collective": false
+    },
+    {
+      "label": "Chibcha",
+      "iso639_1": null,
+      "iso639_2": "chb",
+      "bibliographic": "chb",
+      "english": "Chibcha",
+      "french": "chibcha",
+      "collective": false
+    },
+    {
+      "label": "Chechen",
+      "iso639_1": "ce",
+      "iso639_2": "che",
+      "bibliographic": "che",
+      "english": "Chechen",
+      "french": "tchétchène",
+      "collective": false
+    },
+    {
+      "label": "Chagatai",
+      "iso639_1": null,
+      "iso639_2": "chg",
+      "bibliographic": "chg",
+      "english": "Chagatai",
+      "french": "djaghataï",
+      "collective": false
+    },
+    {
+      "label": "Chinese",
+      "iso639_1": "zh",
+      "iso639_2": "zho",
+      "bibliographic": "chi",
+      "english": "Chinese",
+      "french": "chinois",
+      "collective": false
+    },
+    {
+      "label": "Chuukese",
+      "iso639_1": null,
+      "iso639_2": "chk",
+      "bibliographic": "chk",
+      "english": "Chuukese",
+      "french": "chuuk",
+      "collective": false
+    },
+    {
+      "label": "Mari",
+      "iso639_1": null,
+      "iso639_2": "chm",
+      "bibliographic": "chm",
+      "english": "Mari",
+      "french": "mari",
+      "collective": false
+    },
+    {
+      "label": "Chinook jargon",
+      "iso639_1": null,
+      "iso639_2": "chn",
+      "bibliographic": "chn",
+      "english": "Chinook jargon",
+      "french": "chinook, jargon",
+      "collective": false
+    },
+    {
+      "label": "Choctaw",
+      "iso639_1": null,
+      "iso639_2": "cho",
+      "bibliographic": "cho",
+      "english": "Choctaw",
+      "french": "choctaw",
+      "collective": false
+    },
+    {
+      "label": "Chipewyan",
+      "iso639_1": null,
+      "iso639_2": "chp",
+      "bibliographic": "chp",
+      "english": "Chipewyan; Dene Suline",
+      "french": "chipewyan",
+      "collective": false
+    },
+    {
+      "label": "Cherokee",
+      "iso639_1": null,
+      "iso639_2": "chr",
+      "bibliographic": "chr",
+      "english": "Cherokee",
+      "french": "cherokee",
+      "collective": false
+    },
+    {
+      "label": "Church Slavic",
+      "iso639_1": "cu",
+      "iso639_2": "chu",
+      "bibliographic": "chu",
+      "english": "Church Slavic; Old Slavonic; Church Slavonic; Old Bulgarian; Old Church Slavonic",
+      "french": "slavon d'église; vieux slave; slavon liturgique; vieux bulgare",
+      "collective": false
+    },
+    {
+      "label": "Chuvash",
+      "iso639_1": "cv",
+      "iso639_2": "chv",
+      "bibliographic": "chv",
+      "english": "Chuvash",
+      "french": "tchouvache",
+      "collective": false
+    },
+    {
+      "label": "Cheyenne",
+      "iso639_1": null,
+      "iso639_2": "chy",
+      "bibliographic": "chy",
+      "english": "Cheyenne",
+      "french": "cheyenne",
+      "collective": false
+    },
+    {
+      "label": "Chamic languages",
+      "iso639_1": null,
+      "iso639_2": "cmc",
+      "bibliographic": "cmc",
+      "english": "Chamic languages",
+      "french": "chames, langues",
+      "collective": true
+    },
+    {
+      "label": "Montenegrin",
+      "iso639_1": null,
+      "iso639_2": "cnr",
+      "bibliographic": "cnr",
+      "english": "Montenegrin",
+      "french": "monténégrin",
+      "collective": false
+    },
+    {
+      "label": "Coptic",
+      "iso639_1": null,
+      "iso639_2": "cop",
+      "bibliographic": "cop",
+      "english": "Coptic",
+      "french": "copte",
+      "collective": false
+    },
+    {
+      "label": "Cornish",
+      "iso639_1": "kw",
+      "iso639_2": "cor",
+      "bibliographic": "cor",
+      "english": "Cornish",
+      "french": "cornique",
+      "collective": false
+    },
+    {
+      "label": "Corsican",
+      "iso639_1": "co",
+      "iso639_2": "cos",
+      "bibliographic": "cos",
+      "english": "Corsican",
+      "french": "corse",
+      "collective": false
+    },
+    {
+      "label": "Creoles and pidgins, English based",
+      "iso639_1": null,
+      "iso639_2": "cpe",
+      "bibliographic": "cpe",
+      "english": "Creoles and pidgins, English based",
+      "french": "créoles et pidgins basés sur l'anglais",
+      "collective": true
+    },
+    {
+      "label": "Creoles and pidgins, French-based",
+      "iso639_1": null,
+      "iso639_2": "cpf",
+      "bibliographic": "cpf",
+      "english": "Creoles and pidgins, French-based",
+      "french": "créoles et pidgins basés sur le français",
+      "collective": true
+    },
+    {
+      "label": "Creoles and pidgins, Portuguese-based",
+      "iso639_1": null,
+      "iso639_2": "cpp",
+      "bibliographic": "cpp",
+      "english": "Creoles and pidgins, Portuguese-based",
+      "french": "créoles et pidgins basés sur le portugais",
+      "collective": true
+    },
+    {
+      "label": "Cree",
+      "iso639_1": "cr",
+      "iso639_2": "cre",
+      "bibliographic": "cre",
+      "english": "Cree",
+      "french": "cree",
+      "collective": false
+    },
+    {
+      "label": "Crimean Tatar",
+      "iso639_1": null,
+      "iso639_2": "crh",
+      "bibliographic": "crh",
+      "english": "Crimean Tatar; Crimean Turkish",
+      "french": "tatar de Crimé",
+      "collective": false
+    },
+    {
+      "label": "Creoles and pidgins",
+      "iso639_1": null,
+      "iso639_2": "crp",
+      "bibliographic": "crp",
+      "english": "Creoles and pidgins",
+      "french": "créoles et pidgins",
+      "collective": true
+    },
+    {
+      "label": "Kashubian",
+      "iso639_1": null,
+      "iso639_2": "csb",
+      "bibliographic": "csb",
+      "english": "Kashubian",
+      "french": "kachoube",
+      "collective": false
+    },
+    {
+      "label": "Cushitic languages",
+      "iso639_1": null,
+      "iso639_2": "cus",
+      "bibliographic": "cus",
+      "english": "Cushitic languages",
+      "french": "couchitiques, langues",
+      "collective": true
+    },
+    {
+      "label": "Czech",
+      "iso639_1": "cs",
+      "iso639_2": "ces",
+      "bibliographic": "cze",
+      "english": "Czech",
+      "french": "tchèque",
+      "collective": false
+    },
+    {
+      "label": "Dakota",
+      "iso639_1": null,
+      "iso639_2": "dak",
+      "bibliographic": "dak",
+      "english": "Dakota",
+      "french": "dakota",
+      "collective": false
+    },
+    {
+      "label": "Danish",
+      "iso639_1": "da",
+      "iso639_2": "dan",
+      "bibliographic": "dan",
+      "english": "Danish",
+      "french": "danois",
+      "collective": false
+    },
+    {
+      "label": "Dargwa",
+      "iso639_1": null,
+      "iso639_2": "dar",
+      "bibliographic": "dar",
+      "english": "Dargwa",
+      "french": "dargwa",
+      "collective": false
+    },
+    {
+      "label": "Land Dayak languages",
+      "iso639_1": null,
+      "iso639_2": "day",
+      "bibliographic": "day",
+      "english": "Land Dayak languages",
+      "french": "dayak, langues",
+      "collective": true
+    },
+    {
+      "label": "Delaware",
+      "iso639_1": null,
+      "iso639_2": "del",
+      "bibliographic": "del",
+      "english": "Delaware",
+      "french": "delaware",
+      "collective": false
+    },
+    {
+      "label": "Slave (Athapascan)",
+      "iso639_1": null,
+      "iso639_2": "den",
+      "bibliographic": "den",
+      "english": "Slave (Athapascan)",
+      "french": "esclave (athapascan)",
+      "collective": false
+    },
+    {
+      "label": "Tlicho",
+      "iso639_1": null,
+      "iso639_2": "dgr",
+      "bibliographic": "dgr",
+      "english": "Tlicho; Dogrib",
+      "french": "tlicho; dogrib",
+      "collective": false
+    },
+    {
+      "label": "Dinka",
+      "iso639_1": null,
+      "iso639_2": "din",
+      "bibliographic": "din",
+      "english": "Dinka",
+      "french": "dinka",
+      "collective": false
+    },
+    {
+      "label": "Divehi",
+      "iso639_1": "dv",
+      "iso639_2": "div",
+      "bibliographic": "div",
+      "english": "Divehi; Dhivehi; Maldivian",
+      "french": "maldivien",
+      "collective": false
+    },
+    {
+      "label": "Dogri",
+      "iso639_1": null,
+      "iso639_2": "doi",
+      "bibliographic": "doi",
+      "english": "Dogri",
+      "french": "dogri",
+      "collective": false
+    },
+    {
+      "label": "Dravidian languages",
+      "iso639_1": null,
+      "iso639_2": "dra",
+      "bibliographic": "dra",
+      "english": "Dravidian languages",
+      "french": "dravidiennes, langues",
+      "collective": true
+    },
+    {
+      "label": "Lower Sorbian",
+      "iso639_1": null,
+      "iso639_2": "dsb",
+      "bibliographic": "dsb",
+      "english": "Lower Sorbian",
+      "french": "bas-sorabe",
+      "collective": false
+    },
+    {
+      "label": "Duala",
+      "iso639_1": null,
+      "iso639_2": "dua",
+      "bibliographic": "dua",
+      "english": "Duala",
+      "french": "douala",
+      "collective": false
+    },
+    {
+      "label": "Dutch, Middle (ca.1050-1350)",
+      "iso639_1": null,
+      "iso639_2": "dum",
+      "bibliographic": "dum",
+      "english": "Dutch, Middle (ca.1050-1350)",
+      "french": "néerlandais moyen (ca. 1050-1350)",
+      "collective": false
+    },
+    {
+      "label": "Dutch",
+      "iso639_1": "nl",
+      "iso639_2": "nld",
+      "bibliographic": "dut",
+      "english": "Dutch; Flemish",
+      "french": "néerlandais; flamand",
+      "collective": false
+    },
+    {
+      "label": "Dyula",
+      "iso639_1": null,
+      "iso639_2": "dyu",
+      "bibliographic": "dyu",
+      "english": "Dyula",
+      "french": "dioula",
+      "collective": false
+    },
+    {
+      "label": "Dzongkha",
+      "iso639_1": "dz",
+      "iso639_2": "dzo",
+      "bibliographic": "dzo",
+      "english": "Dzongkha",
+      "french": "dzongkha",
+      "collective": false
+    },
+    {
+      "label": "Efik",
+      "iso639_1": null,
+      "iso639_2": "efi",
+      "bibliographic": "efi",
+      "english": "Efik",
+      "french": "efik",
+      "collective": false
+    },
+    {
+      "label": "Egyptian (Ancient)",
+      "iso639_1": null,
+      "iso639_2": "egy",
+      "bibliographic": "egy",
+      "english": "Egyptian (Ancient)",
+      "french": "égyptien",
+      "collective": false
+    },
+    {
+      "label": "Ekajuk",
+      "iso639_1": null,
+      "iso639_2": "eka",
+      "bibliographic": "eka",
+      "english": "Ekajuk",
+      "french": "ekajuk",
+      "collective": false
+    },
+    {
+      "label": "Elamite",
+      "iso639_1": null,
+      "iso639_2": "elx",
+      "bibliographic": "elx",
+      "english": "Elamite",
+      "french": "élamite",
+      "collective": false
+    },
+    {
+      "label": "English",
+      "iso639_1": "en",
+      "iso639_2": "eng",
+      "bibliographic": "eng",
+      "english": "English",
+      "french": "anglais",
+      "collective": false
+    },
+    {
+      "label": "English, Middle (1100-1500)",
+      "iso639_1": null,
+      "iso639_2": "enm",
+      "bibliographic": "enm",
+      "english": "English, Middle (1100-1500)",
+      "french": "anglais moyen (1100-1500)",
+      "collective": false
+    },
+    {
+      "label": "Esperanto",
+      "iso639_1": "eo",
+      "iso639_2": "epo",
+      "bibliographic": "epo",
+      "english": "Esperanto",
+      "french": "espéranto",
+      "collective": false
+    },
+    {
+      "label": "Estonian",
+      "iso639_1": "et",
+      "iso639_2": "est",
+      "bibliographic": "est",
+      "english": "Estonian",
+      "french": "estonien",
+      "collective": false
+    },
+    {
+      "label": "Ewe",
+      "iso639_1": "ee",
+      "iso639_2": "ewe",
+      "bibliographic": "ewe",
+      "english": "Ewe",
+      "french": "éwé",
+      "collective": false
+    },
+    {
+      "label": "Ewondo",
+      "iso639_1": null,
+      "iso639_2": "ewo",
+      "bibliographic": "ewo",
+      "english": "Ewondo",
+      "french": "éwondo",
+      "collective": false
+    },
+    {
+      "label": "Fang",
+      "iso639_1": null,
+      "iso639_2": "fan",
+      "bibliographic": "fan",
+      "english": "Fang",
+      "french": "fang",
+      "collective": false
+    },
+    {
+      "label": "Faroese",
+      "iso639_1": "fo",
+      "iso639_2": "fao",
+      "bibliographic": "fao",
+      "english": "Faroese",
+      "french": "féroïen",
+      "collective": false
+    },
+    {
+      "label": "Fanti",
+      "iso639_1": null,
+      "iso639_2": "fat",
+      "bibliographic": "fat",
+      "english": "Fanti",
+      "french": "fanti",
+      "collective": false
+    },
+    {
+      "label": "Fijian",
+      "iso639_1": "fj",
+      "iso639_2": "fij",
+      "bibliographic": "fij",
+      "english": "Fijian",
+      "french": "fidjien",
+      "collective": false
+    },
+    {
+      "label": "Filipino",
+      "iso639_1": null,
+      "iso639_2": "fil",
+      "bibliographic": "fil",
+      "english": "Filipino; Pilipino",
+      "french": "filipino; pilipino",
+      "collective": false
+    },
+    {
+      "label": "Finnish",
+      "iso639_1": "fi",
+      "iso639_2": "fin",
+      "bibliographic": "fin",
+      "english": "Finnish",
+      "french": "finnois",
+      "collective": false
+    },
+    {
+      "label": "Finno-Ugrian languages",
+      "iso639_1": null,
+      "iso639_2": "fiu",
+      "bibliographic": "fiu",
+      "english": "Finno-Ugrian languages",
+      "french": "finno-ougriennes, langues",
+      "collective": true
+    },
+    {
+      "label": "Fon",
+      "iso639_1": null,
+      "iso639_2": "fon",
+      "bibliographic": "fon",
+      "english": "Fon",
+      "french": "fon",
+      "collective": false
+    },
+    {
+      "label": "French",
+      "iso639_1": "fr",
+      "iso639_2": "fra",
+      "bibliographic": "fre",
+      "english": "French",
+      "french": "français",
+      "collective": false
+    },
+    {
+      "label": "French, Middle (ca.1400-1600)",
+      "iso639_1": null,
+      "iso639_2": "frm",
+      "bibliographic": "frm",
+      "english": "French, Middle (ca.1400-1600)",
+      "french": "français moyen (1400-1600)",
+      "collective": false
+    },
+    {
+      "label": "French, Old (842-ca.1400)",
+      "iso639_1": null,
+      "iso639_2": "fro",
+      "bibliographic": "fro",
+      "english": "French, Old (842-ca.1400)",
+      "french": "français ancien (842-ca.1400)",
+      "collective": false
+    },
+    {
+      "label": "Northern Frisian",
+      "iso639_1": null,
+      "iso639_2": "frr",
+      "bibliographic": "frr",
+      "english": "Northern Frisian",
+      "french": "frison septentrional",
+      "collective": false
+    },
+    {
+      "label": "Eastern Frisian",
+      "iso639_1": null,
+      "iso639_2": "frs",
+      "bibliographic": "frs",
+      "english": "Eastern Frisian",
+      "french": "frison oriental",
+      "collective": false
+    },
+    {
+      "label": "Western Frisian",
+      "iso639_1": "fy",
+      "iso639_2": "fry",
+      "bibliographic": "fry",
+      "english": "Western Frisian",
+      "french": "frison occidental",
+      "collective": false
+    },
+    {
+      "label": "Fulah",
+      "iso639_1": "ff",
+      "iso639_2": "ful",
+      "bibliographic": "ful",
+      "english": "Fulah",
+      "french": "peul",
+      "collective": false
+    },
+    {
+      "label": "Friulian",
+      "iso639_1": null,
+      "iso639_2": "fur",
+      "bibliographic": "fur",
+      "english": "Friulian",
+      "french": "frioulan",
+      "collective": false
+    },
+    {
+      "label": "Ga",
+      "iso639_1": null,
+      "iso639_2": "gaa",
+      "bibliographic": "gaa",
+      "english": "Ga",
+      "french": "ga",
+      "collective": false
+    },
+    {
+      "label": "Gayo",
+      "iso639_1": null,
+      "iso639_2": "gay",
+      "bibliographic": "gay",
+      "english": "Gayo",
+      "french": "gayo",
+      "collective": false
+    },
+    {
+      "label": "Gbaya",
+      "iso639_1": null,
+      "iso639_2": "gba",
+      "bibliographic": "gba",
+      "english": "Gbaya",
+      "french": "gbaya",
+      "collective": false
+    },
+    {
+      "label": "Germanic languages",
+      "iso639_1": null,
+      "iso639_2": "gem",
+      "bibliographic": "gem",
+      "english": "Germanic languages",
+      "french": "germaniques, langues",
+      "collective": true
+    },
+    {
+      "label": "Georgian",
+      "iso639_1": "ka",
+      "iso639_2": "kat",
+      "bibliographic": "geo",
+      "english": "Georgian",
+      "french": "géorgien",
+      "collective": false
+    },
+    {
+      "label": "German",
+      "iso639_1": "de",
+      "iso639_2": "deu",
+      "bibliographic": "ger",
+      "english": "German",
+      "french": "allemand",
+      "collective": false
+    },
+    {
+      "label": "Geez",
+      "iso639_1": null,
+      "iso639_2": "gez",
+      "bibliographic": "gez",
+      "english": "Geez",
+      "french": "guèze",
+      "collective": false
+    },
+    {
+      "label": "Gilbertese",
+      "iso639_1": null,
+      "iso639_2": "gil",
+      "bibliographic": "gil",
+      "english": "Gilbertese",
+      "french": "kiribati",
+      "collective": false
+    },
+    {
+      "label": "Gaelic",
+      "iso639_1": "gd",
+      "iso639_2": "gla",
+      "bibliographic": "gla",
+      "english": "Gaelic; Scottish Gaelic",
+      "french": "gaélique; gaélique écossais",
+      "collective": false
+    },
+    {
+      "label": "Irish",
+      "iso639_1": "ga",
+      "iso639_2": "gle",
+      "bibliographic": "gle",
+      "english": "Irish",
+      "french": "irlandais",
+      "collective": false
+    },
+    {
+      "label": "Galician",
+      "iso639_1": "gl",
+      "iso639_2": "glg",
+      "bibliographic": "glg",
+      "english": "Galician",
+      "french": "galicien",
+      "collective": false
+    },
+    {
+      "label": "Manx",
+      "iso639_1": "gv",
+      "iso639_2": "glv",
+      "bibliographic": "glv",
+      "english": "Manx",
+      "french": "manx; mannois",
+      "collective": false
+    },
+    {
+      "label": "German, Middle High (ca.1050-1500)",
+      "iso639_1": null,
+      "iso639_2": "gmh",
+      "bibliographic": "gmh",
+      "english": "German, Middle High (ca.1050-1500)",
+      "french": "allemand, moyen haut (ca. 1050-1500)",
+      "collective": false
+    },
+    {
+      "label": "German, Old High (ca.750-1050)",
+      "iso639_1": null,
+      "iso639_2": "goh",
+      "bibliographic": "goh",
+      "english": "German, Old High (ca.750-1050)",
+      "french": "allemand, vieux haut (ca. 750-1050)",
+      "collective": false
+    },
+    {
+      "label": "Gondi",
+      "iso639_1": null,
+      "iso639_2": "gon",
+      "bibliographic": "gon",
+      "english": "Gondi",
+      "french": "gond",
+      "collective": false
+    },
+    {
+      "label": "Gorontalo",
+      "iso639_1": null,
+      "iso639_2": "gor",
+      "bibliographic": "gor",
+      "english": "Gorontalo",
+      "french": "gorontalo",
+      "collective": false
+    },
+    {
+      "label": "Gothic",
+      "iso639_1": null,
+      "iso639_2": "got",
+      "bibliographic": "got",
+      "english": "Gothic",
+      "french": "gothique",
+      "collective": false
+    },
+    {
+      "label": "Grebo",
+      "iso639_1": null,
+      "iso639_2": "grb",
+      "bibliographic": "grb",
+      "english": "Grebo",
+      "french": "grebo",
+      "collective": false
+    },
+    {
+      "label": "Greek, Ancient (to 1453)",
+      "iso639_1": null,
+      "iso639_2": "grc",
+      "bibliographic": "grc",
+      "english": "Greek, Ancient (to 1453)",
+      "french": "grec ancien (jusqu'à 1453)",
+      "collective": false
+    },
+    {
+      "label": "Greek",
+      "iso639_1": "el",
+      "iso639_2": "ell",
+      "bibliographic": "gre",
+      "english": "Modern Greek (1453-)",
+      "french": "grec moderne (1453-)",
+      "collective": false
+    },
+    {
+      "label": "Guarani",
+      "iso639_1": "gn",
+      "iso639_2": "grn",
+      "bibliographic": "grn",
+      "english": "Guarani",
+      "french": "guarani",
+      "collective": false
+    },
+    {
+      "label": "Swiss German",
+      "iso639_1": null,
+      "iso639_2": "gsw",
+      "bibliographic": "gsw",
+      "english": "Swiss German; Alemannic; Alsatian",
+      "french": "suisse alémanique; alémanique; alsacien",
+      "collective": false
+    },
+    {
+      "label": "Gujarati",
+      "iso639_1": "gu",
+      "iso639_2": "guj",
+      "bibliographic": "guj",
+      "english": "Gujarati",
+      "french": "goudjrati",
+      "collective": false
+    },
+    {
+      "label": "Gwich'in",
+      "iso639_1": null,
+      "iso639_2": "gwi",
+      "bibliographic": "gwi",
+      "english": "Gwich'in",
+      "french": "gwich'in",
+      "collective": false
+    },
+    {
+      "label": "Haida",
+      "iso639_1": null,
+      "iso639_2": "hai",
+      "bibliographic": "hai",
+      "english": "Haida",
+      "french": "haida",
+      "collective": false
+    },
+    {
+      "label": "Haitian",
+      "iso639_1": "ht",
+      "iso639_2": "hat",
+      "bibliographic": "hat",
+      "english": "Haitian; Haitian Creole",
+      "french": "haïtien; créole haïtien",
+      "collective": false
+    },
+    {
+      "label": "Hausa",
+      "iso639_1": "ha",
+      "iso639_2": "hau",
+      "bibliographic": "hau",
+      "english": "Hausa",
+      "french": "haoussa",
+      "collective": false
+    },
+    {
+      "label": "Hawaiian",
+      "iso639_1": null,
+      "iso639_2": "haw",
+      "bibliographic": "haw",
+      "english": "Hawaiian",
+      "french": "hawaïen",
+      "collective": false
+    },
+    {
+      "label": "Hebrew",
+      "iso639_1": "he",
+      "iso639_2": "heb",
+      "bibliographic": "heb",
+      "english": "Hebrew",
+      "french": "hébreu",
+      "collective": false
+    },
+    {
+      "label": "Herero",
+      "iso639_1": "hz",
+      "iso639_2": "her",
+      "bibliographic": "her",
+      "english": "Herero",
+      "french": "herero",
+      "collective": false
+    },
+    {
+      "label": "Hiligaynon",
+      "iso639_1": null,
+      "iso639_2": "hil",
+      "bibliographic": "hil",
+      "english": "Hiligaynon",
+      "french": "hiligaynon",
+      "collective": false
+    },
+    {
+      "label": "Himachali languages",
+      "iso639_1": null,
+      "iso639_2": "him",
+      "bibliographic": "him",
+      "english": "Himachali languages; Western Pahari languages",
+      "french": "langues himachalis; langues paharis occidentales",
+      "collective": true
+    },
+    {
+      "label": "Hindi",
+      "iso639_1": "hi",
+      "iso639_2": "hin",
+      "bibliographic": "hin",
+      "english": "Hindi",
+      "french": "hindi",
+      "collective": false
+    },
+    {
+      "label": "Hittite",
+      "iso639_1": null,
+      "iso639_2": "hit",
+      "bibliographic": "hit",
+      "english": "Hittite",
+      "french": "hittite",
+      "collective": false
+    },
+    {
+      "label": "Hmong",
+      "iso639_1": null,
+      "iso639_2": "hmn",
+      "bibliographic": "hmn",
+      "english": "Hmong; Mong",
+      "french": "hmong",
+      "collective": false
+    },
+    {
+      "label": "Hiri Motu",
+      "iso639_1": "ho",
+      "iso639_2": "hmo",
+      "bibliographic": "hmo",
+      "english": "Hiri Motu",
+      "french": "hiri motu",
+      "collective": false
+    },
+    {
+      "label": "Croatian",
+      "iso639_1": "hr",
+      "iso639_2": "hrv",
+      "bibliographic": "hrv",
+      "english": "Croatian",
+      "french": "croate",
+      "collective": false
+    },
+    {
+      "label": "Upper Sorbian",
+      "iso639_1": null,
+      "iso639_2": "hsb",
+      "bibliographic": "hsb",
+      "english": "Upper Sorbian",
+      "french": "haut-sorabe",
+      "collective": false
+    },
+    {
+      "label": "Hungarian",
+      "iso639_1": "hu",
+      "iso639_2": "hun",
+      "bibliographic": "hun",
+      "english": "Hungarian",
+      "french": "hongrois",
+      "collective": false
+    },
+    {
+      "label": "Hupa",
+      "iso639_1": null,
+      "iso639_2": "hup",
+      "bibliographic": "hup",
+      "english": "Hupa",
+      "french": "hupa",
+      "collective": false
+    },
+    {
+      "label": "Iban",
+      "iso639_1": null,
+      "iso639_2": "iba",
+      "bibliographic": "iba",
+      "english": "Iban",
+      "french": "iban",
+      "collective": false
+    },
+    {
+      "label": "Igbo",
+      "iso639_1": "ig",
+      "iso639_2": "ibo",
+      "bibliographic": "ibo",
+      "english": "Igbo",
+      "french": "igbo",
+      "collective": false
+    },
+    {
+      "label": "Icelandic",
+      "iso639_1": "is",
+      "iso639_2": "isl",
+      "bibliographic": "ice",
+      "english": "Icelandic",
+      "french": "islandais",
+      "collective": false
+    },
+    {
+      "label": "Ido",
+      "iso639_1": "io",
+      "iso639_2": "ido",
+      "bibliographic": "ido",
+      "english": "Ido",
+      "french": "ido",
+      "collective": false
+    },
+    {
+      "label": "Sichuan Yi",
+      "iso639_1": "ii",
+      "iso639_2": "iii",
+      "bibliographic": "iii",
+      "english": "Sichuan Yi; Nuosu",
+      "french": "yi de Sichuan",
+      "collective": false
+    },
+    {
+      "label": "Ijo languages",
+      "iso639_1": null,
+      "iso639_2": "ijo",
+      "bibliographic": "ijo",
+      "english": "Ijo languages",
+      "french": "ijo, langues",
+      "collective": true
+    },
+    {
+      "label": "Inuktitut",
+      "iso639_1": "iu",
+      "iso639_2": "iku",
+      "bibliographic": "iku",
+      "english": "Inuktitut",
+      "french": "inuktitut",
+      "collective": false
+    },
+    {
+      "label": "Interlingue",
+      "iso639_1": "ie",
+      "iso639_2": "ile",
+      "bibliographic": "ile",
+      "english": "Interlingue; Occidental",
+      "french": "interlingue",
+      "collective": false
+    },
+    {
+      "label": "Iloko",
+      "iso639_1": null,
+      "iso639_2": "ilo",
+      "bibliographic": "ilo",
+      "english": "Iloko",
+      "french": "ilocano",
+      "collective": false
+    },
+    {
+      "label": "Interlingua (International Auxiliary Language Association)",
+      "iso639_1": "ia",
+      "iso639_2": "ina",
+      "bibliographic": "ina",
+      "english": "Interlingua (International Auxiliary Language Association)",
+      "french": "interlingua (langue auxiliaire internationale)",
+      "collective": false
+    },
+    {
+      "label": "Indic languages",
+      "iso639_1": null,
+      "iso639_2": "inc",
+      "bibliographic": "inc",
+      "english": "Indic languages",
+      "french": "indo-aryennes, langues",
+      "collective": true
+    },
+    {
+      "label": "Indonesian",
+      "iso639_1": "id",
+      "iso639_2": "ind",
+      "bibliographic": "ind",
+      "english": "Indonesian",
+      "french": "indonésien",
+      "collective": false
+    },
+    {
+      "label": "Indo-European languages",
+      "iso639_1": null,
+      "iso639_2": "ine",
+      "bibliographic": "ine",
+      "english": "Indo-European languages",
+      "french": "indo-européennes, langues",
+      "collective": true
+    },
+    {
+      "label": "Ingush",
+      "iso639_1": null,
+      "iso639_2": "inh",
+      "bibliographic": "inh",
+      "english": "Ingush",
+      "french": "ingouche",
+      "collective": false
+    },
+    {
+      "label": "Inupiaq",
+      "iso639_1": "ik",
+      "iso639_2": "ipk",
+      "bibliographic": "ipk",
+      "english": "Inupiaq",
+      "french": "inupiaq",
+      "collective": false
+    },
+    {
+      "label": "Iranian languages",
+      "iso639_1": null,
+      "iso639_2": "ira",
+      "bibliographic": "ira",
+      "english": "Iranian languages",
+      "french": "iraniennes, langues",
+      "collective": true
+    },
+    {
+      "label": "Iroquoian languages",
+      "iso639_1": null,
+      "iso639_2": "iro",
+      "bibliographic": "iro",
+      "english": "Iroquoian languages",
+      "french": "iroquoises, langues",
+      "collective": true
+    },
+    {
+      "label": "Italian",
+      "iso639_1": "it",
+      "iso639_2": "ita",
+      "bibliographic": "ita",
+      "english": "Italian",
+      "french": "italien",
+      "collective": false
+    },
+    {
+      "label": "Javanese",
+      "iso639_1": "jv",
+      "iso639_2": "jav",
+      "bibliographic": "jav",
+      "english": "Javanese",
+      "french": "javanais",
+      "collective": false
+    },
+    {
+      "label": "Lojban",
+      "iso639_1": null,
+      "iso639_2": "jbo",
+      "bibliographic": "jbo",
+      "english": "Lojban",
+      "french": "lojban",
+      "collective": false
+    },
+    {
+      "label": "Japanese",
+      "iso639_1": "ja",
+      "iso639_2": "jpn",
+      "bibliographic": "jpn",
+      "english": "Japanese",
+      "french": "japonais",
+      "collective": false
+    },
+    {
+      "label": "Judeo-Persian",
+      "iso639_1": null,
+      "iso639_2": "jpr",
+      "bibliographic": "jpr",
+      "english": "Judeo-Persian",
+      "french": "judéo-persan",
+      "collective": false
+    },
+    {
+      "label": "Judeo-Arabic",
+      "iso639_1": null,
+      "iso639_2": "jrb",
+      "bibliographic": "jrb",
+      "english": "Judeo-Arabic",
+      "french": "judéo-arabe",
+      "collective": false
+    },
+    {
+      "label": "Kara-Kalpak",
+      "iso639_1": null,
+      "iso639_2": "kaa",
+      "bibliographic": "kaa",
+      "english": "Kara-Kalpak",
+      "french": "karakalpak",
+      "collective": false
+    },
+    {
+      "label": "Kabyle",
+      "iso639_1": null,
+      "iso639_2": "kab",
+      "bibliographic": "kab",
+      "english": "Kabyle",
+      "french": "kabyle",
+      "collective": false
+    },
+    {
+      "label": "Kachin",
+      "iso639_1": null,
+      "iso639_2": "kac",
+      "bibliographic": "kac",
+      "english": "Kachin; Jingpho",
+      "french": "kachin; jingpho",
+      "collective": false
+    },
+    {
+      "label": "Kalaallisut",
+      "iso639_1": "kl",
+      "iso639_2": "kal",
+      "bibliographic": "kal",
+      "english": "Kalaallisut; Greenlandic",
+      "french": "groenlandais",
+      "collective": false
+    },
+    {
+      "label": "Kamba",
+      "iso639_1": null,
+      "iso639_2": "kam",
+      "bibliographic": "kam",
+      "english": "Kamba",
+      "french": "kamba",
+      "collective": false
+    },
+    {
+      "label": "Kannada",
+      "iso639_1": "kn",
+      "iso639_2": "kan",
+      "bibliographic": "kan",
+      "english": "Kannada",
+      "french": "kannada",
+      "collective": false
+    },
+    {
+      "label": "Karen languages",
+      "iso639_1": null,
+      "iso639_2": "kar",
+      "bibliographic": "kar",
+      "english": "Karen languages",
+      "french": "karen, langues",
+      "collective": true
+    },
+    {
+      "label": "Kashmiri",
+      "iso639_1": "ks",
+      "iso639_2": "kas",
+      "bibliographic": "kas",
+      "english": "Kashmiri",
+      "french": "kashmiri",
+      "collective": false
+    },
+    {
+      "label": "Kanuri",
+      "iso639_1": "kr",
+      "iso639_2": "kau",
+      "bibliographic": "kau",
+      "english": "Kanuri",
+      "french": "kanouri",
+      "collective": false
+    },
+    {
+      "label": "Kawi",
+      "iso639_1": null,
+      "iso639_2": "kaw",
+      "bibliographic": "kaw",
+      "english": "Kawi",
+      "french": "kawi",
+      "collective": false
+    },
+    {
+      "label": "Kazakh",
+      "iso639_1": "kk",
+      "iso639_2": "kaz",
+      "bibliographic": "kaz",
+      "english": "Kazakh",
+      "french": "kazakh",
+      "collective": false
+    },
+    {
+      "label": "Kabardian",
+      "iso639_1": null,
+      "iso639_2": "kbd",
+      "bibliographic": "kbd",
+      "english": "Kabardian",
+      "french": "kabardien",
+      "collective": false
+    },
+    {
+      "label": "Khasi",
+      "iso639_1": null,
+      "iso639_2": "kha",
+      "bibliographic": "kha",
+      "english": "Khasi",
+      "french": "khasi",
+      "collective": false
+    },
+    {
+      "label": "Khoisan languages",
+      "iso639_1": null,
+      "iso639_2": "khi",
+      "bibliographic": "khi",
+      "english": "Khoisan languages",
+      "french": "khoïsan, langues",
+      "collective": true
+    },
+    {
+      "label": "Central Khmer",
+      "iso639_1": "km",
+      "iso639_2": "khm",
+      "bibliographic": "khm",
+      "english": "Central Khmer",
+      "french": "khmer central",
+      "collective": false
+    },
+    {
+      "label": "Khotanese",
+      "iso639_1": null,
+      "iso639_2": "kho",
+      "bibliographic": "kho",
+      "english": "Khotanese; Sakan",
+      "french": "khotanais; sakan",
+      "collective": false
+    },
+    {
+      "label": "Kikuyu",
+      "iso639_1": "ki",
+      "iso639_2": "kik",
+      "bibliographic": "kik",
+      "english": "Kikuyu; Gikuyu",
+      "french": "kikuyu",
+      "collective": false
+    },
+    {
+      "label": "Kinyarwanda",
+      "iso639_1": "rw",
+      "iso639_2": "kin",
+      "bibliographic": "kin",
+      "english": "Kinyarwanda",
+      "french": "rwanda",
+      "collective": false
+    },
+    {
+      "label": "Kirghiz",
+      "iso639_1": "ky",
+      "iso639_2": "kir",
+      "bibliographic": "kir",
+      "english": "Kirghiz; Kyrgyz",
+      "french": "kirghiz",
+      "collective": false
+    },
+    {
+      "label": "Kimbundu",
+      "iso639_1": null,
+      "iso639_2": "kmb",
+      "bibliographic": "kmb",
+      "english": "Kimbundu",
+      "french": "kimbundu",
+      "collective": false
+    },
+    {
+      "label": "Konkani",
+      "iso639_1": null,
+      "iso639_2": "kok",
+      "bibliographic": "kok",
+      "english": "Konkani",
+      "french": "konkani",
+      "collective": false
+    },
+    {
+      "label": "Komi",
+      "iso639_1": "kv",
+      "iso639_2": "kom",
+      "bibliographic": "kom",
+      "english": "Komi",
+      "french": "kom",
+      "collective": false
+    },
+    {
+      "label": "Kongo",
+      "iso639_1": "kg",
+      "iso639_2": "kon",
+      "bibliographic": "kon",
+      "english": "Kongo",
+      "french": "kongo",
+      "collective": false
+    },
+    {
+      "label": "Korean",
+      "iso639_1": "ko",
+      "iso639_2": "kor",
+      "bibliographic": "kor",
+      "english": "Korean",
+      "french": "coréen",
+      "collective": false
+    },
+    {
+      "label": "Kosraean",
+      "iso639_1": null,
+      "iso639_2": "kos",
+      "bibliographic": "kos",
+      "english": "Kosraean",
+      "french": "kosrae",
+      "collective": false
+    },
+    {
+      "label": "Kpelle",
+      "iso639_1": null,
+      "iso639_2": "kpe",
+      "bibliographic": "kpe",
+      "english": "Kpelle",
+      "french": "kpellé",
+      "collective": false
+    },
+    {
+      "label": "Karachay-Balkar",
+      "iso639_1": null,
+      "iso639_2": "krc",
+      "bibliographic": "krc",
+      "english": "Karachay-Balkar",
+      "french": "karatchai balkar",
+      "collective": false
+    },
+    {
+      "label": "Karelian",
+      "iso639_1": null,
+      "iso639_2": "krl",
+      "bibliographic": "krl",
+      "english": "Karelian",
+      "french": "carélien",
+      "collective": false
+    },
+    {
+      "label": "Kru languages",
+      "iso639_1": null,
+      "iso639_2": "kro",
+      "bibliographic": "kro",
+      "english": "Kru languages",
+      "french": "krou, langues",
+      "collective": true
+    },
+    {
+      "label": "Kurukh",
+      "iso639_1": null,
+      "iso639_2": "kru",
+      "bibliographic": "kru",
+      "english": "Kurukh",
+      "french": "kurukh",
+      "collective": false
+    },
+    {
+      "label": "Kuanyama",
+      "iso639_1": "kj",
+      "iso639_2": "kua",
+      "bibliographic": "kua",
+      "english": "Kuanyama; Kwanyama",
+      "french": "kuanyama; kwanyama",
+      "collective": false
+    },
+    {
+      "label": "Kumyk",
+      "iso639_1": null,
+      "iso639_2": "kum",
+      "bibliographic": "kum",
+      "english": "Kumyk",
+      "french": "koumyk",
+      "collective": false
+    },
+    {
+      "label": "Kurdish",
+      "iso639_1": "ku",
+      "iso639_2": "kur",
+      "bibliographic": "kur",
+      "english": "Kurdish",
+      "french": "kurde",
+      "collective": false
+    },
+    {
+      "label": "Kutenai",
+      "iso639_1": null,
+      "iso639_2": "kut",
+      "bibliographic": "kut",
+      "english": "Kutenai",
+      "french": "kutenai",
+      "collective": false
+    },
+    {
+      "label": "Ladino",
+      "iso639_1": null,
+      "iso639_2": "lad",
+      "bibliographic": "lad",
+      "english": "Ladino",
+      "french": "judéo-espagnol",
+      "collective": false
+    },
+    {
+      "label": "Lahnda",
+      "iso639_1": null,
+      "iso639_2": "lah",
+      "bibliographic": "lah",
+      "english": "Lahnda",
+      "french": "lahnda",
+      "collective": false
+    },
+    {
+      "label": "Lamba",
+      "iso639_1": null,
+      "iso639_2": "lam",
+      "bibliographic": "lam",
+      "english": "Lamba",
+      "french": "lamba",
+      "collective": false
+    },
+    {
+      "label": "Lao",
+      "iso639_1": "lo",
+      "iso639_2": "lao",
+      "bibliographic": "lao",
+      "english": "Lao",
+      "french": "lao",
+      "collective": false
+    },
+    {
+      "label": "Latin",
+      "iso639_1": "la",
+      "iso639_2": "lat",
+      "bibliographic": "lat",
+      "english": "Latin",
+      "french": "latin",
+      "collective": false
+    },
+    {
+      "label": "Latvian",
+      "iso639_1": "lv",
+      "iso639_2": "lav",
+      "bibliographic": "lav",
+      "english": "Latvian",
+      "french": "letton",
+      "collective": false
+    },
+    {
+      "label": "Lezghian",
+      "iso639_1": null,
+      "iso639_2": "lez",
+      "bibliographic": "lez",
+      "english": "Lezghian",
+      "french": "lezghien",
+      "collective": false
+    },
+    {
+      "label": "Limburgan",
+      "iso639_1": "li",
+      "iso639_2": "lim",
+      "bibliographic": "lim",
+      "english": "Limburgan; Limburger; Limburgish",
+      "french": "limbourgeois",
+      "collective": false
+    },
+    {
+      "label": "Lingala",
+      "iso639_1": "ln",
+      "iso639_2": "lin",
+      "bibliographic": "lin",
+      "english": "Lingala",
+      "french": "lingala",
+      "collective": false
+    },
+    {
+      "label": "Lithuanian",
+      "iso639_1": "lt",
+      "iso639_2": "lit",
+      "bibliographic": "lit",
+      "english": "Lithuanian",
+      "french": "lituanien",
+      "collective": false
+    },
+    {
+      "label": "Mongo",
+      "iso639_1": null,
+      "iso639_2": "lol",
+      "bibliographic": "lol",
+      "english": "Mongo",
+      "french": "mongo",
+      "collective": false
+    },
+    {
+      "label": "Lozi",
+      "iso639_1": null,
+      "iso639_2": "loz",
+      "bibliographic": "loz",
+      "english": "Lozi",
+      "french": "lozi",
+      "collective": false
+    },
+    {
+      "label": "Luxembourgish",
+      "iso639_1": "lb",
+      "iso639_2": "ltz",
+      "bibliographic": "ltz",
+      "english": "Luxembourgish; Letzeburgesch",
+      "french": "luxembourgeois",
+      "collective": false
+    },
+    {
+      "label": "Luba-Lulua",
+      "iso639_1": null,
+      "iso639_2": "lua",
+      "bibliographic": "lua",
+      "english": "Luba-Lulua",
+      "french": "luba-lulua",
+      "collective": false
+    },
+    {
+      "label": "Luba-Katanga",
+      "iso639_1": "lu",
+      "iso639_2": "lub",
+      "bibliographic": "lub",
+      "english": "Luba-Katanga",
+      "french": "luba-katanga",
+      "collective": false
+    },
+    {
+      "label": "Ganda",
+      "iso639_1": "lg",
+      "iso639_2": "lug",
+      "bibliographic": "lug",
+      "english": "Ganda",
+      "french": "ganda",
+      "collective": false
+    },
+    {
+      "label": "Luiseno",
+      "iso639_1": null,
+      "iso639_2": "lui",
+      "bibliographic": "lui",
+      "english": "Luiseno",
+      "french": "luiseno",
+      "collective": false
+    },
+    {
+      "label": "Lunda",
+      "iso639_1": null,
+      "iso639_2": "lun",
+      "bibliographic": "lun",
+      "english": "Lunda",
+      "french": "lunda",
+      "collective": false
+    },
+    {
+      "label": "Luo (Kenya and Tanzania)",
+      "iso639_1": null,
+      "iso639_2": "luo",
+      "bibliographic": "luo",
+      "english": "Luo (Kenya and Tanzania)",
+      "french": "luo (Kenya et Tanzanie)",
+      "collective": false
+    },
+    {
+      "label": "Lushai",
+      "iso639_1": null,
+      "iso639_2": "lus",
+      "bibliographic": "lus",
+      "english": "Lushai",
+      "french": "lushai",
+      "collective": false
+    },
+    {
+      "label": "Macedonian",
+      "iso639_1": "mk",
+      "iso639_2": "mkd",
+      "bibliographic": "mac",
+      "english": "Macedonian",
+      "french": "macédonien",
+      "collective": false
+    },
+    {
+      "label": "Madurese",
+      "iso639_1": null,
+      "iso639_2": "mad",
+      "bibliographic": "mad",
+      "english": "Madurese",
+      "french": "madourais",
+      "collective": false
+    },
+    {
+      "label": "Magahi",
+      "iso639_1": null,
+      "iso639_2": "mag",
+      "bibliographic": "mag",
+      "english": "Magahi",
+      "french": "magahi",
+      "collective": false
+    },
+    {
+      "label": "Marshallese",
+      "iso639_1": "mh",
+      "iso639_2": "mah",
+      "bibliographic": "mah",
+      "english": "Marshallese",
+      "french": "marshall",
+      "collective": false
+    },
+    {
+      "label": "Maithili",
+      "iso639_1": null,
+      "iso639_2": "mai",
+      "bibliographic": "mai",
+      "english": "Maithili",
+      "french": "maithili",
+      "collective": false
+    },
+    {
+      "label": "Makasar",
+      "iso639_1": null,
+      "iso639_2": "mak",
+      "bibliographic": "mak",
+      "english": "Makasar",
+      "french": "makassar",
+      "collective": false
+    },
+    {
+      "label": "Malayalam",
+      "iso639_1": "ml",
+      "iso639_2": "mal",
+      "bibliographic": "mal",
+      "english": "Malayalam",
+      "french": "malayalam",
+      "collective": false
+    },
+    {
+      "label": "Mandingo",
+      "iso639_1": null,
+      "iso639_2": "man",
+      "bibliographic": "man",
+      "english": "Mandingo",
+      "french": "mandingue",
+      "collective": false
+    },
+    {
+      "label": "Maori",
+      "iso639_1": "mi",
+      "iso639_2": "mri",
+      "bibliographic": "mao",
+      "english": "Maori",
+      "french": "maori",
+      "collective": false
+    },
+    {
+      "label": "Austronesian languages",
+      "iso639_1": null,
+      "iso639_2": "map",
+      "bibliographic": "map",
+      "english": "Austronesian languages",
+      "french": "austronésiennes, langues",
+      "collective": true
+    },
+    {
+      "label": "Marathi",
+      "iso639_1": "mr",
+      "iso639_2": "mar",
+      "bibliographic": "mar",
+      "english": "Marathi",
+      "french": "marathe",
+      "collective": false
+    },
+    {
+      "label": "Masai",
+      "iso639_1": null,
+      "iso639_2": "mas",
+      "bibliographic": "mas",
+      "english": "Masai",
+      "french": "massaï",
+      "collective": false
+    },
+    {
+      "label": "Malay",
+      "iso639_1": "ms",
+      "iso639_2": "msa",
+      "bibliographic": "may",
+      "english": "Malay",
+      "french": "malais",
+      "collective": false
+    },
+    {
+      "label": "Moksha",
+      "iso639_1": null,
+      "iso639_2": "mdf",
+      "bibliographic": "mdf",
+      "english": "Moksha",
+      "french": "moksa",
+      "collective": false
+    },
+    {
+      "label": "Mandar",
+      "iso639_1": null,
+      "iso639_2": "mdr",
+      "bibliographic": "mdr",
+      "english": "Mandar",
+      "french": "mandar",
+      "collective": false
+    },
+    {
+      "label": "Mende",
+      "iso639_1": null,
+      "iso639_2": "men",
+      "bibliographic": "men",
+      "english": "Mende",
+      "french": "mendé",
+      "collective": false
+    },
+    {
+      "label": "Irish, Middle (900-1200)",
+      "iso639_1": null,
+      "iso639_2": "mga",
+      "bibliographic": "mga",
+      "english": "Irish, Middle (900-1200)",
+      "french": "irlandais moyen (900-1200)",
+      "collective": false
+    },
+    {
+      "label": "Mi'kmaq",
+      "iso639_1": null,
+      "iso639_2": "mic",
+      "bibliographic": "mic",
+      "english": "Mi'kmaq; Micmac",
+      "french": "mi'kmaq; micmac",
+      "collective": false
+    },
+    {
+      "label": "Minangkabau",
+      "iso639_1": null,
+      "iso639_2": "min",
+      "bibliographic": "min",
+      "english": "Minangkabau",
+      "french": "minangkabau",
+      "collective": false
+    },
+    {
+      "label": "Uncoded languages",
+      "iso639_1": null,
+      "iso639_2": "mis",
+      "bibliographic": "mis",
+      "english": "Uncoded languages",
+      "french": "langues non codées",
+      "collective": true
+    },
+    {
+      "label": "Mon-Khmer languages",
+      "iso639_1": null,
+      "iso639_2": "mkh",
+      "bibliographic": "mkh",
+      "english": "Mon-Khmer languages",
+      "french": "môn-khmer, langues",
+      "collective": true
+    },
+    {
+      "label": "Malagasy",
+      "iso639_1": "mg",
+      "iso639_2": "mlg",
+      "bibliographic": "mlg",
+      "english": "Malagasy",
+      "french": "malgache",
+      "collective": false
+    },
+    {
+      "label": "Maltese",
+      "iso639_1": "mt",
+      "iso639_2": "mlt",
+      "bibliographic": "mlt",
+      "english": "Maltese",
+      "french": "maltais",
+      "collective": false
+    },
+    {
+      "label": "Manchu",
+      "iso639_1": null,
+      "iso639_2": "mnc",
+      "bibliographic": "mnc",
+      "english": "Manchu",
+      "french": "mandchou",
+      "collective": false
+    },
+    {
+      "label": "Manipuri",
+      "iso639_1": null,
+      "iso639_2": "mni",
+      "bibliographic": "mni",
+      "english": "Manipuri",
+      "french": "manipuri",
+      "collective": false
+    },
+    {
+      "label": "Manobo languages",
+      "iso639_1": null,
+      "iso639_2": "mno",
+      "bibliographic": "mno",
+      "english": "Manobo languages",
+      "french": "manobo, langues",
+      "collective": true
+    },
+    {
+      "label": "Mohawk",
+      "iso639_1": null,
+      "iso639_2": "moh",
+      "bibliographic": "moh",
+      "english": "Mohawk",
+      "french": "mohawk",
+      "collective": false
+    },
+    {
+      "label": "Mongolian",
+      "iso639_1": "mn",
+      "iso639_2": "mon",
+      "bibliographic": "mon",
+      "english": "Mongolian",
+      "french": "mongol",
+      "collective": false
+    },
+    {
+      "label": "Mossi",
+      "iso639_1": null,
+      "iso639_2": "mos",
+      "bibliographic": "mos",
+      "english": "Mossi",
+      "french": "moré",
+      "collective": false
+    },
+    {
+      "label": "Multilingual",
+      "iso639_1": null,
+      "iso639_2": "mul",
+      "bibliographic": "mul",
+      "english": "Multiple languages",
+      "french": "multilingue",
+      "collective": false
+    },
+    {
+      "label": "Munda languages",
+      "iso639_1": null,
+      "iso639_2": "mun",
+      "bibliographic": "mun",
+      "english": "Munda languages",
+      "french": "mounda, langues",
+      "collective": true
+    },
+    {
+      "label": "Creek",
+      "iso639_1": null,
+      "iso639_2": "mus",
+      "bibliographic": "mus",
+      "english": "Creek",
+      "french": "muskogee",
+      "collective": false
+    },
+    {
+      "label": "Mirandese",
+      "iso639_1": null,
+      "iso639_2": "mwl",
+      "bibliographic": "mwl",
+      "english": "Mirandese",
+      "french": "mirandais",
+      "collective": false
+    },
+    {
+      "label": "Marwari",
+      "iso639_1": null,
+      "iso639_2": "mwr",
+      "bibliographic": "mwr",
+      "english": "Marwari",
+      "french": "marvari",
+      "collective": false
+    },
+    {
+      "label": "Mayan languages",
+      "iso639_1": null,
+      "iso639_2": "myn",
+      "bibliographic": "myn",
+      "english": "Mayan languages",
+      "french": "maya, langues",
+      "collective": true
+    },
+    {
+      "label": "Erzya",
+      "iso639_1": null,
+      "iso639_2": "myv",
+      "bibliographic": "myv",
+      "english": "Erzya",
+      "french": "erza",
+      "collective": false
+    },
+    {
+      "label": "Nahuatl languages",
+      "iso639_1": null,
+      "iso639_2": "nah",
+      "bibliographic": "nah",
+      "english": "Nahuatl languages",
+      "french": "nahuatl, langues",
+      "collective": true
+    },
+    {
+      "label": "North American Indian languages",
+      "iso639_1": null,
+      "iso639_2": "nai",
+      "bibliographic": "nai",
+      "english": "North American Indian languages",
+      "french": "nord-amérindiennes, langues",
+      "collective": true
+    },
+    {
+      "label": "Neapolitan",
+      "iso639_1": null,
+      "iso639_2": "nap",
+      "bibliographic": "nap",
+      "english": "Neapolitan",
+      "french": "napolitain",
+      "collective": false
+    },
+    {
+      "label": "Nauru",
+      "iso639_1": "na",
+      "iso639_2": "nau",
+      "bibliographic": "nau",
+      "english": "Nauru",
+      "french": "nauruan",
+      "collective": false
+    },
+    {
+      "label": "Navajo",
+      "iso639_1": "nv",
+      "iso639_2": "nav",
+      "bibliographic": "nav",
+      "english": "Navajo; Navaho",
+      "french": "navaho",
+      "collective": false
+    },
+    {
+      "label": "South Ndebele",
+      "iso639_1": "nr",
+      "iso639_2": "nbl",
+      "bibliographic": "nbl",
+      "english": "South Ndebele",
+      "french": "ndébélé du Sud",
+      "collective": false
+    },
+    {
+      "label": "North Ndebele",
+      "iso639_1": "nd",
+      "iso639_2": "nde",
+      "bibliographic": "nde",
+      "english": "North Ndebele",
+      "french": "ndébélé du Nord",
+      "collective": false
+    },
+    {
+      "label": "Ndonga",
+      "iso639_1": "ng",
+      "iso639_2": "ndo",
+      "bibliographic": "ndo",
+      "english": "Ndonga",
+      "french": "ndonga",
+      "collective": false
+    },
+    {
+      "label": "Low German",
+      "iso639_1": null,
+      "iso639_2": "nds",
+      "bibliographic": "nds",
+      "english": "Low German; Low Saxon; German, Low; Saxon, Low",
+      "french": "bas allemand; bas saxon; allemand, bas; saxon, bas",
+      "collective": false
+    },
+    {
+      "label": "Nepali",
+      "iso639_1": "ne",
+      "iso639_2": "nep",
+      "bibliographic": "nep",
+      "english": "Nepali",
+      "french": "népalais",
+      "collective": false
+    },
+    {
+      "label": "Nepal Bhasa",
+      "iso639_1": null,
+      "iso639_2": "new",
+      "bibliographic": "new",
+      "english": "Nepal Bhasa; Newar; Newari",
+      "french": "nepal bhasa; néwar; newari",
+      "collective": false
+    },
+    {
+      "label": "Nias",
+      "iso639_1": null,
+      "iso639_2": "nia",
+      "bibliographic": "nia",
+      "english": "Nias",
+      "french": "nias",
+      "collective": false
+    },
+    {
+      "label": "Niger-Kordofanian languages",
+      "iso639_1": null,
+      "iso639_2": "nic",
+      "bibliographic": "nic",
+      "english": "Niger-Kordofanian languages",
+      "french": "nigéro-kordofaniennes, langues",
+      "collective": true
+    },
+    {
+      "label": "Niuean",
+      "iso639_1": null,
+      "iso639_2": "niu",
+      "bibliographic": "niu",
+      "english": "Niuean",
+      "french": "niué",
+      "collective": false
+    },
+    {
+      "label": "Norwegian Nynorsk",
+      "iso639_1": "nn",
+      "iso639_2": "nno",
+      "bibliographic": "nno",
+      "english": "Norwegian Nynorsk",
+      "french": "norvégien nynorsk",
+      "collective": false
+    },
+    {
+      "label": "Norwegian Bokmål",
+      "iso639_1": "nb",
+      "iso639_2": "nob",
+      "bibliographic": "nob",
+      "english": "Norwegian Bokmål",
+      "french": "norvégien bokmål",
+      "collective": false
+    },
+    {
+      "label": "Nogai",
+      "iso639_1": null,
+      "iso639_2": "nog",
+      "bibliographic": "nog",
+      "english": "Nogai",
+      "french": "nogaï; nogay",
+      "collective": false
+    },
+    {
+      "label": "Norse, Old",
+      "iso639_1": null,
+      "iso639_2": "non",
+      "bibliographic": "non",
+      "english": "Norse, Old",
+      "french": "norrois, vieux",
+      "collective": false
+    },
+    {
+      "label": "Norwegian",
+      "iso639_1": "no",
+      "iso639_2": "nor",
+      "bibliographic": "nor",
+      "english": "Norwegian",
+      "french": "norvégien",
+      "collective": false
+    },
+    {
+      "label": "N'Ko",
+      "iso639_1": null,
+      "iso639_2": "nqo",
+      "bibliographic": "nqo",
+      "english": "N'Ko",
+      "french": "n'ko",
+      "collective": false
+    },
+    {
+      "label": "Pedi",
+      "iso639_1": null,
+      "iso639_2": "nso",
+      "bibliographic": "nso",
+      "english": "Pedi; Sepedi; Northern Sotho",
+      "french": "pedi; sepedi; sotho du Nord",
+      "collective": false
+    },
+    {
+      "label": "Nubian languages",
+      "iso639_1": null,
+      "iso639_2": "nub",
+      "bibliographic": "nub",
+      "english": "Nubian languages",
+      "french": "nubiennes, langues",
+      "collective": true
+    },
+    {
+      "label": "Classical Newari",
+      "iso639_1": null,
+      "iso639_2": "nwc",
+      "bibliographic": "nwc",
+      "english": "Classical Newari; Old Newari; Classical Nepal Bhasa",
+      "french": "newari classique",
+      "collective": false
+    },
+    {
+      "label": "Chichewa",
+      "iso639_1": "ny",
+      "iso639_2": "nya",
+      "bibliographic": "nya",
+      "english": "Chichewa; Chewa; Nyanja",
+      "french": "chichewa; chewa; nyanja",
+      "collective": false
+    },
+    {
+      "label": "Nyamwezi",
+      "iso639_1": null,
+      "iso639_2": "nym",
+      "bibliographic": "nym",
+      "english": "Nyamwezi",
+      "french": "nyamwezi",
+      "collective": false
+    },
+    {
+      "label": "Nyankole",
+      "iso639_1": null,
+      "iso639_2": "nyn",
+      "bibliographic": "nyn",
+      "english": "Nyankole",
+      "french": "nyankolé",
+      "collective": false
+    },
+    {
+      "label": "Nyoro",
+      "iso639_1": null,
+      "iso639_2": "nyo",
+      "bibliographic": "nyo",
+      "english": "Nyoro",
+      "french": "nyoro",
+      "collective": false
+    },
+    {
+      "label": "Nzima",
+      "iso639_1": null,
+      "iso639_2": "nzi",
+      "bibliographic": "nzi",
+      "english": "Nzima",
+      "french": "nzema",
+      "collective": false
+    },
+    {
+      "label": "Occitan (post 1500)",
+      "iso639_1": "oc",
+      "iso639_2": "oci",
+      "bibliographic": "oci",
+      "english": "Occitan (post 1500)",
+      "french": "occitan (après 1500)",
+      "collective": false
+    },
+    {
+      "label": "Ojibwa",
+      "iso639_1": "oj",
+      "iso639_2": "oji",
+      "bibliographic": "oji",
+      "english": "Ojibwa",
+      "french": "ojibwa",
+      "collective": false
+    },
+    {
+      "label": "Oriya",
+      "iso639_1": "or",
+      "iso639_2": "ori",
+      "bibliographic": "ori",
+      "english": "Oriya",
+      "french": "oriya",
+      "collective": false
+    },
+    {
+      "label": "Oromo",
+      "iso639_1": "om",
+      "iso639_2": "orm",
+      "bibliographic": "orm",
+      "english": "Oromo",
+      "french": "galla",
+      "collective": false
+    },
+    {
+      "label": "Osage",
+      "iso639_1": null,
+      "iso639_2": "osa",
+      "bibliographic": "osa",
+      "english": "Osage",
+      "french": "osage",
+      "collective": false
+    },
+    {
+      "label": "Ossetian",
+      "iso639_1": "os",
+      "iso639_2": "oss",
+      "bibliographic": "oss",
+      "english": "Ossetian; Ossetic",
+      "french": "ossète",
+      "collective": false
+    },
+    {
+      "label": "Turkish, Ottoman (1500-1928)",
+      "iso639_1": null,
+      "iso639_2": "ota",
+      "bibliographic": "ota",
+      "english": "Turkish, Ottoman (1500-1928)",
+      "french": "turc ottoman (1500-1928)",
+      "collective": false
+    },
+    {
+      "label": "Otomian languages",
+      "iso639_1": null,
+      "iso639_2": "oto",
+      "bibliographic": "oto",
+      "english": "Otomian languages",
+      "french": "otomi, langues",
+      "collective": true
+    },
+    {
+      "label": "Papuan languages",
+      "iso639_1": null,
+      "iso639_2": "paa",
+      "bibliographic": "paa",
+      "english": "Papuan languages",
+      "french": "papoues, langues",
+      "collective": true
+    },
+    {
+      "label": "Pangasinan",
+      "iso639_1": null,
+      "iso639_2": "pag",
+      "bibliographic": "pag",
+      "english": "Pangasinan",
+      "french": "pangasinan",
+      "collective": false
+    },
+    {
+      "label": "Pahlavi",
+      "iso639_1": null,
+      "iso639_2": "pal",
+      "bibliographic": "pal",
+      "english": "Pahlavi",
+      "french": "pahlavi",
+      "collective": false
+    },
+    {
+      "label": "Pampanga",
+      "iso639_1": null,
+      "iso639_2": "pam",
+      "bibliographic": "pam",
+      "english": "Pampanga; Kapampangan",
+      "french": "pampangan",
+      "collective": false
+    },
+    {
+      "label": "Punjabi",
+      "iso639_1": "pa",
+      "iso639_2": "pan",
+      "bibliographic": "pan",
+      "english": "Panjabi; Punjabi",
+      "french": "pendjabi",
+      "collective": false
+    },
+    {
+      "label": "Papiamento",
+      "iso639_1": null,
+      "iso639_2": "pap",
+      "bibliographic": "pap",
+      "english": "Papiamento",
+      "french": "papiamento",
+      "collective": false
+    },
+    {
+      "label": "Palauan",
+      "iso639_1": null,
+      "iso639_2": "pau",
+      "bibliographic": "pau",
+      "english": "Palauan",
+      "french": "palau",
+      "collective": false
+    },
+    {
+      "label": "Persian, Old (ca.600-400 B.C.)",
+      "iso639_1": null,
+      "iso639_2": "peo",
+      "bibliographic": "peo",
+      "english": "Persian, Old (ca.600-400 B.C.)",
+      "french": "perse, vieux (ca. 600-400 av. J.-C.)",
+      "collective": false
+    },
+    {
+      "label": "Persian",
+      "iso639_1": "fa",
+      "iso639_2": "fas",
+      "bibliographic": "per",
+      "english": "Persian",
+      "french": "persan",
+      "collective": false
+    },
+    {
+      "label": "Philippine languages",
+      "iso639_1": null,
+      "iso639_2": "phi",
+      "bibliographic": "phi",
+      "english": "Philippine languages",
+      "french": "philippines, langues",
+      "collective": true
+    },
+    {
+      "label": "Phoenician",
+      "iso639_1": null,
+      "iso639_2": "phn",
+      "bibliographic": "phn",
+      "english": "Phoenician",
+      "french": "phénicien",
+      "collective": false
+    },
+    {
+      "label": "Pali",
+      "iso639_1": "pi",
+      "iso639_2": "pli",
+      "bibliographic": "pli",
+      "english": "Pali",
+      "french": "pali",
+      "collective": false
+    },
+    {
+      "label": "Polish",
+      "iso639_1": "pl",
+      "iso639_2": "pol",
+      "bibliographic": "pol",
+      "english": "Polish",
+      "french": "polonais",
+      "collective": false
+    },
+    {
+      "label": "Pohnpeian",
+      "iso639_1": null,
+      "iso639_2": "pon",
+      "bibliographic": "pon",
+      "english": "Pohnpeian",
+      "french": "pohnpei",
+      "collective": false
+    },
+    {
+      "label": "Portuguese",
+      "iso639_1": "pt",
+      "iso639_2": "por",
+      "bibliographic": "por",
+      "english": "Portuguese",
+      "french": "portugais",
+      "collective": false
+    },
+    {
+      "label": "Prakrit languages",
+      "iso639_1": null,
+      "iso639_2": "pra",
+      "bibliographic": "pra",
+      "english": "Prakrit languages",
+      "french": "prâkrit, langues",
+      "collective": true
+    },
+    {
+      "label": "Provençal, Old (to 1500)",
+      "iso639_1": null,
+      "iso639_2": "pro",
+      "bibliographic": "pro",
+      "english": "Provençal, Old (to 1500); Occitan, Old (to 1500)",
+      "french": "provençal ancien (jusqu'à 1500); occitan ancien (jusqu'à 1500)",
+      "collective": false
+    },
+    {
+      "label": "Pushto",
+      "iso639_1": "ps",
+      "iso639_2": "pus",
+      "bibliographic": "pus",
+      "english": "Pushto; Pashto",
+      "french": "pachto",
+      "collective": false
+    },
+    {
+      "label": "Quechua",
+      "iso639_1": "qu",
+      "iso639_2": "que",
+      "bibliographic": "que",
+      "english": "Quechua",
+      "french": "quechua",
+      "collective": false
+    },
+    {
+      "label": "Rajasthani",
+      "iso639_1": null,
+      "iso639_2": "raj",
+      "bibliographic": "raj",
+      "english": "Rajasthani",
+      "french": "rajasthani",
+      "collective": false
+    },
+    {
+      "label": "Rapanui",
+      "iso639_1": null,
+      "iso639_2": "rap",
+      "bibliographic": "rap",
+      "english": "Rapanui",
+      "french": "rapanui",
+      "collective": false
+    },
+    {
+      "label": "Rarotongan",
+      "iso639_1": null,
+      "iso639_2": "rar",
+      "bibliographic": "rar",
+      "english": "Rarotongan; Cook Islands Maori",
+      "french": "rarotonga; maori des îles Cook",
+      "collective": false
+    },
+    {
+      "label": "Romance languages",
+      "iso639_1": null,
+      "iso639_2": "roa",
+      "bibliographic": "roa",
+      "english": "Romance languages",
+      "french": "romanes, langues",
+      "collective": true
+    },
+    {
+      "label": "Romansh",
+      "iso639_1": "rm",
+      "iso639_2": "roh",
+      "bibliographic": "roh",
+      "english": "Romansh",
+      "french": "romanche",
+      "collective": false
+    },
+    {
+      "label": "Romany",
+      "iso639_1": null,
+      "iso639_2": "rom",
+      "bibliographic": "rom",
+      "english": "Romany",
+      "french": "tsigane",
+      "collective": false
+    },
+    {
+      "label": "Romanian",
+      "iso639_1": "ro",
+      "iso639_2": "ron",
+      "bibliographic": "rum",
+      "english": "Romanian; Moldavian; Moldovan",
+      "french": "roumain; moldave",
+      "collective": false
+    },
+    {
+      "label": "Rundi",
+      "iso639_1": "rn",
+      "iso639_2": "run",
+      "bibliographic": "run",
+      "english": "Rundi",
+      "french": "rundi",
+      "collective": false
+    },
+    {
+      "label": "Aromanian",
+      "iso639_1": null,
+      "iso639_2": "rup",
+      "bibliographic": "rup",
+      "english": "Aromanian; Arumanian; Macedo-Romanian",
+      "french": "aroumain; macédo-roumain",
+      "collective": false
+    },
+    {
+      "label": "Russian",
+      "iso639_1": "ru",
+      "iso639_2": "rus",
+      "bibliographic": "rus",
+      "english": "Russian",
+      "french": "russe",
+      "collective": false
+    },
+    {
+      "label": "Sandawe",
+      "iso639_1": null,
+      "iso639_2": "sad",
+      "bibliographic": "sad",
+      "english": "Sandawe",
+      "french": "sandawe",
+      "collective": false
+    },
+    {
+      "label": "Sango",
+      "iso639_1": "sg",
+      "iso639_2": "sag",
+      "bibliographic": "sag",
+      "english": "Sango",
+      "french": "sango",
+      "collective": false
+    },
+    {
+      "label": "Yakut",
+      "iso639_1": null,
+      "iso639_2": "sah",
+      "bibliographic": "sah",
+      "english": "Yakut",
+      "french": "iakoute",
+      "collective": false
+    },
+    {
+      "label": "South American Indian languages",
+      "iso639_1": null,
+      "iso639_2": "sai",
+      "bibliographic": "sai",
+      "english": "South American Indian languages",
+      "french": "sud-amérindiennes, langues",
+      "collective": true
+    },
+    {
+      "label": "Salishan languages",
+      "iso639_1": null,
+      "iso639_2": "sal",
+      "bibliographic": "sal",
+      "english": "Salishan languages",
+      "french": "salishennes, langues",
+      "collective": true
+    },
+    {
+      "label": "Samaritan Aramaic",
+      "iso639_1": null,
+      "iso639_2": "sam",
+      "bibliographic": "sam",
+      "english": "Samaritan Aramaic",
+      "french": "samaritain",
+      "collective": false
+    },
+    {
+      "label": "Sanskrit",
+      "iso639_1": "sa",
+      "iso639_2": "san",
+      "bibliographic": "san",
+      "english": "Sanskrit",
+      "french": "sanskrit",
+      "collective": false
+    },
+    {
+      "label": "Sasak",
+      "iso639_1": null,
+      "iso639_2": "sas",
+      "bibliographic": "sas",
+      "english": "Sasak",
+      "french": "sasak",
+      "collective": false
+    },
+    {
+      "label": "Santali",
+      "iso639_1": null,
+      "iso639_2": "sat",
+      "bibliographic": "sat",
+      "english": "Santali",
+      "french": "santal",
+      "collective": false
+    },
+    {
+      "label": "Sicilian",
+      "iso639_1": null,
+      "iso639_2": "scn",
+      "bibliographic": "scn",
+      "english": "Sicilian",
+      "french": "sicilien",
+      "collective": false
+    },
+    {
+      "label": "Scots",
+      "iso639_1": null,
+      "iso639_2": "sco",
+      "bibliographic": "sco",
+      "english": "Scots",
+      "french": "écossais",
+      "collective": false
+    },
+    {
+      "label": "Selkup",
+      "iso639_1": null,
+      "iso639_2": "sel",
+      "bibliographic": "sel",
+      "english": "Selkup",
+      "french": "selkoupe",
+      "collective": false
+    },
+    {
+      "label": "Semitic languages",
+      "iso639_1": null,
+      "iso639_2": "sem",
+      "bibliographic": "sem",
+      "english": "Semitic languages",
+      "french": "sémitiques, langues",
+      "collective": true
+    },
+    {
+      "label": "Irish, Old (to 900)",
+      "iso639_1": null,
+      "iso639_2": "sga",
+      "bibliographic": "sga",
+      "english": "Irish, Old (to 900)",
+      "french": "irlandais ancien (jusqu'à 900)",
+      "collective": false
+    },
+    {
+      "label": "Sign Languages",
+      "iso639_1": null,
+      "iso639_2": "sgn",
+      "bibliographic": "sgn",
+      "english": "Sign Languages",
+      "french": "langues des signes",
+      "collective": true
+    },
+    {
+      "label": "Shan",
+      "iso639_1": null,
+      "iso639_2": "shn",
+      "bibliographic": "shn",
+      "english": "Shan",
+      "french": "chan",
+      "collective": false
+    },
+    {
+      "label": "Sidamo",
+      "iso639_1": null,
+      "iso639_2": "sid",
+      "bibliographic": "sid",
+      "english": "Sidamo",
+      "french": "sidamo",
+      "collective": false
+    },
+    {
+      "label": "Sinhala",
+      "iso639_1": "si",
+      "iso639_2": "sin",
+      "bibliographic": "sin",
+      "english": "Sinhala; Sinhalese",
+      "french": "singhalais",
+      "collective": false
+    },
+    {
+      "label": "Siouan languages",
+      "iso639_1": null,
+      "iso639_2": "sio",
+      "bibliographic": "sio",
+      "english": "Siouan languages",
+      "french": "sioux, langues",
+      "collective": true
+    },
+    {
+      "label": "Sino-Tibetan languages",
+      "iso639_1": null,
+      "iso639_2": "sit",
+      "bibliographic": "sit",
+      "english": "Sino-Tibetan languages",
+      "french": "sino-tibétaines, langues",
+      "collective": true
+    },
+    {
+      "label": "Slavic languages",
+      "iso639_1": null,
+      "iso639_2": "sla",
+      "bibliographic": "sla",
+      "english": "Slavic languages",
+      "french": "slaves, langues",
+      "collective": true
+    },
+    {
+      "label": "Slovak",
+      "iso639_1": "sk",
+      "iso639_2": "slk",
+      "bibliographic": "slo",
+      "english": "Slovak",
+      "french": "slovaque",
+      "collective": false
+    },
+    {
+      "label": "Slovenian",
+      "iso639_1": "sl",
+      "iso639_2": "slv",
+      "bibliographic": "slv",
+      "english": "Slovenian",
+      "french": "slovène",
+      "collective": false
+    },
+    {
+      "label": "Southern Sami",
+      "iso639_1": null,
+      "iso639_2": "sma",
+      "bibliographic": "sma",
+      "english": "Southern Sami",
+      "french": "sami du Sud",
+      "collective": false
+    },
+    {
+      "label": "Northern Sami",
+      "iso639_1": "se",
+      "iso639_2": "sme",
+      "bibliographic": "sme",
+      "english": "Northern Sami",
+      "french": "sami du Nord",
+      "collective": false
+    },
+    {
+      "label": "Sami languages",
+      "iso639_1": null,
+      "iso639_2": "smi",
+      "bibliographic": "smi",
+      "english": "Sami languages",
+      "french": "sames, langues",
+      "collective": true
+    },
+    {
+      "label": "Lule Sami",
+      "iso639_1": null,
+      "iso639_2": "smj",
+      "bibliographic": "smj",
+      "english": "Lule Sami",
+      "french": "sami de Lule",
+      "collective": false
+    },
+    {
+      "label": "Inari Sami",
+      "iso639_1": null,
+      "iso639_2": "smn",
+      "bibliographic": "smn",
+      "english": "Inari Sami",
+      "french": "sami d'Inari",
+      "collective": false
+    },
+    {
+      "label": "Samoan",
+      "iso639_1": "sm",
+      "iso639_2": "smo",
+      "bibliographic": "smo",
+      "english": "Samoan",
+      "french": "samoan",
+      "collective": false
+    },
+    {
+      "label": "Skolt Sami",
+      "iso639_1": null,
+      "iso639_2": "sms",
+      "bibliographic": "sms",
+      "english": "Skolt Sami",
+      "french": "sami skolt",
+      "collective": false
+    },
+    {
+      "label": "Shona",
+      "iso639_1": "sn",
+      "iso639_2": "sna",
+      "bibliographic": "sna",
+      "english": "Shona",
+      "french": "shona",
+      "collective": false
+    },
+    {
+      "label": "Sindhi",
+      "iso639_1": "sd",
+      "iso639_2": "snd",
+      "bibliographic": "snd",
+      "english": "Sindhi",
+      "french": "sindhi",
+      "collective": false
+    },
+    {
+      "label": "Soninke",
+      "iso639_1": null,
+      "iso639_2": "snk",
+      "bibliographic": "snk",
+      "english": "Soninke",
+      "french": "soninké",
+      "collective": false
+    },
+    {
+      "label": "Sogdian",
+      "iso639_1": null,
+      "iso639_2": "sog",
+      "bibliographic": "sog",
+      "english": "Sogdian",
+      "french": "sogdien",
+      "collective": false
+    },
+    {
+      "label": "Somali",
+      "iso639_1": "so",
+      "iso639_2": "som",
+      "bibliographic": "som",
+      "english": "Somali",
+      "french": "somali",
+      "collective": false
+    },
+    {
+      "label": "Songhai languages",
+      "iso639_1": null,
+      "iso639_2": "son",
+      "bibliographic": "son",
+      "english": "Songhai languages",
+      "french": "songhai, langues",
+      "collective": true
+    },
+    {
+      "label": "Sotho, Southern",
+      "iso639_1": "st",
+      "iso639_2": "sot",
+      "bibliographic": "sot",
+      "english": "Sotho, Southern",
+      "french": "sotho du Sud",
+      "collective": false
+    },
+    {
+      "label": "Spanish",
+      "iso639_1": "es",
+      "iso639_2": "spa",
+      "bibliographic": "spa",
+      "english": "Spanish; Castilian",
+      "french": "espagnol; castillan",
+      "collective": false
+    },
+    {
+      "label": "Sardinian",
+      "iso639_1": "sc",
+      "iso639_2": "srd",
+      "bibliographic": "srd",
+      "english": "Sardinian",
+      "french": "sarde",
+      "collective": false
+    },
+    {
+      "label": "Sranan Tongo",
+      "iso639_1": null,
+      "iso639_2": "srn",
+      "bibliographic": "srn",
+      "english": "Sranan Tongo",
+      "french": "sranan tongo",
+      "collective": false
+    },
+    {
+      "label": "Serbian",
+      "iso639_1": "sr",
+      "iso639_2": "srp",
+      "bibliographic": "srp",
+      "english": "Serbian",
+      "french": "serbe",
+      "collective": false
+    },
+    {
+      "label": "Serer",
+      "iso639_1": null,
+      "iso639_2": "srr",
+      "bibliographic": "srr",
+      "english": "Serer",
+      "french": "sérère",
+      "collective": false
+    },
+    {
+      "label": "Nilo-Saharan languages",
+      "iso639_1": null,
+      "iso639_2": "ssa",
+      "bibliographic": "ssa",
+      "english": "Nilo-Saharan languages",
+      "french": "nilo-sahariennes, langues",
+      "collective": true
+    },
+    {
+      "label": "Swati",
+      "iso639_1": "ss",
+      "iso639_2": "ssw",
+      "bibliographic": "ssw",
+      "english": "Swati",
+      "french": "swati",
+      "collective": false
+    },
+    {
+      "label": "Sukuma",
+      "iso639_1": null,
+      "iso639_2": "suk",
+      "bibliographic": "suk",
+      "english": "Sukuma",
+      "french": "sukuma",
+      "collective": false
+    },
+    {
+      "label": "Sundanese",
+      "iso639_1": "su",
+      "iso639_2": "sun",
+      "bibliographic": "sun",
+      "english": "Sundanese",
+      "french": "soundanais",
+      "collective": false
+    },
+    {
+      "label": "Susu",
+      "iso639_1": null,
+      "iso639_2": "sus",
+      "bibliographic": "sus",
+      "english": "Susu",
+      "french": "soussou",
+      "collective": false
+    },
+    {
+      "label": "Sumerian",
+      "iso639_1": null,
+      "iso639_2": "sux",
+      "bibliographic": "sux",
+      "english": "Sumerian",
+      "french": "sumérien",
+      "collective": false
+    },
+    {
+      "label": "Swahili",
+      "iso639_1": "sw",
+      "iso639_2": "swa",
+      "bibliographic": "swa",
+      "english": "Swahili",
+      "french": "swahili",
+      "collective": false
+    },
+    {
+      "label": "Swedish",
+      "iso639_1": "sv",
+      "iso639_2": "swe",
+      "bibliographic": "swe",
+      "english": "Swedish",
+      "french": "suédois",
+      "collective": false
+    },
+    {
+      "label": "Classical Syriac",
+      "iso639_1": null,
+      "iso639_2": "syc",
+      "bibliographic": "syc",
+      "english": "Classical Syriac",
+      "french": "syriaque classique",
+      "collective": false
+    },
+    {
+      "label": "Syriac",
+      "iso639_1": null,
+      "iso639_2": "syr",
+      "bibliographic": "syr",
+      "english": "Syriac",
+      "french": "syriaque",
+      "collective": false
+    },
+    {
+      "label": "Tahitian",
+      "iso639_1": "ty",
+      "iso639_2": "tah",
+      "bibliographic": "tah",
+      "english": "Tahitian",
+      "french": "tahitien",
+      "collective": false
+    },
+    {
+      "label": "Tai languages",
+      "iso639_1": null,
+      "iso639_2": "tai",
+      "bibliographic": "tai",
+      "english": "Tai languages",
+      "french": "tai, langues",
+      "collective": true
+    },
+    {
+      "label": "Tamil",
+      "iso639_1": "ta",
+      "iso639_2": "tam",
+      "bibliographic": "tam",
+      "english": "Tamil",
+      "french": "tamoul",
+      "collective": false
+    },
+    {
+      "label": "Tatar",
+      "iso639_1": "tt",
+      "iso639_2": "tat",
+      "bibliographic": "tat",
+      "english": "Tatar",
+      "french": "tatar",
+      "collective": false
+    },
+    {
+      "label": "Telugu",
+      "iso639_1": "te",
+      "iso639_2": "tel",
+      "bibliographic": "tel",
+      "english": "Telugu",
+      "french": "télougou",
+      "collective": false
+    },
+    {
+      "label": "Timne",
+      "iso639_1": null,
+      "iso639_2": "tem",
+      "bibliographic": "tem",
+      "english": "Timne",
+      "french": "temne",
+      "collective": false
+    },
+    {
+      "label": "Tereno",
+      "iso639_1": null,
+      "iso639_2": "ter",
+      "bibliographic": "ter",
+      "english": "Tereno",
+      "french": "tereno",
+      "collective": false
+    },
+    {
+      "label": "Tetum",
+      "iso639_1": null,
+      "iso639_2": "tet",
+      "bibliographic": "tet",
+      "english": "Tetum",
+      "french": "tetum",
+      "collective": false
+    },
+    {
+      "label": "Tajik",
+      "iso639_1": "tg",
+      "iso639_2": "tgk",
+      "bibliographic": "tgk",
+      "english": "Tajik",
+      "french": "tadjik",
+      "collective": false
+    },
+    {
+      "label": "Tagalog",
+      "iso639_1": "tl",
+      "iso639_2": "tgl",
+      "bibliographic": "tgl",
+      "english": "Tagalog",
+      "french": "tagalog",
+      "collective": false
+    },
+    {
+      "label": "Thai",
+      "iso639_1": "th",
+      "iso639_2": "tha",
+      "bibliographic": "tha",
+      "english": "Thai",
+      "french": "thaï",
+      "collective": false
+    },
+    {
+      "label": "Tibetan",
+      "iso639_1": "bo",
+      "iso639_2": "bod",
+      "bibliographic": "tib",
+      "english": "Tibetan",
+      "french": "tibétain",
+      "collective": false
+    },
+    {
+      "label": "Tigre",
+      "iso639_1": null,
+      "iso639_2": "tig",
+      "bibliographic": "tig",
+      "english": "Tigre",
+      "french": "tigré",
+      "collective": false
+    },
+    {
+      "label": "Tigrinya",
+      "iso639_1": "ti",
+      "iso639_2": "tir",
+      "bibliographic": "tir",
+      "english": "Tigrinya",
+      "french": "tigrigna",
+      "collective": false
+    },
+    {
+      "label": "Tiv",
+      "iso639_1": null,
+      "iso639_2": "tiv",
+      "bibliographic": "tiv",
+      "english": "Tiv",
+      "french": "tiv",
+      "collective": false
+    },
+    {
+      "label": "Tokelau",
+      "iso639_1": null,
+      "iso639_2": "tkl",
+      "bibliographic": "tkl",
+      "english": "Tokelau",
+      "french": "tokelau",
+      "collective": false
+    },
+    {
+      "label": "Klingon",
+      "iso639_1": null,
+      "iso639_2": "tlh",
+      "bibliographic": "tlh",
+      "english": "Klingon; tlhIngan-Hol",
+      "french": "klingon",
+      "collective": false
+    },
+    {
+      "label": "Tlingit",
+      "iso639_1": null,
+      "iso639_2": "tli",
+      "bibliographic": "tli",
+      "english": "Tlingit",
+      "french": "tlingit",
+      "collective": false
+    },
+    {
+      "label": "Tamashek",
+      "iso639_1": null,
+      "iso639_2": "tmh",
+      "bibliographic": "tmh",
+      "english": "Tamashek",
+      "french": "tamacheq",
+      "collective": false
+    },
+    {
+      "label": "Tonga (Nyasa)",
+      "iso639_1": null,
+      "iso639_2": "tog",
+      "bibliographic": "tog",
+      "english": "Tonga (Nyasa)",
+      "french": "tonga (Nyasa)",
+      "collective": false
+    },
+    {
+      "label": "Tonga (Tonga Islands)",
+      "iso639_1": "to",
+      "iso639_2": "ton",
+      "bibliographic": "ton",
+      "english": "Tonga (Tonga Islands)",
+      "french": "tongan (Îles Tonga)",
+      "collective": false
+    },
+    {
+      "label": "Tok Pisin",
+      "iso639_1": null,
+      "iso639_2": "tpi",
+      "bibliographic": "tpi",
+      "english": "Tok Pisin",
+      "french": "tok pisin",
+      "collective": false
+    },
+    {
+      "label": "Tsimshian",
+      "iso639_1": null,
+      "iso639_2": "tsi",
+      "bibliographic": "tsi",
+      "english": "Tsimshian",
+      "french": "tsimshian",
+      "collective": false
+    },
+    {
+      "label": "Tswana",
+      "iso639_1": "tn",
+      "iso639_2": "tsn",
+      "bibliographic": "tsn",
+      "english": "Tswana",
+      "french": "tswana",
+      "collective": false
+    },
+    {
+      "label": "Tsonga",
+      "iso639_1": "ts",
+      "iso639_2": "tso",
+      "bibliographic": "tso",
+      "english": "Tsonga",
+      "french": "tsonga",
+      "collective": false
+    },
+    {
+      "label": "Turkmen",
+      "iso639_1": "tk",
+      "iso639_2": "tuk",
+      "bibliographic": "tuk",
+      "english": "Turkmen",
+      "french": "turkmène",
+      "collective": false
+    },
+    {
+      "label": "Tumbuka",
+      "iso639_1": null,
+      "iso639_2": "tum",
+      "bibliographic": "tum",
+      "english": "Tumbuka",
+      "french": "tumbuka",
+      "collective": false
+    },
+    {
+      "label": "Tupi languages",
+      "iso639_1": null,
+      "iso639_2": "tup",
+      "bibliographic": "tup",
+      "english": "Tupi languages",
+      "french": "tupi, langues",
+      "collective": true
+    },
+    {
+      "label": "Turkish",
+      "iso639_1": "tr",
+      "iso639_2": "tur",
+      "bibliographic": "tur",
+      "english": "Turkish",
+      "french": "turc",
+      "collective": false
+    },
+    {
+      "label": "Altaic languages",
+      "iso639_1": null,
+      "iso639_2": "tut",
+      "bibliographic": "tut",
+      "english": "Altaic languages",
+      "french": "altaïques, langues",
+      "collective": true
+    },
+    {
+      "label": "Tuvalu",
+      "iso639_1": null,
+      "iso639_2": "tvl",
+      "bibliographic": "tvl",
+      "english": "Tuvalu",
+      "french": "tuvalu",
+      "collective": false
+    },
+    {
+      "label": "Twi",
+      "iso639_1": "tw",
+      "iso639_2": "twi",
+      "bibliographic": "twi",
+      "english": "Twi",
+      "french": "twi",
+      "collective": false
+    },
+    {
+      "label": "Tuvinian",
+      "iso639_1": null,
+      "iso639_2": "tyv",
+      "bibliographic": "tyv",
+      "english": "Tuvinian",
+      "french": "touva",
+      "collective": false
+    },
+    {
+      "label": "Udmurt",
+      "iso639_1": null,
+      "iso639_2": "udm",
+      "bibliographic": "udm",
+      "english": "Udmurt",
+      "french": "oudmourte",
+      "collective": false
+    },
+    {
+      "label": "Ugaritic",
+      "iso639_1": null,
+      "iso639_2": "uga",
+      "bibliographic": "uga",
+      "english": "Ugaritic",
+      "french": "ougaritique",
+      "collective": false
+    },
+    {
+      "label": "Uighur",
+      "iso639_1": "ug",
+      "iso639_2": "uig",
+      "bibliographic": "uig",
+      "english": "Uighur; Uyghur",
+      "french": "ouïgour",
+      "collective": false
+    },
+    {
+      "label": "Ukrainian",
+      "iso639_1": "uk",
+      "iso639_2": "ukr",
+      "bibliographic": "ukr",
+      "english": "Ukrainian",
+      "french": "ukrainien",
+      "collective": false
+    },
+    {
+      "label": "Umbundu",
+      "iso639_1": null,
+      "iso639_2": "umb",
+      "bibliographic": "umb",
+      "english": "Umbundu",
+      "french": "umbundu",
+      "collective": false
+    },
+    {
+      "label": "Other / uncertain",
+      "iso639_1": null,
+      "iso639_2": "und",
+      "bibliographic": "und",
+      "english": "Undetermined",
+      "french": "indéterminée",
+      "collective": false
+    },
+    {
+      "label": "Urdu",
+      "iso639_1": "ur",
+      "iso639_2": "urd",
+      "bibliographic": "urd",
+      "english": "Urdu",
+      "french": "ourdou",
+      "collective": false
+    },
+    {
+      "label": "Uzbek",
+      "iso639_1": "uz",
+      "iso639_2": "uzb",
+      "bibliographic": "uzb",
+      "english": "Uzbek",
+      "french": "ouszbek",
+      "collective": false
+    },
+    {
+      "label": "Vai",
+      "iso639_1": null,
+      "iso639_2": "vai",
+      "bibliographic": "vai",
+      "english": "Vai",
+      "french": "vaï",
+      "collective": false
+    },
+    {
+      "label": "Venda",
+      "iso639_1": "ve",
+      "iso639_2": "ven",
+      "bibliographic": "ven",
+      "english": "Venda",
+      "french": "venda",
+      "collective": false
+    },
+    {
+      "label": "Vietnamese",
+      "iso639_1": "vi",
+      "iso639_2": "vie",
+      "bibliographic": "vie",
+      "english": "Vietnamese",
+      "french": "vietnamien",
+      "collective": false
+    },
+    {
+      "label": "Volapük",
+      "iso639_1": "vo",
+      "iso639_2": "vol",
+      "bibliographic": "vol",
+      "english": "Volapük",
+      "french": "volapük",
+      "collective": false
+    },
+    {
+      "label": "Votic",
+      "iso639_1": null,
+      "iso639_2": "vot",
+      "bibliographic": "vot",
+      "english": "Votic",
+      "french": "vote",
+      "collective": false
+    },
+    {
+      "label": "Wakashan languages",
+      "iso639_1": null,
+      "iso639_2": "wak",
+      "bibliographic": "wak",
+      "english": "Wakashan languages",
+      "french": "wakashanes, langues",
+      "collective": true
+    },
+    {
+      "label": "Wolaitta",
+      "iso639_1": null,
+      "iso639_2": "wal",
+      "bibliographic": "wal",
+      "english": "Wolaitta; Wolaytta",
+      "french": "wolaitta; wolaytta",
+      "collective": false
+    },
+    {
+      "label": "Waray",
+      "iso639_1": null,
+      "iso639_2": "war",
+      "bibliographic": "war",
+      "english": "Waray",
+      "french": "waray",
+      "collective": false
+    },
+    {
+      "label": "Washo",
+      "iso639_1": null,
+      "iso639_2": "was",
+      "bibliographic": "was",
+      "english": "Washo",
+      "french": "washo",
+      "collective": false
+    },
+    {
+      "label": "Welsh",
+      "iso639_1": "cy",
+      "iso639_2": "cym",
+      "bibliographic": "wel",
+      "english": "Welsh",
+      "french": "gallois",
+      "collective": false
+    },
+    {
+      "label": "Sorbian languages",
+      "iso639_1": null,
+      "iso639_2": "wen",
+      "bibliographic": "wen",
+      "english": "Sorbian languages",
+      "french": "sorabes, langues",
+      "collective": true
+    },
+    {
+      "label": "Walloon",
+      "iso639_1": "wa",
+      "iso639_2": "wln",
+      "bibliographic": "wln",
+      "english": "Walloon",
+      "french": "wallon",
+      "collective": false
+    },
+    {
+      "label": "Wolof",
+      "iso639_1": "wo",
+      "iso639_2": "wol",
+      "bibliographic": "wol",
+      "english": "Wolof",
+      "french": "wolof",
+      "collective": false
+    },
+    {
+      "label": "Kalmyk",
+      "iso639_1": null,
+      "iso639_2": "xal",
+      "bibliographic": "xal",
+      "english": "Kalmyk; Oirat",
+      "french": "kalmouk; oïrat",
+      "collective": false
+    },
+    {
+      "label": "Xhosa",
+      "iso639_1": "xh",
+      "iso639_2": "xho",
+      "bibliographic": "xho",
+      "english": "Xhosa",
+      "french": "xhosa",
+      "collective": false
+    },
+    {
+      "label": "Yao",
+      "iso639_1": null,
+      "iso639_2": "yao",
+      "bibliographic": "yao",
+      "english": "Yao",
+      "french": "yao",
+      "collective": false
+    },
+    {
+      "label": "Yapese",
+      "iso639_1": null,
+      "iso639_2": "yap",
+      "bibliographic": "yap",
+      "english": "Yapese",
+      "french": "yapois",
+      "collective": false
+    },
+    {
+      "label": "Yiddish",
+      "iso639_1": "yi",
+      "iso639_2": "yid",
+      "bibliographic": "yid",
+      "english": "Yiddish",
+      "french": "yiddish",
+      "collective": false
+    },
+    {
+      "label": "Yoruba",
+      "iso639_1": "yo",
+      "iso639_2": "yor",
+      "bibliographic": "yor",
+      "english": "Yoruba",
+      "french": "yoruba",
+      "collective": false
+    },
+    {
+      "label": "Yupik languages",
+      "iso639_1": null,
+      "iso639_2": "ypk",
+      "bibliographic": "ypk",
+      "english": "Yupik languages",
+      "french": "yupik, langues",
+      "collective": true
+    },
+    {
+      "label": "Zapotec",
+      "iso639_1": null,
+      "iso639_2": "zap",
+      "bibliographic": "zap",
+      "english": "Zapotec",
+      "french": "zapotèque",
+      "collective": false
+    },
+    {
+      "label": "Blissymbols",
+      "iso639_1": null,
+      "iso639_2": "zbl",
+      "bibliographic": "zbl",
+      "english": "Blissymbols; Blissymbolics; Bliss",
+      "french": "symboles Bliss; Bliss",
+      "collective": false
+    },
+    {
+      "label": "Zenaga",
+      "iso639_1": null,
+      "iso639_2": "zen",
+      "bibliographic": "zen",
+      "english": "Zenaga",
+      "french": "zenaga",
+      "collective": false
+    },
+    {
+      "label": "Standard Moroccan Tamazight",
+      "iso639_1": null,
+      "iso639_2": "zgh",
+      "bibliographic": "zgh",
+      "english": "Standard Moroccan Tamazight",
+      "french": "amazighe standard marocain",
+      "collective": false
+    },
+    {
+      "label": "Zhuang",
+      "iso639_1": "za",
+      "iso639_2": "zha",
+      "bibliographic": "zha",
+      "english": "Zhuang; Chuang",
+      "french": "zhuang; chuang",
+      "collective": false
+    },
+    {
+      "label": "Zande languages",
+      "iso639_1": null,
+      "iso639_2": "znd",
+      "bibliographic": "znd",
+      "english": "Zande languages",
+      "french": "zandé, langues",
+      "collective": true
+    },
+    {
+      "label": "Zulu",
+      "iso639_1": "zu",
+      "iso639_2": "zul",
+      "bibliographic": "zul",
+      "english": "Zulu",
+      "french": "zoulou",
+      "collective": false
+    },
+    {
+      "label": "Zuni",
+      "iso639_1": null,
+      "iso639_2": "zun",
+      "bibliographic": "zun",
+      "english": "Zuni",
+      "french": "zuni",
+      "collective": false
+    },
+    {
+      "label": "No linguistic content",
+      "iso639_1": null,
+      "iso639_2": "zxx",
+      "bibliographic": "zxx",
+      "english": "No linguistic content; Not applicable",
+      "french": "pas de contenu linguistique; non applicable",
+      "collective": false
+    },
+    {
+      "label": "Zaza",
+      "iso639_1": null,
+      "iso639_2": "zza",
+      "bibliographic": "zza",
+      "english": "Zaza; Dimili; Dimli; Kirdki; Kirmanjki; Zazaki",
+      "french": "zaza; dimili; dimli; kirdki; kirmanjki; zazaki",
+      "collective": false
+    }
+  ],
+  "collectiveSources": [
+    "https://www.loc.gov/standards/iso639-2/faq.html",
+    "https://www.loc.gov/marc/languages/language_name.html"
+  ]
+}

@@ -1,7 +1,8 @@
 import type { DetailedSubject } from './hierarchy.ts';
 import { THEMA, LANGUAGE_CODES } from './standards.ts';
+import type { LanguageAnalysis } from './language-classification.ts';
 export const GENRES: Record<string, string> = Object.fromEntries([...THEMA.map(item => [item.label, `Thema ${item.code}: ${item.heading}`]), ['Other / uncertain', 'No selected category fits, or insufficient evidence.']]);
-export const LANGUAGES: Record<string, string> = Object.fromEntries(LANGUAGE_CODES.map(item => [item.label, item.label === 'Multilingual' ? 'Substantial content in several languages with no single dominant language.' : item.label === 'Other / uncertain' ? 'Unlisted or unidentifiable language; do not force a match.' : `Text in ${item.label}; ISO 639-2 code ${item.iso639_2}.`]));
+export const LANGUAGES: Record<string, string> = Object.fromEntries(LANGUAGE_CODES.map(item => [item.label, item.english]));
 export const TIME_PERIODS: Record<string, string> = {
   'Prehistory': 'Before approximately 3000 BCE, before widespread written records; use only when the setting supports this.',
   'Ancient BCE (3000–1 BCE)': 'Ancient civilizations from approximately 3000 BCE through 1 BCE.',
@@ -47,6 +48,7 @@ export type Classification = {
   technical?: { experience: Judgment; languages: Record<string, number>; topics: Record<string, number> };
   readingLevel: Judgment & { score: number; range: string };
   model: string; reviewed: boolean; taxonomyVersion?: string;
+  languageAnalysis?: LanguageAnalysis;
   evidence?: { strategy: string; pages: number[]; characters: number; questionCount: number };
 };
 export type Book = {
@@ -74,7 +76,7 @@ export type ReferenceLabels = {
 };
 export function needsReview(result: Classification, threshold = 0.7) {
   return !result.reviewed && (result.genre.confidence < threshold || result.language.confidence < threshold ||
-    result.readingLevel.confidence < threshold || (result.subcategory && result.subcategory.confidence < threshold) || (result.timePeriod && result.timePeriod.confidence < threshold) || result.genre.label === 'Other / uncertain' || result.language.label === 'Other / uncertain');
+    result.languageAnalysis?.needsReview || result.readingLevel.confidence < threshold || (result.subcategory && result.subcategory.confidence < threshold) || (result.timePeriod && result.timePeriod.confidence < threshold) || result.genre.label === 'Other / uncertain' || result.language.label === 'Other / uncertain');
 }
 export function bookNeedsReview(book: Book) {
   return Boolean((book.result && needsReview(book.result)) || (book.detailedSubject?.needsReview && !book.detailedSubject.reviewed));
