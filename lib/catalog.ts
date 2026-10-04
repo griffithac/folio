@@ -70,6 +70,9 @@ export function needsReview(result: Classification, threshold = 0.7) {
   return !result.reviewed && (result.genre.confidence < threshold || result.language.confidence < threshold ||
     result.readingLevel.confidence < threshold || (result.subcategory && result.subcategory.confidence < threshold) || (result.timePeriod && result.timePeriod.confidence < threshold) || result.genre.label === 'Other / uncertain' || result.language.label === 'Other / uncertain');
 }
+export function bookNeedsReview(book: Book) {
+  return Boolean((book.result && needsReview(book.result)) || (book.detailedSubject?.needsReview && !book.detailedSubject.reviewed));
+}
 export function sampledPageNumbers(pageCount: number): number[] {
   return [...new Set([
     ...Array.from({ length: Math.min(3, pageCount) }, (_, i) => i + 1),

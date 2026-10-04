@@ -9,7 +9,19 @@ export const subjectNodes = nodes.filter(n => /^[A-Z]/.test(n.CodeValue));
 export const subjectNode = (code: string) => subjectNodes.find(n => n.CodeValue === code);
 export const childrenOf = (code: string) => subjectNodes.filter(n => n.CodeParent === code);
 export type SubjectStep = { code: string; heading: string; confidence: number; probabilities: Record<string,number> };
-export type DetailedSubject = { code?: string; heading?: string; path: SubjectStep[]; model: string; version: string; requests: number; needsReview: boolean; stoppedReason: string };
+export type SubjectCitation = { page: number; start: number; end: number; text: string; supportProbability: number };
+export type SubjectCandidate = {
+  code: string; heading: string; path: SubjectStep[]; rankingScore: number;
+  sectionProbability: number; supportProbability: number;
+  status: 'supported' | 'insufficient-support' | 'no-passage'; citation?: SubjectCitation;
+};
+export type DetailedSubject = {
+  code?: string; heading?: string; path: SubjectStep[]; model: string; version: string;
+  requests: number; needsReview: boolean; stoppedReason: string;
+  reviewed?: boolean;
+  method?: 'beam-and-source-check-v1'; subjects?: SubjectCandidate[]; candidates?: SubjectCandidate[];
+  search?: { beamWidth: number; exploredParents: string[]; pruned: boolean; supportThreshold: number };
+};
 export function hierarchyQuestion(parent: string) {
   const children = childrenOf(parent);
   const criteria: Record<string,string> = Object.fromEntries(children.map(n => [n.CodeValue, n.CodeDescription + (n.CodeNotes ? ` — ${String(n.CodeNotes).slice(0,300)}` : '')]));
