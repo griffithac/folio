@@ -45,3 +45,5 @@
 .evidence-refresh p { font-size: 13px; line-height: 1.6; }
 .excerpt-details > label { display: grid; gap: 8px; margin: 12px 0; }
 .excerpt-details > label select { min-width: 0; max-width: 100%; width: 100%; }
+
+.secondary-findings{grid-column:1/-1;display:grid;gap:12px;padding:17px 19px;border:1px solid #e1e7d8;border-radius:8px;background:#f5f7f1}.secondary-findings>div:first-child p{margin-top:5px;font-size:12px;color:#727c68}.secondary-findings-list{display:flex;flex-wrap:wrap;gap:9px}.secondary-finding{display:flex;align-items:center;gap:14px;min-width:160px;padding:10px 13px;border:1px solid #e3e9da;border-radius:6px;background:#fff;color:#596b49;font-size:12px}.secondary-finding>b{margin-left:auto;text-align:right;color:#60734d;font-weight:600}.secondary-finding>b small{display:block;margin-top:2px;color:#98a18b;font-size:8px;font-weight:400}.secondary-findings-note{font-size:10px;line-height:1.55;color:#818b75}
