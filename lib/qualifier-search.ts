@@ -4,6 +4,7 @@ import type { BookState } from './classification.ts';
 import { subjectNode } from './hierarchy.ts';
 import { sourcePassages, type SubjectEvaluator } from './subject-search.ts';
 import { qualifierFacts, type QualifierFacts } from './qualifier-facts.ts';
+import { sourceAnchors } from './source-sampling.ts';
 import { QUALIFIER_FAMILIES, QUALIFIER_NONE, QUALIFIER_RULES, QUALIFIER_SOURCE_RULE, QUALIFIER_VERSION, qualifierAncestors, qualifierAssignable, qualifierChildren, qualifierNode, qualifierQuestionGroups, qualifierScope, parseQualifierChoice, type QualifierChoice, type QualifierFamily } from './qualifier-catalog.ts';
 
 // Pilot search and review policies; these are not calibrated accuracy guarantees.
@@ -20,7 +21,7 @@ export type QualifierCandidate = {
   citation?: { page: number; start: number; end: number; text: string; supportProbability: number };
 };
 export type DetailedQualifiers = {
-  method: 'qualifier-beam-and-source-check-v1'; version: typeof QUALIFIER_VERSION;
+  method: 'qualifier-beam-and-source-check-v1' | 'qualifier-beam-source-anchor-v2'; version: typeof QUALIFIER_VERSION;
   evidenceMethod?: 'source-facts-v1';
   model: string; models: string[]; requests: number; status: 'complete' | 'partial' | 'unavailable';
   needsReview: boolean; reviewed?: boolean; stoppedReason: string;
@@ -28,7 +29,7 @@ export type DetailedQualifiers = {
   routing: QualifierDecision[]; candidates: QualifierCandidate[]; qualifiers: QualifierCandidate[];
   search: { beamWidth: number; maxDepth: number; pruned: boolean; exploredParents: string[]; supportThreshold: number };
 };
-type Path = { code: string; family: QualifierFamily; path: QualifierStep[]; logSum: number; count: number; terminal: boolean };
+type Path = { code: string; family: QualifierFamily; path: QualifierStep[]; logSum: number; count: number; terminal: boolean; sourceAnchorCount?: number };
 const bytes = (value: unknown) => new TextEncoder().encode(JSON.stringify(value)).length;
 const rank = (path: Path) => Math.exp(path.logSum / path.count);
 const yes = (raw: unknown) => z.object({ type: z.literal('noul'), noul: z.number().finite().min(0).max(1) }).parse(raw).noul;
@@ -71,7 +72,10 @@ export function qualifierBatches(state: EntryType, questions: Record<string, Que
 
 export async function refineQualifiers(state: BookState, subjects: string[], evaluate: SubjectEvaluator, reserve: () => Promise<boolean> = async () => true): Promise<DetailedQualifiers> {
   if (!subjects.length || subjects.length > 6 || new Set(subjects).size !== subjects.length || subjects.some(code => !subjectNode(code) || code.length < 2)) throw new Error('Supported canonical subjects are required for qualifiers.');
-  const result: DetailedQualifiers = { method: 'qualifier-beam-and-source-check-v1', evidenceMethod: 'source-facts-v1', version: QUALIFIER_VERSION, model: '', models: [], requests: 0, status: 'complete', needsReview: true, stoppedReason: '', subjectCodes: subjects,
+  const sourceAnchorCodes = new Set(state.samples.flatMap(sample => sourceAnchors(sample.text).map(anchor => anchor.key).filter(code => Boolean(qualifierNode(code)))));
+  const sourceAnchorCounts = new Map<string, number>();
+  for (const code of sourceAnchorCodes) for (const ancestor of qualifierAncestors(code)) sourceAnchorCounts.set(ancestor, (sourceAnchorCounts.get(ancestor) || 0) + 1);
+  const result: DetailedQualifiers = { method: 'qualifier-beam-source-anchor-v2', evidenceMethod: 'source-facts-v1', version: QUALIFIER_VERSION, model: '', models: [], requests: 0, status: 'complete', needsReview: true, stoppedReason: '', subjectCodes: subjects,
     applicability: {}, routing: [], candidates: [], qualifiers: [], search: { beamWidth: QUALIFIER_POLICY.beamWidth, maxDepth: QUALIFIER_POLICY.maxDepth, pruned: false, exploredParents: [], supportThreshold: QUALIFIER_POLICY.supportThreshold } };
   const bookState = qualifierState(state, subjects);
   const retainedBroader = new Map<string, Path>();
@@ -99,23 +103,31 @@ export async function refineQualifiers(state: BookState, subjects: string[], eva
     const broader = paths.filter(p => p.terminal && paths.some(d => d.code !== p.code && d.path.some(step => step.code === p.code)));
     for (const path of broader) retainedBroader.set(path.code, path);
     return QUALIFIER_FAMILIES.flatMap(family => {
-      const group = paths.filter(p => p.family === family && !broader.includes(p)).sort((a, b) => rank(b) - rank(a));
+      // Exact catalog-name matches keep a low-probability branch available for
+      // independent source and subject checks. This search priority is not a
+      // probability adjustment and can never assign a qualifier by itself.
+      const group = paths.filter(p => p.family === family && !broader.includes(p)).sort((a, b) => (b.sourceAnchorCount || 0) - (a.sourceAnchorCount || 0) || rank(b) - rank(a));
       if (group.length > QUALIFIER_POLICY.beamWidth) result.search.pruned = true;
       return group.slice(0, QUALIFIER_POLICY.beamWidth);
     });
   }
   try {
-    const roots = await ask(bookState, Object.fromEntries(QUALIFIER_FAMILIES.map(family => [`family_${family}`, noul({
-      question: `Does at least one assignable qualifier in Thema ${family}: ${qualifierNode(family)!.CodeDescription} meaningfully refine at least one supplied subject of this book? Several dimensions may apply.`, scope: qualifierScope(family), rule: QUALIFIER_RULES[family], sourceRule: QUALIFIER_SOURCE_RULE,
-    })])));
+    const roots = await ask(bookState, Object.fromEntries(QUALIFIER_FAMILIES.map(family => {
+      const hints = [...sourceAnchorCodes].filter(code => qualifierAncestors(code).includes(family)).sort((a, b) => b.length - a.length || a.localeCompare(b)).slice(0, 12);
+      const note = hints.length ? ` Exact official qualifier names found in the excerpts (retrieval leads only; verify relevance and source passages): ${hints.map(code => `${code} ${qualifierNode(code)!.CodeDescription}`).join('; ')}.` : '';
+      return [`family_${family}`, noul({
+      question: `Does at least one assignable qualifier in Thema ${family}: ${qualifierNode(family)!.CodeDescription} meaningfully refine at least one supplied subject of this book? Several dimensions may apply.${note}`, scope: qualifierScope(family), rule: QUALIFIER_RULES[family], sourceRule: QUALIFIER_SOURCE_RULE,
+    })];
+    })));
     let beam: Path[] = QUALIFIER_FAMILIES.flatMap(family => {
       const p = yes(roots[`family_${family}`]); result.applicability[family] = p;
-      return p >= QUALIFIER_POLICY.applicabilityThreshold ? [{ code: family, family, path: [], logSum: Math.log(Math.max(p, 1e-12)), count: 1, terminal: false }] : [];
+      const hintCount = sourceAnchorCounts.get(family) || 0;
+      return p >= QUALIFIER_POLICY.applicabilityThreshold || hintCount ? [{ code: family, family, path: [], logSum: Math.log(Math.max(p, 1e-12)), count: 1, terminal: false, sourceAnchorCount: hintCount }] : [];
     });
     for (let depth = 1; depth < QUALIFIER_POLICY.maxDepth; depth++) {
       const active = beam.filter(p => !p.terminal && qualifierChildren(p.code).length);
       if (!active.length) break;
-      const groups = active.flatMap(p => qualifierQuestionGroups(p.code, bookState));
+      const groups = active.flatMap(p => qualifierQuestionGroups(p.code, bookState, sourceAnchorCodes));
       const answers = await ask(bookState, Object.fromEntries(groups.map(g => [g.id, g.question])));
       const next = beam.filter(p => p.terminal);
       for (const path of active) {
@@ -126,9 +138,10 @@ export async function refineQualifiers(state: BookState, subjects: string[], eva
           result.routing.push({ ...answer, id: group.id, parent: group.parent, group: group.group });
           noneProbabilities.push(answer.probabilities[QUALIFIER_NONE]);
           for (const [code, p] of Object.entries(answer.probabilities)) {
-            if (code === QUALIFIER_NONE || p < QUALIFIER_POLICY.minimumEdge) continue;
+            const sourceAnchorCount = sourceAnchorCounts.get(code) || 0;
+            if (code === QUALIFIER_NONE || (p < QUALIFIER_POLICY.minimumEdge && !sourceAnchorCount)) continue;
             hasChild = true;
-            next.push({ code, family: path.family, terminal: !qualifierChildren(code).length, path: [...path.path, { code, heading: qualifierNode(code)!.CodeDescription, decisionId: group.id }], logSum: path.logSum + Math.log(p), count: path.count + 1 });
+            next.push({ code, family: path.family, terminal: !qualifierChildren(code).length, path: [...path.path, { code, heading: qualifierNode(code)!.CodeDescription, decisionId: group.id }], logSum: path.logSum + Math.log(Math.max(p, 1e-12)), count: path.count + 1, sourceAnchorCount });
           }
         }
         // No-match is local to each partition. Retain a supported broader route

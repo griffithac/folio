@@ -5,7 +5,6 @@ import { qualifierAncestors, qualifierAssignable, qualifierChildren, qualifierNo
 import { refineQualifiers, qualifierState, qualifierSubjectAllowed, QUALIFIER_POLICY, QUALIFIER_NO_PASSAGE } from '../lib/qualifier-search.ts';
 import { validateQualifiers } from '../lib/qualifier-validation.ts';
 import { refineSubjects, type SubjectEvaluator } from '../lib/subject-search.ts';
-import { childrenOf, subjectNode } from '../lib/hierarchy.ts';
 import { sharedBookSchema } from '../lib/shared.ts';
 const state = { title: 'Ignored title', pageCount: 1, samples: [{ page: 1, text: 'This course teaches French for Cambridge English examinations. Ancient Egypt and its architecture are compared with California. Christmas celebrations are described in nineteenth-century Cambridge. Impressionism is the artistic style studied in this guide. '.repeat(3) }] };
 function evaluator(targets: string[], options: { noPassage?: boolean; noLink?: boolean; noQuote?: boolean; noSupport?: boolean } = {}): SubjectEvaluator {
@@ -15,7 +14,9 @@ function evaluator(targets: string[], options: { noPassage?: boolean; noLink?: b
     const answers = Object.fromEntries(Object.entries(payload.questions).map(([id, q]) => {
       assert.ok(Buffer.byteLength(JSON.stringify(payload.state)) + Buffer.byteLength(JSON.stringify(q)) <= 30000);
       if (q.type === 'noul') {
-        const p = id.startsWith('family_') ? (routes.some(r => r[0] === id.slice(7)) ? .96 : .01) : id.startsWith('link_') ? (options.noLink ? .05 : .96) : id.startsWith('quote_') ? (options.noQuote ? .05 : .96) : options.noSupport ? .05 : .96;
+        const candidateCode = id.startsWith('support_') ? id.slice(8) : id.startsWith('link_') ? id.slice(5).split('_')[0] : id.startsWith('quote_') ? id.slice(6) : id.startsWith('purpose_') ? id.slice(8) : '';
+        const matchedTarget = candidateCode && routes.some(r => r.includes(candidateCode));
+        const p = id.startsWith('family_') ? (routes.some(r => r[0] === id.slice(7)) ? .96 : .01) : id.startsWith('link_') ? (options.noLink ? .05 : matchedTarget ? .96 : .01) : id.startsWith('quote_') ? (options.noQuote ? .05 : matchedTarget ? .96 : .01) : id.startsWith('purpose_') ? (matchedTarget ? .96 : .01) : options.noSupport ? .05 : matchedTarget ? .96 : .01;
         return [id, { type: 'noul', noul: p }];
       }
       assert.equal(q.type, 'choice');
@@ -47,6 +48,25 @@ test('every official menu retains full scope and all children within UTF-8 conte
   }
   const instructions = JSON.stringify(qualifierQuestionGroups('5A', boundedState)[0].question);
   assert.ok(instructions.includes('DO NOT USE: with Y* codes')); assert.ok(instructions.includes('5AR, 5AX and 5AZ'));
+});
+test('exact official-name matches surface their branch and preserve a low-probability route for independent checks', async () => {
+  const location = 'The ship arrived at Whitby, where the solicitor received the cargo. '.repeat(12);
+  const placeState = { title: 'Place fixture', pageCount: 1, samples: [{ page: 1, text: location }] };
+  const hints = new Set(['1DDU-GB-EYKW']);
+  const northWest = qualifierQuestionGroups('1D', qualifierState(placeState, ['FKC']), hints).flatMap(g => Object.entries(g.question.criteria)).find(([code]) => code === '1DD')?.[1];
+  assert.match(northWest || '', /1DDU-GB-EYKW Whitby/);
+  const standard = evaluator(['1DDU-GB-EYKW']);
+  const result = await refineQualifiers(placeState, ['FKC'], async payload => {
+    const response = await standard(payload);
+    for (const [id, question] of Object.entries(payload.questions)) if (id.startsWith('branch_1D_') && question.type === 'choice') {
+      const keys = Object.keys(question.criteria); if (keys.includes('1DD') && keys.includes('1DT')) response.answers[id] = { type: 'choice', choice: '1DT', confidence: .68, probabilities: Object.fromEntries(keys.map(key => [key, key === '1DT' ? .68 : key === '1DD' ? .04 : key === QUALIFIER_NONE ? .28 : 0])) };
+    }
+    return response;
+  });
+  assert.equal(result.status, 'complete', result.stoppedReason);
+  assert.ok(result.candidates.some(c => c.code === '1DDU-GB-EYKW'));
+  assert.ok(result.qualifiers.some(c => c.code === '1DDU-GB-EYKW'));
+  validateQualifiers(result, placeState, ['FKC']);
 });
 test('all six dimensions and multiple places and periods are source-backed independent suggestions', async () => {
   const codes = ['1DDU-GB-EACD', '1KBB-US-WPC', '2ADF', '3MNB', '3MNQ', '4LEA', '5HPD', '6JA'];
@@ -104,8 +124,9 @@ test('official age compatibility overrides a model yes and permits explicit adul
   const ages = await refineQualifiers(state, ['YFB'], evaluator(['5AK', '5AL'])); assert.equal(ages.qualifiers.length, 1); assert.equal(ages.search.pruned, true); validateQualifiers(ages, state, ['YFB']);
 });
 test('no family evidence requires one request; known parent with no narrower evidence can be assigned', async () => {
-  const none = await refineQualifiers(state, ['CF'], evaluator([])); assert.equal(none.requests, 1); assert.equal(none.status, 'complete'); validateQualifiers(none, state, ['CF']);
-  const parent = await refineQualifiers(state, ['CF'], evaluator(['2ADF'])); assert.equal(parent.qualifiers[0].code, '2ADF'); assert.ok(parent.routing.some(d => d.parent === '2ADF' && d.choice === QUALIFIER_NONE));
+  const noAnchorState = { title: 'No-name fixture', pageCount: 1, samples: [{ page: 1, text: 'A baker makes bread each morning. Neighbors meet in the market, share a meal, and walk home together. '.repeat(6) }] };
+  const none = await refineQualifiers(noAnchorState, ['CF'], evaluator([])); assert.equal(none.requests, 1); assert.equal(none.status, 'complete'); validateQualifiers(none, noAnchorState, ['CF']);
+  const parent = await refineQualifiers(noAnchorState, ['CF'], evaluator(['2ADF'])); assert.equal(parent.qualifiers[0].code, '2ADF'); assert.ok(parent.routing.some(d => d.parent === '2ADF' && d.choice === QUALIFIER_NONE));
 });
 test('a weak narrower branch cannot erase a source-backed broader qualifier', async () => {
   const good = evaluator(['5HPDA']);
@@ -178,8 +199,8 @@ test('public persistence rejects forged heading, crossed path, fabricated quote,
     (q: typeof qualifiers) => { q.candidates[0].citation!.text = 'Invented quotation'; },
     (q: typeof qualifiers) => { q.routing[0].probabilities = { invented: 1 }; },
     (q: typeof qualifiers) => { q.subjectCodes = ['AB']; },
-    (q: typeof qualifiers) => { q.candidates[0].subjectLinks = { CF: .2 }; },
+    (q: typeof qualifiers) => { q.candidates.find(c => c.code === '2ADF')!.subjectLinks = { CF: .2 }; },
   ];
-  for (const edit of edits) { const invalid = structuredClone(book); edit(invalid.qualifiers); assert.equal(sharedBookSchema.safeParse(invalid).success, false); }
+  for (const [index, edit] of edits.entries()) { const invalid = structuredClone(book); edit(invalid.qualifiers); assert.equal(sharedBookSchema.safeParse(invalid).success, false, `tampering edit ${index} should be rejected`); }
   const reviewed = structuredClone(book); reviewed.qualifiers.reviewed = true; assert.equal(sharedBookSchema.safeParse(reviewed).success, true); assert.deepEqual(reviewed.qualifiers.routing, qualifiers.routing);
 });

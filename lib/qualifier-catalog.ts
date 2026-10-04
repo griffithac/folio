@@ -32,7 +32,7 @@ export const QUALIFIER_RULES: Record<QualifierFamily, string> = {
   '6': 'Identify a supported style of artistic or creative expression under the official scope, not an invented mood or genre tag. Letter-group placeholders only route to actual styles.',
 };
 const bytes = (value: unknown) => new TextEncoder().encode(JSON.stringify(value)).length;
-export function qualifierQuestionGroups(parent: string, state: EntryType) {
+export function qualifierQuestionGroups(parent: string, state: EntryType, sourceAnchorCodes: ReadonlySet<string> = new Set()) {
   const node = qualifierNode(parent); if (!node) throw new Error('Invalid qualifier parent.');
   const instructions = { question: `Select the best supported immediate child of Thema ${parent}: ${node.CodeDescription} among these options. Choose ${QUALIFIER_NONE} if no option in this group is supported, including when a known qualifier is outside this group. Prefer appropriate specificity and respect each code's scope.`, scope: qualifierScope(parent), rule: QUALIFIER_RULES[parent[0] as QualifierFamily], sourceRule: QUALIFIER_SOURCE_RULE };
   const none = { [QUALIFIER_NONE]: 'No supported qualifier in this option group.' };
@@ -41,7 +41,9 @@ export function qualifierQuestionGroups(parent: string, state: EntryType) {
   for (const child of qualifierChildren(parent)) {
     const descendants = qualifierChildren(child.CodeValue);
     const routing = `${qualifierAssignable(child.CodeValue) ? '' : ' Routing only.'}${descendants.length ? ` Immediate descendants: ${descendants.map(n => n.CodeDescription).join('; ')}.` : ''}`;
-    const description = child.CodeDescription + routing + (child.CodeNotes ? ` Scope: ${String(child.CodeNotes)}` : '');
+    const sourceHints = [...sourceAnchorCodes].filter(code => qualifierAncestors(code).includes(child.CodeValue)).sort((a, b) => b.length - a.length || a.localeCompare(b)).slice(0, 8);
+    const hintText = sourceHints.length ? ` Exact official qualifier names found in excerpts (retrieval leads only; verify relevance and source passages): ${sourceHints.map(code => `${code} ${qualifierNode(code)!.CodeDescription}`).join('; ')}.` : '';
+    const description = child.CodeDescription + routing + (child.CodeNotes ? ` Scope: ${String(child.CodeNotes)}` : '') + hintText;
     const next = { ...pending, [child.CodeValue]: description };
     if (Object.keys(next).length > 254 || bytes(state) + bytes(question(next)) > 30000) {
       if (!Object.keys(pending).length) throw new Error('Qualifier option exceeds the context budget.');

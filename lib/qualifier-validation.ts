@@ -2,6 +2,7 @@ import { z } from 'zod';
 import type { BookState } from './classification.ts';
 import { sourcePassages } from './subject-search.ts';
 import { qualifierFacts } from './qualifier-facts.ts';
+import { sourceAnchors } from './source-sampling.ts';
 import { QUALIFIER_FAMILIES, QUALIFIER_NONE, QUALIFIER_VERSION, qualifierAncestors, qualifierAssignable, qualifierNode, qualifierQuestionGroups, parseQualifierChoice, qualifierChoiceSchema } from './qualifier-catalog.ts';
 import { QUALIFIER_POLICY, QUALIFIER_NO_PASSAGE, qualifierState, qualifierSubjectAllowed, type DetailedQualifiers } from './qualifier-search.ts';
 const probability = z.number().finite().min(0).max(1);
@@ -18,7 +19,7 @@ const candidate = z.object({
   citation: z.object({ page: z.number().int().min(1).max(20000), start: z.number().int().min(0), end: z.number().int().min(1), text: z.string().min(1).max(480), supportProbability: probability }).strict().optional(),
 }).strict();
 export const detailedQualifiersSchema = z.object({
-  method: z.literal('qualifier-beam-and-source-check-v1'), version: z.literal(QUALIFIER_VERSION), model: z.string().max(100), models: z.array(z.string().min(1).max(100)).max(2),
+  method: z.enum(['qualifier-beam-and-source-check-v1', 'qualifier-beam-source-anchor-v2']), version: z.literal(QUALIFIER_VERSION), model: z.string().max(100), models: z.array(z.string().min(1).max(100)).max(2),
   evidenceMethod: z.literal('source-facts-v1').optional(),
   requests: z.number().int().min(0).max(QUALIFIER_POLICY.maxRequests), status: z.enum(['complete', 'partial', 'unavailable']), needsReview: z.boolean(), reviewed: z.boolean().optional(), stoppedReason: z.string().min(1).max(400),
   subjectCodes: z.array(z.string().min(2).max(6)).min(1).max(6), applicability: z.record(z.enum(QUALIFIER_FAMILIES), probability),
@@ -29,6 +30,8 @@ export const detailedQualifiersSchema = z.object({
 export function validateQualifiers(raw: unknown, state: Pick<BookState, 'samples' | 'pageCount'>, subjects: string[]): asserts raw is DetailedQualifiers {
   const detail = detailedQualifiersSchema.parse(raw);
   const fail = (message: string): never => { throw new Error(message); };
+  const sourceAnchorCodes = new Set(state.samples.flatMap(sample => sourceAnchors(sample.text).map(anchor => anchor.key).filter(code => Boolean(qualifierNode(code)))));
+  const sourceAnchorsUnder = (code: string) => [...sourceAnchorCodes].some(anchor => qualifierAncestors(anchor).includes(code));
   if (JSON.stringify(detail.subjectCodes) !== JSON.stringify(subjects) || new Set(subjects).size !== subjects.length) fail('Qualifiers require the same supported subjects.');
   if (new Set(detail.models).size !== detail.models.length || (detail.model && !detail.models.includes(detail.model)) || (detail.status === 'complete' && (!detail.model || detail.models.length !== 1 || !detail.requests))) fail('Invalid qualifier model provenance.');
   if (!detail.needsReview || (detail.status !== 'complete' && (detail.qualifiers.length || detail.reviewed))) fail('Partial qualifiers require review and cannot be assigned.');
@@ -38,10 +41,12 @@ export function validateQualifiers(raw: unknown, state: Pick<BookState, 'samples
   const ledger = new Map(detail.routing.map(d => [d.id, d]));
   if (ledger.size !== detail.routing.length) fail('Duplicate qualifier decisions.');
   for (const decision of detail.routing) {
-    const group = qualifierQuestionGroups(decision.parent, questionState).find(g => g.group === decision.group);
+    const routeHints = detail.method === 'qualifier-beam-source-anchor-v2' ? sourceAnchorCodes : undefined;
+    const group = qualifierQuestionGroups(decision.parent, questionState, routeHints).find(g => g.group === decision.group);
     if (!group || group.id !== decision.id || !detail.search.exploredParents.includes(decision.parent)) fail('Invalid qualifier routing group.');
     parseQualifierChoice(decision, Object.keys(group!.question.criteria));
-    if ((detail.applicability[decision.parent[0] as typeof QUALIFIER_FAMILIES[number]] ?? 0) < QUALIFIER_POLICY.applicabilityThreshold) fail('An inapplicable family cannot be searched.');
+    const family = decision.parent[0] as typeof QUALIFIER_FAMILIES[number];
+    if ((detail.applicability[family] ?? 0) < QUALIFIER_POLICY.applicabilityThreshold && !(detail.method === 'qualifier-beam-source-anchor-v2' && sourceAnchorsUnder(family))) fail('An inapplicable family cannot be searched.');
   }
   const passages = sourcePassages({ title: 'Source evidence', ...state });
   const passageKeys = [...passages.map(p => p.id), QUALIFIER_NO_PASSAGE];
@@ -54,7 +59,7 @@ export function validateQualifiers(raw: unknown, state: Pick<BookState, 'samples
     if (JSON.stringify(c.path.map(p => p.code)) !== JSON.stringify(ancestors)) fail('Qualifier path must follow official parent relationships.');
     for (let i = 0; i < c.path.length; i++) {
       const step = c.path[i], decision = ledger.get(step.decisionId);
-      if (step.heading !== qualifierNode(step.code)?.CodeDescription || !decision || decision.parent !== (i ? c.path[i - 1].code : c.family) || (decision.probabilities[step.code] ?? 0) < QUALIFIER_POLICY.minimumEdge || step.code === QUALIFIER_NONE) fail('Qualifier path must match its recorded decisions.');
+      if (step.heading !== qualifierNode(step.code)?.CodeDescription || !decision || decision.parent !== (i ? c.path[i - 1].code : c.family) || ((decision.probabilities[step.code] ?? 0) < QUALIFIER_POLICY.minimumEdge && !(detail.method === 'qualifier-beam-source-anchor-v2' && sourceAnchorsUnder(step.code))) || step.code === QUALIFIER_NONE) fail('Qualifier path must match its recorded decisions.');
     }
     if (Object.keys(c.subjectLinks).some(s => !subjects.includes(s)) || new Set(c.appliesTo).size !== c.appliesTo.length) fail('Invalid qualifier subject links.');
     const expectedLinks = subjects.filter(s => qualifierSubjectAllowed(c.code, s) && (c.subjectLinks[s] ?? 0) >= QUALIFIER_POLICY.supportThreshold);
