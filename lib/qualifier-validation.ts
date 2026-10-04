@@ -1,24 +1,29 @@
 import { z } from 'zod';
 import type { BookState } from './classification.ts';
 import { sourcePassages } from './subject-search.ts';
+import { qualifierFacts } from './qualifier-facts.ts';
 import { QUALIFIER_FAMILIES, QUALIFIER_NONE, QUALIFIER_VERSION, qualifierAncestors, qualifierAssignable, qualifierNode, qualifierQuestionGroups, parseQualifierChoice, qualifierChoiceSchema } from './qualifier-catalog.ts';
 import { QUALIFIER_POLICY, QUALIFIER_NO_PASSAGE, qualifierState, qualifierSubjectAllowed, type DetailedQualifiers } from './qualifier-search.ts';
 const probability = z.number().finite().min(0).max(1);
 const code = z.string().min(2).max(14).refine(qualifierAssignable);
+const calendarYear = z.object({ year: z.number().int().min(1).max(999999), era: z.enum(['BCE', 'CE']) }).strict();
+const factsSchema = z.object({ method: z.literal('source-facts-v1'), range: z.object({ start: calendarYear, end: calendarYear }).strict().optional(), matches: z.array(z.object({ kind: z.enum(['year', 'name']), page: z.number().int().min(1).max(20000), start: z.number().int().min(0), end: z.number().int().min(1), text: z.string().min(1).max(500), year: z.number().int().min(1).max(999999).optional(), era: z.enum(['BCE', 'CE']).optional(), eraBasis: z.enum(['explicit', 'shared-range', 'unmarked']).optional(), alias: z.string().max(1000).optional() }).strict()).max(12), matchCount: z.number().int().min(0).max(50000), truncated: z.boolean() }).strict();
 const candidate = z.object({
   code, heading: z.string().max(1000), family: z.enum(QUALIFIER_FAMILIES),
   path: z.array(z.object({ code: z.string().min(2).max(14), heading: z.string().max(1000), decisionId: z.string().max(80) }).strict()).min(1).max(9),
   rankingScore: probability, supportProbability: probability, subjectLinks: z.record(probability), appliesTo: z.array(z.string().max(6)).max(6),
   status: z.enum(['supported', 'insufficient-support', 'no-passage', 'unchecked']), passageSelection: qualifierChoiceSchema.optional(),
   explicitPurposeProbability: probability.optional(),
+  sourceFacts: factsSchema.optional(),
   citation: z.object({ page: z.number().int().min(1).max(20000), start: z.number().int().min(0), end: z.number().int().min(1), text: z.string().min(1).max(480), supportProbability: probability }).strict().optional(),
 }).strict();
 export const detailedQualifiersSchema = z.object({
   method: z.literal('qualifier-beam-and-source-check-v1'), version: z.literal(QUALIFIER_VERSION), model: z.string().max(100), models: z.array(z.string().min(1).max(100)).max(2),
+  evidenceMethod: z.literal('source-facts-v1').optional(),
   requests: z.number().int().min(0).max(QUALIFIER_POLICY.maxRequests), status: z.enum(['complete', 'partial', 'unavailable']), needsReview: z.boolean(), reviewed: z.boolean().optional(), stoppedReason: z.string().min(1).max(400),
   subjectCodes: z.array(z.string().min(2).max(6)).min(1).max(6), applicability: z.record(z.enum(QUALIFIER_FAMILIES), probability),
   routing: z.array(qualifierChoiceSchema.extend({ id: z.string().max(80), parent: z.string().min(1).max(14), group: z.number().int().min(0).max(254) }).strict()).max(512),
-  candidates: z.array(candidate).max(72), qualifiers: z.array(candidate).max(24),
+  candidates: z.array(candidate).max(QUALIFIER_POLICY.maxCandidates), qualifiers: z.array(candidate).max(QUALIFIER_POLICY.maxQualifiers),
   search: z.object({ beamWidth: z.literal(QUALIFIER_POLICY.beamWidth), maxDepth: z.literal(QUALIFIER_POLICY.maxDepth), pruned: z.boolean(), exploredParents: z.array(z.string().min(1).max(14)).max(216), supportThreshold: z.literal(QUALIFIER_POLICY.supportThreshold) }).strict(),
 }).strict();
 export function validateQualifiers(raw: unknown, state: Pick<BookState, 'samples' | 'pageCount'>, subjects: string[]): asserts raw is DetailedQualifiers {
@@ -42,6 +47,8 @@ export function validateQualifiers(raw: unknown, state: Pick<BookState, 'samples
   const passageKeys = [...passages.map(p => p.id), QUALIFIER_NO_PASSAGE];
   if (new Set(detail.candidates.map(c => c.code)).size !== detail.candidates.length) fail('Duplicate qualifier candidates.');
   for (const c of detail.candidates) {
+    if (detail.evidenceMethod && !c.sourceFacts) fail('Source facts are required for the assisted evidence method.');
+    if (c.sourceFacts && JSON.stringify(c.sourceFacts) !== JSON.stringify(qualifierFacts(c.code, state.samples))) fail('Source facts must exactly match code-computed source spans and official ranges.');
     if (c.heading !== qualifierNode(c.code)?.CodeDescription || c.family !== c.code[0] || c.path.at(-1)?.code !== c.code) fail('Invalid qualifier heading or path.');
     const ancestors = qualifierAncestors(c.code).slice(1);
     if (JSON.stringify(c.path.map(p => p.code)) !== JSON.stringify(ancestors)) fail('Qualifier path must follow official parent relationships.');

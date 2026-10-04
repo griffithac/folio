@@ -74,8 +74,28 @@ test('educational level cannot be assigned without explicit-purpose support', as
 });
 test('published live qualifier diagnostics preserve exact quotations and all raw assignment gates', async () => {
   const report = JSON.parse(await readFile(new URL('../public/qualifier-regressions.json', import.meta.url), 'utf8'));
-  assert.equal(report.cases.length, 8);
+  assert.equal(report.cases.length, 16);
   for (const row of report.cases) validateQualifiers(row.result, { pageCount: 1, samples: [{ page: 1, text: row.text }] }, row.subjects);
+});
+test('broader terminal routes cannot crowd distinct BCE and CE periods out of the search', async () => {
+  const good = evaluator(['3CTBE', '3KBFB']);
+  const routes: Record<string, Record<string, number>> = {
+    branch_3_0: { '3C': .14, '3K': .79 }, branch_3C_0: { '3CT': .21 }, branch_3K_0: { '3KB': .95 },
+    branch_3CT_0: { '3CTB': .78 }, branch_3KB_0: { '3KBF': .87 }, branch_3CTB_0: { '3CTBE': .66 }, branch_3KBF_0: { '3KBFB': .85 },
+  };
+  const result = await refineQualifiers(state, ['NH'], async p => {
+    const response = await good(p);
+    for (const [id, q] of Object.entries(p.questions)) if (routes[id] && q.type === 'choice') {
+      const values = routes[id], none = 1 - Object.values(values).reduce((sum, v) => sum + v, 0);
+      response.answers[id] = { type: 'choice', choice: Object.entries(values).sort((a, b) => b[1] - a[1])[0][0], confidence: .9, probabilities: Object.fromEntries(Object.keys(q.criteria).map(k => [k, k === QUALIFIER_NONE ? none : values[k] || 0])) };
+    }
+    return response;
+  });
+  assert.equal(result.status, 'complete', result.stoppedReason);
+  assert.deepEqual(new Set(result.qualifiers.map(c => c.code)), new Set(['3CTBE', '3KBFB']));
+  assert.ok(result.candidates.some(c => c.code === '3C'));
+  assert.ok(result.candidates.length <= QUALIFIER_POLICY.maxCandidates);
+  validateQualifiers(result, state, ['NH']);
 });
 test('official age compatibility overrides a model yes and permits explicit adult accessibility exceptions', async () => {
   assert.equal(qualifierSubjectAllowed('5AK', 'FBA'), false); assert.equal(qualifierSubjectAllowed('5AK', 'YFB'), true);
@@ -108,6 +128,25 @@ test('partition-local no-match does not discard a supported option in another gr
   const good = evaluator([target]);
   const result = await refineQualifiers(large, ['CJ'], good);
   assert.equal(result.status, 'complete', result.stoppedReason); assert.ok(result.qualifiers.some(c => c.code === target)); validateQualifiers(result, large, ['CJ']);
+});
+test('many retained candidates with Unicode quotations use bounded independent quote batches', async () => {
+  const large = { title: 'Context fixture', pageCount: 1, samples: [{ page: 1, text: '漢'.repeat(960) }] };
+  const targets = QUALIFIER_FAMILIES.flatMap(f => qualifierNodes.filter(n => n.CodeValue.startsWith(f) && qualifierAssignable(n.CodeValue) && !qualifierChildren(n.CodeValue).length).slice(0, 4).map(n => n.CodeValue));
+  const good = evaluator(targets); let quoteRequests = 0;
+  const result = await refineQualifiers(large, ['YFB', 'CF'], async p => {
+    if (Object.keys(p.questions).some(id => id.startsWith('quote_'))) quoteRequests++;
+    const response = await good(p);
+    for (const [id, q] of Object.entries(p.questions)) if (id.startsWith('branch_') && q.type === 'choice') {
+      const raw = response.answers[id] as { type: 'choice'; choice: string; confidence: number; probabilities: Record<string, number> };
+      if (raw.choice !== QUALIFIER_NONE) raw.probabilities = Object.fromEntries(Object.entries(raw.probabilities).map(([code, value]) => [code, code === QUALIFIER_NONE ? .1 : value * .9]));
+    }
+    return response;
+  });
+  assert.equal(result.status, 'complete', result.stoppedReason);
+  assert.ok(result.candidates.length >= 24); assert.ok(result.candidates.length <= QUALIFIER_POLICY.maxCandidates);
+  assert.ok(result.qualifiers.length <= QUALIFIER_POLICY.maxQualifiers);
+  assert.ok(quoteRequests >= 2, 'The combined quotation state must be split.');
+  validateQualifiers(result, large, ['YFB', 'CF']);
 });
 test('failed upstream attempts count once, while failed verification keeps unassigned candidates for review', async () => {
   const network = await refineQualifiers(state, ['CF'], async () => { throw new Error('network'); }); assert.equal(network.requests, 1); assert.equal(network.status, 'partial'); validateQualifiers(network, state, ['CF']);

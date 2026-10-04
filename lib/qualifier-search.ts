@@ -3,10 +3,11 @@ import { z } from 'zod';
 import type { BookState } from './classification.ts';
 import { subjectNode } from './hierarchy.ts';
 import { sourcePassages, type SubjectEvaluator } from './subject-search.ts';
+import { qualifierFacts, type QualifierFacts } from './qualifier-facts.ts';
 import { QUALIFIER_FAMILIES, QUALIFIER_NONE, QUALIFIER_RULES, QUALIFIER_SOURCE_RULE, QUALIFIER_VERSION, qualifierAncestors, qualifierAssignable, qualifierChildren, qualifierNode, qualifierQuestionGroups, qualifierScope, parseQualifierChoice, type QualifierChoice, type QualifierFamily } from './qualifier-catalog.ts';
 
 // Pilot search and review policies; these are not calibrated accuracy guarantees.
-export const QUALIFIER_POLICY = { beamWidth: 4, maxDepth: 10, maxRequests: 36, minimumEdge: .08, applicabilityThreshold: .35, supportThreshold: .8 } as const;
+export const QUALIFIER_POLICY = { beamWidth: 4, maxDepth: 10, maxRequests: 36, maxCandidates: 72, maxQualifiers: 24, minimumEdge: .08, applicabilityThreshold: .35, supportThreshold: .8 } as const;
 export type QualifierStep = { code: string; heading: string; decisionId: string };
 export type QualifierDecision = QualifierChoice & { id: string; parent: string; group: number };
 export type QualifierCandidate = {
@@ -14,11 +15,13 @@ export type QualifierCandidate = {
   rankingScore: number; supportProbability: number; subjectLinks: Record<string, number>; appliesTo: string[];
   status: 'supported' | 'insufficient-support' | 'no-passage' | 'unchecked';
   explicitPurposeProbability?: number;
+  sourceFacts?: QualifierFacts;
   passageSelection?: QualifierChoice;
   citation?: { page: number; start: number; end: number; text: string; supportProbability: number };
 };
 export type DetailedQualifiers = {
   method: 'qualifier-beam-and-source-check-v1'; version: typeof QUALIFIER_VERSION;
+  evidenceMethod?: 'source-facts-v1';
   model: string; models: string[]; requests: number; status: 'complete' | 'partial' | 'unavailable';
   needsReview: boolean; reviewed?: boolean; stoppedReason: string;
   subjectCodes: string[]; applicability: Partial<Record<QualifierFamily, number>>;
@@ -30,6 +33,18 @@ const bytes = (value: unknown) => new TextEncoder().encode(JSON.stringify(value)
 const rank = (path: Path) => Math.exp(path.logSum / path.count);
 const yes = (raw: unknown) => z.object({ type: z.literal('noul'), noul: z.number().finite().min(0).max(1) }).parse(raw).noul;
 export const QUALIFIER_NO_PASSAGE = 'No supporting passage';
+function qualifierMeaning(code: string) {
+  const heading = qualifierNode(code)!.CodeDescription;
+  switch (code[0]) {
+    case '1': return `geographical coverage, narrative setting or legal jurisdiction in ${heading}`;
+    case '2': return `instruction or substantive discussion of ${heading}`;
+    case '3': return `narrated events or substantive historical content in ${heading}`;
+    case '4': return `educational material designed for ${heading.replace(/^For\s+/i, '')}`;
+    case '5': return code.startsWith('5A') ? `content explicitly intended or adapted for ${heading}` : `${heading} as a feature of the book's content`;
+    case '6': return `instruction, analysis or creative works concerning the ${heading.replace(/\s+style$/i, '')} style`;
+    default: throw new Error('Unknown qualifier dimension.');
+  }
+}
 export function qualifierState(state: Pick<BookState, 'samples' | 'pageCount'>, subjects: string[]): EntryType {
   return { pageCount: state.pageCount, samples: state.samples, subjects: subjects.map(code => ({ code, heading: subjectNode(code)!.CodeDescription })) };
 }
@@ -56,9 +71,10 @@ export function qualifierBatches(state: EntryType, questions: Record<string, Que
 
 export async function refineQualifiers(state: BookState, subjects: string[], evaluate: SubjectEvaluator, reserve: () => Promise<boolean> = async () => true): Promise<DetailedQualifiers> {
   if (!subjects.length || subjects.length > 6 || new Set(subjects).size !== subjects.length || subjects.some(code => !subjectNode(code) || code.length < 2)) throw new Error('Supported canonical subjects are required for qualifiers.');
-  const result: DetailedQualifiers = { method: 'qualifier-beam-and-source-check-v1', version: QUALIFIER_VERSION, model: '', models: [], requests: 0, status: 'complete', needsReview: true, stoppedReason: '', subjectCodes: subjects,
+  const result: DetailedQualifiers = { method: 'qualifier-beam-and-source-check-v1', evidenceMethod: 'source-facts-v1', version: QUALIFIER_VERSION, model: '', models: [], requests: 0, status: 'complete', needsReview: true, stoppedReason: '', subjectCodes: subjects,
     applicability: {}, routing: [], candidates: [], qualifiers: [], search: { beamWidth: QUALIFIER_POLICY.beamWidth, maxDepth: QUALIFIER_POLICY.maxDepth, pruned: false, exploredParents: [], supportThreshold: QUALIFIER_POLICY.supportThreshold } };
   const bookState = qualifierState(state, subjects);
+  const retainedBroader = new Map<string, Path>();
   async function ask(questionState: EntryType, questions: Record<string, Question>) {
     const answers: Record<string, unknown> = {};
     for (const payload of qualifierBatches(questionState, questions)) {
@@ -77,8 +93,13 @@ export async function refineQualifiers(state: BookState, subjects: string[], eva
     return answers;
   }
   function prune(paths: Path[]) {
+    // A broader terminal route and its narrower route describe the same branch.
+    // Keep the broader candidate for independent verification without letting it
+    // take a search slot from a distinct place, period or educational purpose.
+    const broader = paths.filter(p => p.terminal && paths.some(d => d.code !== p.code && d.path.some(step => step.code === p.code)));
+    for (const path of broader) retainedBroader.set(path.code, path);
     return QUALIFIER_FAMILIES.flatMap(family => {
-      const group = paths.filter(p => p.family === family).sort((a, b) => rank(b) - rank(a));
+      const group = paths.filter(p => p.family === family && !broader.includes(p)).sort((a, b) => rank(b) - rank(a));
       if (group.length > QUALIFIER_POLICY.beamWidth) result.search.pruned = true;
       return group.slice(0, QUALIFIER_POLICY.beamWidth);
     });
@@ -122,16 +143,27 @@ export async function refineQualifiers(state: BookState, subjects: string[], eva
     const passageKeys = [...passages.map(p => p.id), QUALIFIER_NO_PASSAGE];
     if (passageKeys.length > 255) throw new Error('Qualifier evidence options exceed the context budget.');
     const evidence: EntryType = { passages: Object.fromEntries(passages.map(p => [p.id, { page: p.page, text: p.text }])), subjects: subjects.map(code => ({ code, heading: subjectNode(code)!.CodeDescription })) };
-    const paths = beam.filter(p => qualifierAssignable(p.code));
+    const leaves = beam.filter(p => qualifierAssignable(p.code));
+    const broader = [...retainedBroader.values()].filter(p => qualifierAssignable(p.code) && !leaves.some(d => d.code === p.code)).sort((a, b) => rank(b) - rank(a));
+    const broaderLimit = QUALIFIER_FAMILIES.length * QUALIFIER_POLICY.beamWidth;
+    if (broader.length > broaderLimit) result.search.pruned = true;
+    const paths = [...leaves, ...broader.slice(0, broaderLimit)];
     async function checkPaths(paths: Path[]) {
-    const candidates: QualifierCandidate[] = paths.map(p => ({ code: p.code, heading: qualifierNode(p.code)!.CodeDescription, family: p.family, path: p.path, rankingScore: rank(p), supportProbability: 0, subjectLinks: {}, appliesTo: [], status: 'unchecked' }));
+    const candidates: QualifierCandidate[] = paths.map(p => ({ code: p.code, heading: qualifierNode(p.code)!.CodeDescription, family: p.family, path: p.path, rankingScore: rank(p), supportProbability: 0, subjectLinks: {}, appliesTo: [], status: 'unchecked', sourceFacts: qualifierFacts(p.code, state.samples) }));
     result.candidates.push(...candidates);
     const questions: Record<string, Question> = {};
     for (const candidate of candidates) {
-      const common = { scope: qualifierScope(candidate.code), rule: QUALIFIER_RULES[candidate.family], sourceRule: QUALIFIER_SOURCE_RULE };
-      questions[`support_${candidate.code}`] = noul({ question: `Does a substantial part of the supplied book content establish Thema qualifier ${candidate.code}: ${candidate.heading}? This is an independent, nonexclusive qualifier: other substantial parts may concern different places, periods, languages or courses. The qualifier need not describe the entire book. Mere mentions, metadata and outside knowledge are insufficient.`, ...common });
+      const common = { scope: qualifierScope(candidate.code), rule: QUALIFIER_RULES[candidate.family], sourceRule: QUALIFIER_SOURCE_RULE, sourceFacts: candidate.sourceFacts!, factsRule: 'These are exact source name matches and code-computed year/range matches, not classification decisions. Unmarked numbers are only possible years. Verify that the matched content is substantive, not metadata, incidental, negated or a printed instruction. Absence of a literal match does not prove absence of semantic evidence.' };
+      const meaning = qualifierMeaning(candidate.code);
+      questions[`support_${candidate.code}`] = noul({ question: `Does this book present or explicitly promise ${meaning} as part of its content?`, ...common }, {
+        true: 'This is presented or explicitly promised substantive content, even if other parts have different content. It is a genuine narrative, instructional or descriptive feature within the official scope.',
+        false: 'Only an incidental mention, metadata, a negation or a printed classification command, or the content does not establish this feature under the official scope.',
+      });
       questions[`passage_${candidate.code}`] = choice({ question: `Which exact passage directly supports Thema qualifier ${candidate.code}: ${candidate.heading}? Select ${QUALIFIER_NO_PASSAGE} if none establishes it.`, ...common }, Object.fromEntries([...passages.map(p => [p.id, `PDF page ${p.page}, offset ${p.start}`]), [QUALIFIER_NO_PASSAGE, 'No passage directly establishes this qualifier.']]));
-      for (const subject of subjects) questions[`link_${candidate.code}_${subject}`] = noul({ question: `Does Thema qualifier ${candidate.code}: ${candidate.heading} meaningfully refine a substantial part of this book's content classified as subject ${subject}: ${subjectNode(subject)!.CodeDescription}? Other substantial parts may have different qualifiers; this need not be the only qualifier. Respect usage restrictions; an unrelated topic or incidental mention does not refine this subject.`, subjectScope: String(subjectNode(subject)!.CodeNotes || ''), ...common });
+      for (const subject of subjects) questions[`link_${candidate.code}_${subject}`] = noul({ question: `Is ${meaning} valid additional detail for this book's ${subjectNode(subject)!.CodeDescription} content? This relationship can concern one substantial part of a mixed work.`, subjectScope: String(subjectNode(subject)!.CodeNotes || ''), ...common }, {
+        true: 'This detail describes the content assigned to this subject, respects the official usage restrictions, and is substantive even if other parts have different details.',
+        false: 'The detail is unrelated to this subject, only incidental or metadata, does not respect a usage restriction, or is not established by the book content.',
+      });
     }
     const checks = await ask(evidence, questions);
     for (const candidate of candidates) {
@@ -143,13 +175,29 @@ export async function refineQualifiers(state: BookState, subjects: string[], eva
       candidate.citation = passage ? { page: passage.page, start: passage.start, end: passage.end, text: passage.text, supportProbability: 0 } : undefined;
       candidate.status = passage ? 'insufficient-support' : 'no-passage';
     }
-    const quoteState: Record<string, EntryType> = {}, quoteQuestions: Record<string, Question> = {};
-    for (const candidate of candidates.filter(c => c.citation)) {
-      quoteState[candidate.code] = { text: candidate.citation!.text, page: candidate.citation!.page };
-      quoteQuestions[`quote_${candidate.code}`] = noul({ question: `Does a substantive statement or narrated event in the source quotation at \`${candidate.code}.text\` provide direct textual evidence for Thema qualifier ${candidate.code}: ${candidate.heading}? This is nonexclusive: other statements may describe different places, periods, languages or courses. Evaluate only this quotation, without other passages or outside knowledge.${candidate.family === '4' ? ' The quotation must establish this particular educational purpose, examination, curriculum or level. Generic course instruction, a teacher or a student does not by itself establish a particular age, level or curriculum.' : ''}`, scope: qualifierScope(candidate.code), rule: QUALIFIER_RULES[candidate.family], sourceRule: QUALIFIER_SOURCE_RULE });
-      if (candidate.family === '4') quoteQuestions[`purpose_${candidate.code}`] = noul({ question: `Does the quoted text at \`${candidate.code}.text\` EXPLICITLY identify its educational purpose as ${candidate.heading}? This tests what the text says, not what a course usually implies. If the heading names an age group, educational level, country-specific curriculum, institution or examination, the quotation must explicitly name or unambiguously state that particular purpose. Generic learners, students, teachers, courses and prose difficulty are insufficient to establish an unstated level or curriculum.`, sourceRule: QUALIFIER_SOURCE_RULE }, { true: 'The quotation explicitly states the particular educational purpose or names this examination/curriculum/level, or an unambiguous equivalent.', false: 'This specific purpose is not stated. It would have to be assumed from generic instruction, learner roles, prose difficulty or external knowledge.' });
+    let quoteState: Record<string, EntryType> = {}, quoteQuestions: Record<string, Question> = {};
+    const quotes: Record<string, unknown> = {};
+    async function flushQuotes() {
+      Object.assign(quotes, await ask(quoteState, quoteQuestions));
+      quoteState = {}; quoteQuestions = {};
     }
-    const quotes = await ask(quoteState, quoteQuestions);
+    for (const candidate of candidates.filter(c => c.citation)) {
+      const quotation = { text: candidate.citation!.text, page: candidate.citation!.page };
+      // Quote-only facts are recomputed from this quotation, never copied from
+      // other book passages. Pack independent quote checks adaptively so their
+      // state and each question remain within the single-question budget.
+      const facts = qualifierFacts(candidate.code, [quotation]);
+      const unit: Record<string, Question> = {};
+      unit[`quote_${candidate.code}`] = noul({ question: `Does the source quotation at \`${candidate.code}.text\` directly establish ${qualifierMeaning(candidate.code)}? Evaluate this quotation alone. Different details in other statements do not exclude this one.`, factsRule: `\`${candidate.code}.facts\` contains literal matches and computed range membership from this quotation only. These only help read this quotation, not judge substantive content; unmarked numbers may be quantities rather than years.`, scope: qualifierScope(candidate.code), rule: QUALIFIER_RULES[candidate.family], sourceRule: QUALIFIER_SOURCE_RULE }, {
+        true: 'A substantive statement or narrated event directly establishes this feature within the official scope, even if other statements concern different features.',
+        false: 'The quotation does not establish this feature, or only contains metadata, an incidental mention, a negation or a printed classification command.',
+      });
+      if (candidate.family === '4') unit[`purpose_${candidate.code}`] = noul({ question: `Does the quotation at \`${candidate.code}.text\` EXPLICITLY identify its educational purpose as ${candidate.heading}? This tests what the text says, not what a course usually implies. If the heading names an age group, educational level, country-specific curriculum, institution or examination, the quotation must explicitly name or unambiguously state that particular purpose. Generic learners, students, teachers, courses and prose difficulty are insufficient to establish an unstated level or curriculum.`, sourceRule: QUALIFIER_SOURCE_RULE }, { true: 'The quotation explicitly states the particular educational purpose or names this examination/curriculum/level, or an unambiguous equivalent.', false: 'This specific purpose is not stated. It would have to be assumed from generic instruction, learner roles, prose difficulty or external knowledge.' });
+      const nextState = { ...quoteState, [candidate.code]: { ...quotation, facts } }, nextQuestions = { ...quoteQuestions, ...unit };
+      if (Object.keys(quoteQuestions).length && Object.values(nextQuestions).some(q => bytes(nextState) + bytes(q) > 30000)) await flushQuotes();
+      quoteState[candidate.code] = { ...quotation, facts }; Object.assign(quoteQuestions, unit);
+    }
+    await flushQuotes();
     for (const candidate of candidates) {
       if (!candidate.citation) continue;
       candidate.citation.supportProbability = yes(quotes[`quote_${candidate.code}`]);
@@ -170,12 +218,18 @@ export async function refineQualifiers(state: BookState, subjects: string[], eva
         fallback.push({ code, family: c.family, path, logSum: Math.log(p) + probabilities.reduce((sum, value) => sum + Math.log(value), 0), count: path.length + 1, terminal: true });
       }
       if (!fallback.length) break;
-      await checkPaths(prune(fallback));
+      const next = prune(fallback), remaining = QUALIFIER_POLICY.maxCandidates - result.candidates.length;
+      if (next.length > remaining) result.search.pruned = true;
+      await checkPaths(next.sort((a, b) => rank(b) - rank(a)).slice(0, remaining));
     }
     result.qualifiers = result.candidates.filter(c => c.status === 'supported' && !result.candidates.some(d => d.status === 'supported' && d.code !== c.code && qualifierAncestors(d.code).includes(c.code)));
     // Thema asks for one base interest age, not competing starting-age claims.
     const baseAges = result.qualifiers.filter(c => c.code.startsWith('5A') && !['5AR', '5AX', '5AZ', '5AV'].includes(c.code)).sort((a, b) => b.rankingScore - a.rankingScore);
     if (baseAges.length > 1) { result.qualifiers = result.qualifiers.filter(c => !baseAges.slice(1).includes(c)); result.search.pruned = true; }
+    if (result.qualifiers.length > QUALIFIER_POLICY.maxQualifiers) {
+      result.qualifiers = result.qualifiers.sort((a, b) => b.rankingScore - a.rankingScore).slice(0, QUALIFIER_POLICY.maxQualifiers);
+      result.search.pruned = true;
+    }
     result.stoppedReason = result.qualifiers.length ? 'Source-backed qualifier suggestions are ready for review.' : 'No qualifier passed the source and subject-relationship checks in the supplied text.';
   } catch (error) {
     // Completed initial labels and subjects remain intact. Failure never becomes

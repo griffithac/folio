@@ -2,6 +2,16 @@
 import { ArrowRight, CheckCheck } from 'lucide-react';
 import type { Book } from '@/lib/catalog';
 import { QUALIFIER_FAMILIES, qualifierNode } from '@/lib/qualifier-catalog';
+import type { QualifierFacts } from '@/lib/qualifier-facts';
+function SourceFacts({ facts }: { facts: QualifierFacts }) {
+  const year = (value: { year: number; era: 'BCE' | 'CE' }) => `${value.year.toLocaleString()} ${value.era}`;
+  return <details><summary>Matched names and dates</summary>
+    <p className="fine-print">Literal matches help check the evidence. They can occur in metadata, quantities or incidental mentions, so they do not establish a qualifier by themselves.</p>
+    {facts.range && <p className="fine-print">Official calendar range: {year(facts.range.start)} to {year(facts.range.end)}</p>}
+    {facts.matches.length ? <ul>{facts.matches.map((match, i) => <li key={`${match.page}-${match.start}-${match.kind}-${i}`}><q>{match.text}</q> · PDF page {match.page}{match.kind === 'year' ? ` · ${match.year} ${match.era} (${match.eraBasis === 'unmarked' ? 'possible year; no era stated' : match.eraBasis === 'shared-range' ? 'era shared within the written range' : 'era explicitly stated'})` : ` · matches official name or alias “${match.alias}”`}</li>)}</ul> : <p className="fine-print">No literal match. Other wording in the source may still support this qualifier.</p>}
+    {facts.truncated && <p className="fine-print">Showing {facts.matches.length} of {facts.matchCount} literal matches.</p>}
+  </details>;
+}
 export default function QualifierDetails({ book, busy, onRefine, onSave }: { book: Book; busy: boolean; onRefine: () => void; onSave: (book: Book) => Promise<boolean> }) {
   const detail = book.qualifiers;
   const subjects = book.detailedSubject?.subjects || [];
@@ -20,8 +30,9 @@ export default function QualifierDetails({ book, busy, onRefine, onSave }: { boo
       <p role={detail.status !== 'complete' ? 'status' : undefined}>{detail.stoppedReason}{detail.reviewed ? ' Approved in the shared workspace.' : ' Human review recommended.'}</p>
       <details><summary>Qualifier search and source checks</summary><p>The search checks all six dimensions. Its bounded branches and option groups can miss relevant qualifiers. Search ranks compare paths; support percentages are Jev yes probabilities, not independently validated accuracy.</p>
         <p>{detail.status} · {detail.requests} requests · {detail.model || 'No completed response'} · {detail.version}{detail.search.pruned ? ' · Alternatives pruned' : ''}</p>
+        <p className="fine-print">{detail.evidenceMethod ? 'This run also checked literal official names and calendar ranges against the saved source text.' : 'This saved run predates the additional name and date checks. Refine qualifiers again to use those checks.'}</p>
         <h5>Dimension applicability</h5>{QUALIFIER_FAMILIES.map(f => <div className="probability" key={f}><span>{qualifierNode(f)!.CodeDescription}</span><b>{detail.applicability[f] === undefined ? 'Not completed' : `${Math.round(detail.applicability[f]! * 100)}% yes`}</b></div>)}
-        <h5>Candidates</h5>{detail.candidates.map(c => <div key={c.code}><p><b>{c.code} · {c.heading}</b> · {c.status.replaceAll('-', ' ')}</p><p className="fine-print">Rank {c.rankingScore.toFixed(3)} · book {Math.round(c.supportProbability * 100)}% · passage {c.citation ? `${Math.round(c.citation.supportProbability * 100)}%` : 'none'}</p>{Object.entries(c.subjectLinks).map(([code, p]) => <div className="probability" key={code}><span>Refines {code} · {subjects.find(s => s.code === code)?.heading}</span><b>{Math.round(p * 100)}% yes</b></div>)}{c.citation && <blockquote>{c.citation.text}</blockquote>}</div>)}
+        <h5>Candidates</h5>{detail.candidates.map(c => <div key={c.code}><p><b>{c.code} · {c.heading}</b> · {c.status.replaceAll('-', ' ')}</p><p className="fine-print">Rank {c.rankingScore.toFixed(3)} · book {Math.round(c.supportProbability * 100)}% · passage {c.citation ? `${Math.round(c.citation.supportProbability * 100)}%` : 'none'}{c.explicitPurposeProbability === undefined ? '' : ` · explicit purpose ${Math.round(c.explicitPurposeProbability * 100)}%`}</p>{Object.entries(c.subjectLinks).map(([code, p]) => <div className="probability" key={code}><span>Refines {code} · {subjects.find(s => s.code === code)?.heading}</span><b>{Math.round(p * 100)}% yes</b></div>)}{c.citation && <blockquote>{c.citation.text}</blockquote>}{c.sourceFacts && <SourceFacts facts={c.sourceFacts} />}</div>)}
         <details><summary>All routing distributions</summary>{detail.routing.map(d => <div key={d.id}><p><b>{d.parent} · {qualifierNode(d.parent)?.CodeDescription}</b> · option group {d.group + 1} · selected {d.choice} · {Math.round(d.confidence * 100)}% Choice confidence</p>{Object.entries(d.probabilities).sort((a, b) => b[1] - a[1]).map(([code, p]) => <div className="probability" key={code}><span>{code} · {qualifierNode(code)?.CodeDescription || code}</span><b>{Math.round(p * 100)}%</b></div>)}</div>)}</details>
       </details>
       {detail.status === 'complete' && detail.qualifiers.length > 0 && !detail.reviewed && <button className="secondary-button" disabled={busy} onClick={() => void onSave({ ...book, qualifiers: { ...detail, reviewed: true } })}><CheckCheck size={15} /> Approve qualifier suggestions</button>}
