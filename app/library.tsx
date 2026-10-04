@@ -29,12 +29,13 @@ function Cover({ book, small = false }: { book: Book; small?: boolean }) {
 
 function Dialog({ title, onClose, children, wide = false }: { title: string; onClose: () => void; children: ReactNode; wide?: boolean }) {
   const panel = useRef<HTMLDivElement>(null);
+  const close = useRef(onClose); close.current = onClose;
   useEffect(() => {
     const previous = document.activeElement as HTMLElement | null;
     const overflow = document.body.style.overflow; document.body.style.overflow = 'hidden';
     panel.current?.querySelector<HTMLButtonElement>('button')?.focus();
     function keyboard(event: KeyboardEvent) {
-      if (event.key === 'Escape') onClose();
+      if (event.key === 'Escape') close.current();
       if (event.key === 'Tab') {
         const nodes = Array.from(panel.current?.querySelectorAll<HTMLElement>('button:not(:disabled), a[href], input, select, textarea, summary') || []);
         if (!nodes.length) return;
@@ -45,7 +46,7 @@ function Dialog({ title, onClose, children, wide = false }: { title: string; onC
     }
     document.addEventListener('keydown', keyboard);
     return () => { document.body.style.overflow = overflow; document.removeEventListener('keydown', keyboard); previous?.focus(); };
-  }, [onClose]);
+  }, []);
   return <div className="dialog-backdrop" onMouseDown={event => { if (event.target === event.currentTarget) onClose(); }}>
     <div className={`dialog ${wide ? 'wide' : ''}`} role="dialog" aria-modal="true" aria-label={title} ref={panel}>
       <div className="dialog-heading"><h2>{title}</h2><button className="icon-button" aria-label="Close dialog" onClick={onClose}><X size={20} /></button></div>{children}
