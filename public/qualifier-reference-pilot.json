@@ -1,0 +1,18 @@
+{
+  "version": "qualifier-reference-pilot-v1",
+  "notes": "Developer crosswalk from the catalog's subject headings to exact official Thema 1.6 headings. Uses catalog subjects, not the automatically generated summary or publication date. Partial, work-level development references awaiting independent review of the uploaded edition. Does not establish exhaustive coverage, expert accuracy, or subject relationships.",
+  "references": [
+    {
+      "title": "Dracula",
+      "sourceName": "Project Gutenberg catalog subject headings; provisional Thema place crosswalk",
+      "sourceUrl": "https://www.gutenberg.org/ebooks/345",
+      "family": "1",
+      "coverage": "partial",
+      "codes": ["1DXR-RO-ZT", "1DDU-GB-EYKW"],
+      "mappings": [
+        { "sourceHeading": "Transylvania (Romania) -- Fiction", "code": "1DXR-RO-ZT", "heading": "Transylvania", "codeSourceUrl": "https://ns.editeur.org/thema/en/1DXR-RO-ZT" },
+        { "sourceHeading": "Whitby (England) -- Fiction", "code": "1DDU-GB-EYKW", "heading": "Whitby", "codeSourceUrl": "https://ns.editeur.org/thema/en/1DDU-GB-EYKW" }
+      ]
+    }
+  ]
+}

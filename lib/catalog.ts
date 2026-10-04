@@ -67,6 +67,13 @@ export type ReferenceLabels = {
   scope: 'work' | 'edition'; edition: string; notes: string;
   labels: { detailedSubject?: string; genre?: string; subcategory?: string; language?: string; readingLevel?: string; timePeriod?: string };
   subjectReference?: { codes: string[]; coverage: 'complete' | 'partial'; taxonomyVersion: 'Thema 1.6' };
+  qualifierReference?: {
+    taxonomyVersion: 'Thema 1.6';
+    dimensions: Partial<Record<'1' | '2' | '3' | '4' | '5' | '6', {
+      codes: string[]; coverage: 'complete' | 'partial';
+      links?: { code: string; subjectCodes: string[]; coverage: 'complete' | 'partial' }[];
+    }>>;
+  };
   review?: {
     reviewer: string; reviewerRole: string; method: 'publisher-metadata' | 'catalog-metadata' | 'expert-review';
     reviewedAt: string; independent: boolean; editionMatched: boolean; modelBlind: boolean;

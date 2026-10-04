@@ -115,7 +115,7 @@ test('export contains a reproducible raw snapshot and keeps split selection and 
   const a = { ...book('a', ['UMX'], ['UMX']), corrections: { genre: 'Computing', language: 'French', readingLevel: 'High school' }, cover: 'private-to-the-library-thumbnail' };
   const b = { ...book('b', ['FKC'], ['FKW']), reference: { ...book('b', ['FKC']).reference!, split: 'development' as const } };
   const report = buildValidationReport([a, b], 'holdout', date);
-  assert.equal(report.version, 'reference-evaluation-v2'); assert.equal(report.exportedAt, date); assert.equal(report.split, 'holdout');
+  assert.equal(report.version, 'reference-evaluation-v3'); assert.equal(report.exportedAt, date); assert.equal(report.split, 'holdout');
   assert.equal(report.records.length, 1); assert.equal(report.records[0].id, 'a');
   assert.deepEqual(report.records[0].samples, a.samples); assert.deepEqual(report.records[0].reference?.review, review);
   assert.deepEqual(report.records[0].detailedSubject, a.detailedSubject);

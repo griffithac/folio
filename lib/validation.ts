@@ -1,12 +1,13 @@
 import { LEVELS, bookNeedsReview, type Book, type ReferenceLabels } from './catalog.ts';
 import { subjectNode } from './hierarchy.ts';
-import { hasIndependentReview, isSubjectAncestor, subjectAncestors } from './references.ts';
+import { hasIndependentReview, isSubjectAncestor, subjectAncestors, referenceSchema } from './references.ts';
+import { evaluateQualifiers } from './qualifier-evaluation.ts';
 
 export const DIMENSIONS = ['detailedSubject', 'genre', 'subcategory', 'language', 'readingLevel', 'timePeriod'] as const;
 export type Dimension = typeof DIMENSIONS[number];
 export type EvaluationSplit = 'all' | 'development' | 'holdout';
 export type ReferenceStatus = 'verified' | 'provisional';
-export const EVALUATION_VERSION = 'reference-evaluation-v2';
+export const EVALUATION_VERSION = 'reference-evaluation-v3';
 
 export function prediction(book: Book, dimension: Dimension): string | undefined {
   if (dimension === 'detailedSubject') return book.detailedSubject?.code;
@@ -104,6 +105,8 @@ export function evaluationWarnings(books: Book[]): string[] {
   const warnings: string[] = [];
   const legacy = books.filter(book => book.reference?.status === 'verified' && !hasIndependentReview(book.reference));
   if (legacy.length) warnings.push(`${legacy.length} reference(s) marked verified lack an independent review record and are excluded from verified metrics.`);
+  const invalidQualifiers = books.filter(book => book.reference?.qualifierReference && !referenceSchema.safeParse(book.reference).success);
+  if (invalidQualifiers.length) warnings.push(`${invalidQualifiers.length} qualifier reference(s) have invalid codes, relationships or edition/review provenance and are excluded from qualifier metrics.`);
   const notBlind = books.filter(book => book.reference && hasIndependentReview(book.reference) && book.reference.split === 'holdout' && !book.reference.review?.modelBlind);
   if (notBlind.length) warnings.push(`${notBlind.length} holdout reference(s) were reviewed with model predictions visible. This can bias agreement; they are not a blind labeling study.`);
   const groups = new Map<string, Set<string>>(), fingerprints = new Map<string, Set<string>>();
@@ -126,11 +129,12 @@ export function buildValidationReport(books: Book[], split: EvaluationSplit = 'a
     version: EVALUATION_VERSION, exportedAt, split, taxonomy: 'Thema 1.6',
     verified: evaluateReferences(books, 'verified', split), provisional: evaluateReferences(books, 'provisional', split),
     verifiedSubjects: evaluateSubjects(books, 'verified', split), provisionalSubjects: evaluateSubjects(books, 'provisional', split),
+    verifiedQualifiers: evaluateQualifiers(books, 'verified', split), provisionalQualifiers: evaluateQualifiers(books, 'provisional', split),
     warnings: evaluationWarnings(books),
     records: selected.map(book => ({
       id: book.id, hash: book.hash, title: book.title, author: book.author, filename: book.filename, pageCount: book.pageCount,
       revision: book.revision, pdfUrl: book.pdfUrl, sourceUrl: book.sourceUrl, evidenceStrategy: book.evidenceStrategy, samples: book.samples,
-      result: book.result, detailedSubject: book.detailedSubject, reference: book.reference,
+      result: book.result, detailedSubject: book.detailedSubject, qualifiers: book.qualifiers, reference: book.reference,
     })),
   };
 }

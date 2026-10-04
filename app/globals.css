@@ -33,6 +33,11 @@
 .subject-reference-fields a { font-size: 12px; color: var(--green); }
 .validation-page h2 { margin-top: 36px; }
 .reference-shelf td { overflow-wrap: anywhere; }
+.qualifier-reference-fields { padding: 14px; margin: 14px 0; background: #edf1e9; border-radius: 8px; }
+.qualifier-reference-fields fieldset { margin: 18px 0; padding: 12px 14px; border: 1px solid #d8dfd0; border-radius: 8px; min-width: 0; }
+.qualifier-reference-fields legend { font-size: 13px; font-weight: 600; padding: 0 6px; }
+.qualifier-link-fields { padding: 4px 12px; border-left: 2px solid #d8dfd0; }
+.qualifier-reference-fields input { overflow-wrap: anywhere; }
 @media(max-width:800px) { .validation-page .subject-metrics { grid-template-columns: repeat(2, minmax(0, 1fr)); } .subject-evaluation { padding: 15px; } }
 
 .language-details{padding:20px;background:#f0f3e9;border:1px solid #e3e9d8;border-radius:8px;margin:22px 0}.language-details h4{font-size:17px;margin:0 0 10px}.language-details p{font-size:12px;line-height:1.75;color:#647062;margin:10px 0}.language-details summary{font-size:12px;cursor:pointer;margin:12px 0}.language-details details details{padding:0 12px;border-left:2px solid #d8dfd0}.language-details .probability{font-size:11px}.language-details a{color:#4d6547;text-decoration:underline;text-underline-offset:3px}

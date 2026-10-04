@@ -5,6 +5,7 @@ import { SUBCATEGORIES } from '@/lib/subcategories';
 import { themaForLabel } from '@/lib/standards';
 import { subjectNode } from '@/lib/hierarchy';
 import { hasIndependentReview, referenceSchema } from '@/lib/references';
+import QualifierReferenceFields from './qualifier-reference-fields';
 export default function ReferenceEditor({ book, onSave, disabled }: { book: Book; onSave: (book: Book) => Promise<boolean>; disabled: boolean }) {
   const initial = book.reference;
   const [labels, setLabels] = useState<ReferenceLabels['labels']>(initial?.labels || {});
@@ -17,6 +18,8 @@ export default function ReferenceEditor({ book, onSave, disabled }: { book: Book
   const [includeSubjects, setIncludeSubjects] = useState(Boolean(initial?.subjectReference));
   const [subjectCodes, setSubjectCodes] = useState(initial?.subjectReference?.codes.join(', ') || '');
   const [coverage, setCoverage] = useState<'complete' | 'partial'>(initial?.subjectReference?.coverage || 'partial');
+  const [includeQualifiers, setIncludeQualifiers] = useState(Boolean(initial?.qualifierReference));
+  const [qualifierReference, setQualifierReference] = useState<NonNullable<ReferenceLabels['qualifierReference']>>(initial?.qualifierReference || { taxonomyVersion: 'Thema 1.6', dimensions: {} });
   const [reviewer, setReviewer] = useState(initial?.review?.reviewer || '');
   const [reviewerRole, setReviewerRole] = useState(initial?.review?.reviewerRole || '');
   const [method, setMethod] = useState<NonNullable<ReferenceLabels['review']>['method']>(initial?.review?.method || 'expert-review');
@@ -38,6 +41,7 @@ export default function ReferenceEditor({ book, onSave, disabled }: { book: Book
     const reference: ReferenceLabels = {
       status: verified ? 'verified' : 'provisional', labels, sourceName: sourceName.trim(), sourceUrl: sourceUrl.trim(), scope, edition, notes, split, updatedAt: now,
       ...(includeSubjects ? { subjectReference: { codes, coverage, taxonomyVersion: 'Thema 1.6' } } : {}),
+      ...(includeQualifiers ? { qualifierReference } : {}),
       ...(verified ? { review: { reviewer, reviewerRole, method, reviewedAt: now, independent: true, editionMatched, modelBlind } } : {}),
       ...(workKey.trim() ? { workKey: workKey.trim() } : {}),
       ...(value.trim() ? { readingMeasure: { system, value: value.trim(), sourceUrl: measureUrl.trim(), edition: measureEdition } } : {}),
@@ -61,6 +65,8 @@ export default function ReferenceEditor({ book, onSave, disabled }: { book: Book
       <label>Completeness of the subject reference<select value={coverage} onChange={e => setCoverage(e.target.value as typeof coverage)}><option value="partial">Partial · only these known subjects</option><option value="complete">Complete · all applicable subjects checked</option></select></label>
       <p>A complete list enables precision, recall and exact-set agreement. With a partial list, extra suggestions remain unjudged. Choose complete only after reviewing all substantial subjects. An empty complete list means no assignable subject is supported.</p>
       <a href="https://ns.editeur.org/thema/en" target="_blank" rel="noreferrer">Find official Thema 1.6 codes</a></div>}
+    <label className="reference-check"><input type="checkbox" checked={includeQualifiers} onChange={e => setIncludeQualifiers(e.target.checked)} /> Add qualifier reference labels by dimension.</label>
+    {includeQualifiers && <QualifierReferenceFields value={qualifierReference} onChange={setQualifierReference} />}
     <label>Reference source name<input value={sourceName} maxLength={200} onChange={e => setSourceName(e.target.value)} placeholder="Publisher, library catalog, or expert review" /></label>
     <label>Reference source link<input type="url" value={sourceUrl} maxLength={2000} onChange={e => setSourceUrl(e.target.value)} placeholder="https://…" /></label>
     <div className="form-columns"><label>Reference scope<select value={scope} onChange={e => setScope(e.target.value as 'work' | 'edition')}><option value="work">Original work</option><option value="edition">This edition / translation</option></select></label><label>Evaluation split<select value={split} onChange={e => setSplit(e.target.value as 'development' | 'holdout')}><option value="development">Development</option><option value="holdout">Holdout · reserve from tuning</option></select></label></div>
