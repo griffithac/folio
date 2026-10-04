@@ -72,6 +72,7 @@ export function evaluateQualifiers(books: Book[], status: ReferenceStatus, split
     perLabel, perFamily, rows, partialKnown, partialMatches, partialKnownRecall: partialKnown ? partialMatches / partialKnown : null,
     runs: { complete: selected.filter(({ book }) => book.qualifiers?.status === 'complete').length, partial: selected.filter(({ book }) => book.qualifiers?.status === 'partial').length, unavailable: selected.filter(({ book }) => book.qualifiers?.status === 'unavailable').length, missing: selected.filter(({ book }) => !book.qualifiers).length },
     models: unique(selected.flatMap(({ book }) => book.qualifiers?.model ? [book.qualifiers.model] : [])),
+    samplingStrategies: unique(selected.map(({ book }) => book.evidenceStrategy || 'distributed-pages-and-within-page-v1')),
     evidenceMethods: unique(selected.flatMap(({ book }) => book.qualifiers ? [book.qualifiers.evidenceMethod || 'unassisted-v1'] : [])),
     links: { complete: completeLinks.length, partial: partialLinks.length, micro: { ...linkCounts, ...rates(linkCounts) }, exact: completeLinks.filter(row => row.exact).length,
       exactAgreement: completeLinks.length ? completeLinks.filter(row => row.exact).length / completeLinks.length : null,

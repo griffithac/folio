@@ -13,7 +13,7 @@ export async function POST(request:Request){
   try{
     const bounded=await limitedBody(request,MAX_UPLOAD);const form=await bounded.formData();
     const parsed=sharedBookSchema.safeParse(JSON.parse(String(form.get('book'))));const file=form.get('pdf');const legacy=form.get('legacy')==='true';
-    if(!parsed.success||(!(file instanceof File)&&!legacy))return json({error:'A PDF and valid book details are required.'},400);
+    if(!parsed.success||parsed.data.evidenceRuns?.length||(!(file instanceof File)&&!legacy))return json({error:'A PDF and valid book details are required.'},400);
     let bytes:ArrayBuffer|undefined;let hash=parsed.data.hash;
     if(file instanceof File){
       if(file.size>25*1024*1024)return json({error:'PDFs must be 25 MB or smaller.'},413);

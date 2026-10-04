@@ -133,7 +133,7 @@ export function buildValidationReport(books: Book[], split: EvaluationSplit = 'a
     warnings: evaluationWarnings(books),
     records: selected.map(book => ({
       id: book.id, hash: book.hash, title: book.title, author: book.author, filename: book.filename, pageCount: book.pageCount,
-      revision: book.revision, pdfUrl: book.pdfUrl, sourceUrl: book.sourceUrl, evidenceStrategy: book.evidenceStrategy, samples: book.samples,
+      revision: book.revision, pdfUrl: book.pdfUrl, sourceUrl: book.sourceUrl, evidenceStrategy: book.evidenceStrategy, sourceSampling: book.sourceSampling, evidenceRuns: book.evidenceRuns, samples: book.samples,
       result: book.result, detailedSubject: book.detailedSubject, qualifiers: book.qualifiers, reference: book.reference,
     })),
   };

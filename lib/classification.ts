@@ -7,7 +7,7 @@ import { PROGRAMMING_LANGUAGES, COMPUTING_TOPICS, BOOK_FORMS, AUDIENCES, TECHNIC
 import { SUBCATEGORIES } from './subcategories.ts';
 export const inputSchema = z.object({
   title: z.string().trim().min(1).max(240), pageCount: z.number().int().min(1).max(20000),
-  strategy: z.enum(['full-text-v1', 'distributed-pages-and-within-page-v1']).default('distributed-pages-and-within-page-v1'),
+  strategy: z.enum(['full-text-v1', 'distributed-pages-and-within-page-v1', 'full-source-contiguous-v1']).default('distributed-pages-and-within-page-v1'),
   samples: z.array(z.object({ page: z.number().int().min(1).max(20000), text: z.string().trim().min(1).max(22000) })).min(1).max(18),
 }).strict().superRefine((value, ctx) => {
   if (value.samples.some(sample => sample.page > value.pageCount)) ctx.addIssue({ code: z.ZodIssueCode.custom, message: 'Invalid sample page.' });

@@ -125,6 +125,14 @@ Reproduce with `python3 scripts/prepare-corpus.py` (requires reportlab), then `n
 
 ## Backlog
 
+### Evidence refresh from the original PDF — experimental comparison available
+
+The book details offer **Refresh evidence from original PDF** for retained originals. This explicitly scans every PDF page with browser PDF.js, up to 12 million extracted characters and a two-minute scan budget. Failure leaves the existing record unchanged. A completed scan selects at most 18 bounded, contiguous excerpts within the 14 KB evidence budget: nine distributed source pages and up to nine additional pages around literal official qualifier names/aliases and possible dates. Useful windows can also be selected within the distributed pages. Per-page candidate windows are capped at 24 and pruning is disclosed. The dates can be quantities, and the names can be incidental, metadata or printed commands; retrieval does not assign any category. All existing semantic source, relationship and exact-quotation gates remain in force. Full-source scanning does not mean the entire long book was sent to Jev, and does not establish exhaustive coverage or accuracy.
+
+Before changing excerpts, a revision-checked server operation saves the old book record in R2, including its original evidence, raw model results, source checks, corrections and references. The same PDF fingerprint is required. The current book retains corrections and reference labels; raw predictions are rerun against the new excerpts. Book details compare raw before/after labels and offer snapshot downloads. Missing runs are displayed explicitly. Up to ten snapshots are retained per book and are removed with the book; ordinary book edits cannot create, change or discard snapshot pointers. The validation export includes the current scan record and prior-run IDs; snapshot results remain separate from current accuracy metrics. This method is optional while broader classification and reading-band comparisons are developed.
+
+Reproduce selector coverage on the eight generated public-domain PDFs with `node --experimental-strip-types scripts/source-sampling-benchmark.ts`. This uses native `pdftotext` and writes an ignored diagnostic report; it is not a test of browser extraction or expert accuracy. It records both newly covered and omitted literal anchors instead of presenting increased name coverage as a classification score.
+
 ### Official subject qualifiers — implemented for review
 
 The qualifier stage covers all 5,765 official Thema 1.6 qualifier nodes in six families: place, language discussed, time period, educational purpose, interest and creative style. All scope notes and official parent relationships are retained. The language a work discusses is separate from its ISO text-language result. Interest age is separate from reading complexity.

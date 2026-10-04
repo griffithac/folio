@@ -10,7 +10,7 @@ export async function PUT(request:Request,context:Context){
     if(!parsed.success||parsed.data.id!==id||!parsed.data.revision)return json({error:'Valid book details and a revision are required.'},400);
     const current=await env.DB.prepare('SELECT hash,record,pdf_key FROM shared_books WHERE id=?').bind(id).first<{hash:string;record:string;pdf_key:string}>();
     if(!current)return json({error:'This book has been removed from the shared library.'},404);
-    const original=JSON.parse(current.record);const book={...parsed.data,hash:current.hash,size:original.size,filename:original.filename,addedAt:original.addedAt};const revision=book.revision;delete book.revision;
+    const original=JSON.parse(current.record);if(JSON.stringify(parsed.data.evidenceRuns)!==JSON.stringify(original.evidenceRuns))return json({error:'Saved evidence runs are managed by the evidence refresh.'},400);const book={...parsed.data,hash:current.hash,size:original.size,filename:original.filename,addedAt:original.addedAt};const revision=book.revision;delete book.revision;
     const saved=await env.DB.prepare('UPDATE shared_books SET record=?,revision=revision+1,updated_at=? WHERE id=? AND revision=? RETURNING revision').bind(JSON.stringify(book),new Date().toISOString(),id,revision).first<{revision:number}>();
     if(!saved)return json({error:'Another tester updated this book. Reload its details before saving.'},409);
     return json({book:{...book,revision:saved.revision,...(current.pdf_key?{pdfUrl:`/api/library/${id}/pdf`}:{})}});
@@ -23,7 +23,7 @@ export async function DELETE(request:Request,context:Context){
   // Check revision so a stale dialog cannot remove a newly edited book.
   const revision=Number(new URL(request.url).searchParams.get('revision'));
   if(!Number.isInteger(revision)||revision<1)return json({error:'A current revision is required.'},400);
-  const removed=await env.DB.prepare('DELETE FROM shared_books WHERE id=? AND revision=? RETURNING pdf_key').bind(id,revision).first<{pdf_key:string}>();
+  const removed=await env.DB.prepare('DELETE FROM shared_books WHERE id=? AND revision=? RETURNING pdf_key,record').bind(id,revision).first<{pdf_key:string;record:string}>();
   if(!removed)return json({error:'This book changed or was removed. Refresh the library.'},409);
-  if(removed.pdf_key)await env.BUCKET.delete(removed.pdf_key);return json({removed:true});
+  if(removed.pdf_key)await env.BUCKET.delete(removed.pdf_key);for(const run of JSON.parse(removed.record).evidenceRuns||[])await env.BUCKET.delete(`books/${id}/evidence-runs/${run.id}.json`);return json({removed:true});
 }

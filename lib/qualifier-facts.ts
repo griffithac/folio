@@ -52,7 +52,7 @@ function yearMentions(text: string): YearMention[] {
   return result.sort((a, b) => a.start - b.start);
 }
 const normalizeToken = (s: string) => s.normalize('NFKD').replace(/\p{M}/gu, '').toLowerCase().replace(/^(?:exams?|examinations?)$/, 'exam');
-function aliasesFor(code: string): string[] {
+export function qualifierAliases(code: string): string[] {
   const node = qualifierNode(code); if (!node) return [];
   const aliases = [node.CodeDescription.replace(/^For\s+/i, '').replace(/\s*\([^)]*\)\s*$/, '').trim()];
   const also = String(node.CodeNotes || '').match(/Also class here:\s*(.*?)(?=Use for:|Use with:|Prefer:|See also:|DO NOT USE:|$)/i)?.[1];
@@ -70,7 +70,7 @@ export function qualifierFacts(code: string, samples: Excerpt[]): QualifierFacts
   }
   for (const sample of samples) {
     const tokens = [...sample.text.matchAll(/[\p{L}\p{N}]+/gu)].map(m => ({ value: normalizeToken(m[0]), raw: m[0], start: m.index!, end: m.index! + m[0].length }));
-    for (const alias of aliasesFor(code)) {
+    for (const alias of qualifierAliases(code)) {
       const target = [...alias.matchAll(/[\p{L}\p{N}]+/gu)].map(m => normalizeToken(m[0]));
       if (!target.length) continue;
       for (let i = 0; i <= tokens.length - target.length; i++) {

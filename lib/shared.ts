@@ -49,12 +49,17 @@ export const sharedBookSchema=z.object({
   cover:z.string().max(200000).refine(s=>/^data:image\/(jpeg|png);base64,/.test(s)).optional(),
   samples:z.array(z.object({page:z.number().int().min(1).max(20000),text:z.string().min(1).max(22000)})).max(18),
   status:z.enum(['ready','complete','error']),message:z.string().max(1000).optional(),result:result.optional(),
-  evidenceStrategy:z.enum(['full-text-v1','distributed-pages-and-within-page-v1']).optional(),
+  evidenceStrategy:z.enum(['full-text-v1','distributed-pages-and-within-page-v1','full-source-contiguous-v1']).optional(),
+  sourceSampling:z.object({method:z.literal('full-source-contiguous-v1'),scannedPages:z.number().int().min(1).max(20000),textPages:z.number().int().min(1).max(20000),characters:z.number().int().min(200).max(12000000),matchedAnchors:z.number().int().min(0).max(1000000),coveredAnchors:z.number().int().min(0).max(1000000),pruned:z.boolean(),locations:z.array(z.object({page:z.number().int().min(1).max(20000),start:z.number().int().min(0),end:z.number().int().min(1)}).strict()).min(1).max(18)}).strict().optional(),
+  evidenceRuns:z.array(z.object({id:z.string().uuid(),createdAt:z.string().datetime(),strategy:z.string().min(1).max(100)}).strict()).max(10).optional(),
   detailedSubject:detailedSubjectSchema.optional(),
   qualifiers:detailedQualifiersSchema.optional(),
   revision:z.number().int().min(1).optional(),sourceUrl:webUrl.optional(),reference:referenceSchema.optional(),
   corrections:z.object({genre:z.string().max(100),language:z.string().max(100),readingLevel:z.string().max(100),subcategory:z.string().max(12).optional(),timePeriod:z.string().max(100).optional()}).optional(),
 }).superRefine((book,ctx)=>{
+  if(book.evidenceStrategy==='full-source-contiguous-v1'&&!book.sourceSampling)ctx.addIssue({code:z.ZodIssueCode.custom,message:'Full-source selection needs its scan record.'});
+  if(book.sourceSampling&&(book.evidenceStrategy!=='full-source-contiguous-v1'||book.sourceSampling.scannedPages!==book.pageCount||book.sourceSampling.textPages>book.pageCount||book.sourceSampling.textPages<book.samples.length||book.sourceSampling.characters<book.samples.reduce((n,s)=>n+s.text.length,0)||book.sourceSampling.coveredAnchors>book.sourceSampling.matchedAnchors||(!book.sourceSampling.pruned&&book.sourceSampling.coveredAnchors<book.sourceSampling.matchedAnchors)||new TextEncoder().encode(JSON.stringify(book.samples)).length>14000||book.sourceSampling.locations.length!==book.samples.length||book.sourceSampling.locations.some((p,i)=>p.page!==book.samples[i]?.page||p.end>book.sourceSampling!.characters||p.end-p.start!==book.samples[i]?.text.length)))ctx.addIssue({code:z.ZodIssueCode.custom,message:'The source scan must describe the saved excerpts.'});
+  if(book.evidenceRuns&&new Set(book.evidenceRuns.map(run=>run.id)).size!==book.evidenceRuns.length)ctx.addIssue({code:z.ZodIssueCode.custom,message:'Saved evidence runs must be unique.'});
   if(book.status!=='error' && !inputSchema.safeParse({title:book.title,pageCount:book.pageCount,samples:book.samples,strategy:book.evidenceStrategy}).success)ctx.addIssue({code:z.ZodIssueCode.custom,message:'Readable bounded evidence is required.'});
   if(book.status==='complete'&&!book.result)ctx.addIssue({code:z.ZodIssueCode.custom,message:'A completed book needs results.'});
   for(const candidate of book.detailedSubject?.candidates||[]){

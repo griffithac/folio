@@ -1,7 +1,10 @@
 import { sampledPageNumbers, type Book } from './catalog';
 import { budgetSamples, EVIDENCE_BYTE_BUDGET } from './evidence';
+import { selectSourceEvidence, SOURCE_SCAN_CHARACTER_LIMIT } from './source-sampling';
+import { extractPageText, MAX_PDF_PAGE_TEXT_CHARACTERS } from './pdf-text';
 export const MAX_PDF_BYTES = 25 * 1024 * 1024;
-export async function extractBook(file: File, onProgress: (message: string) => void): Promise<Partial<Book>> {
+
+export async function extractBook(file: File, onProgress: (message: string) => void, fullSourceScan = false): Promise<Partial<Book>> {
   if (!file.name.toLowerCase().endsWith('.pdf')) throw new Error('Choose a PDF file to add to your library.');
   if (file.size > MAX_PDF_BYTES) throw new Error('This PDF is larger than 25 MB. Please upload a smaller file.');
   const buffer = await file.arrayBuffer();
@@ -19,13 +22,16 @@ export async function extractBook(file: File, onProgress: (message: string) => v
   }
   try {
     if (pdf.numPages > 20000) throw new Error('This PDF has more than 20,000 pages. Please split it into smaller files.');
-    const pages = pdf.numPages <= 18 ? Array.from({ length: pdf.numPages }, (_, i) => i + 1) : sampledPageNumbers(pdf.numPages); const samples = [];
+    const pages = fullSourceScan || pdf.numPages <= 18 ? Array.from({ length: pdf.numPages }, (_, i) => i + 1) : sampledPageNumbers(pdf.numPages); const samples = [];
+    const started = Date.now(); let characters = 0;
     for (const number of pages) {
       onProgress(`Reading page ${number} of ${pdf.numPages}`);
       const page = await pdf.getPage(number); const content = await page.getTextContent();
-      const text = content.items.map(item => 'str' in item ? `${item.str}${item.hasEOL ? '\n' : ' '}` : '').join('').replace(/[ \t]+/g, ' ').trim();
-      if (text) samples.push({ page: number, text });
+      const remainingTextBudget = SOURCE_SCAN_CHARACTER_LIMIT - characters;
+      const text = extractPageText(content.items, fullSourceScan ? remainingTextBudget : MAX_PDF_PAGE_TEXT_CHARACTERS);
+      if (text) { samples.push({ page: number, text }); characters += text.length; }
       page.cleanup();
+      if (fullSourceScan && (characters > SOURCE_SCAN_CHARACTER_LIMIT || Date.now() - started > 120000)) throw new Error('Full-source scanning reached its text or time limit. The existing evidence and results are retained.');
     }
     if (samples.reduce((sum, sample) => sum + sample.text.length, 0) < 200) throw new Error('Not enough readable text was found. This may be a scanned PDF. Run OCR on it, then upload the searchable PDF.');
     let title = file.name.replace(/\.pdf$/i, '').replace(/[_-]+/g, ' '); let author = '';
@@ -42,6 +48,6 @@ export async function extractBook(file: File, onProgress: (message: string) => v
       if (context && canvas.height < 2000) { await page.render({ canvasContext: context, canvas, viewport }).promise; cover = canvas.toDataURL('image/jpeg', 0.7); }
     } catch { /* Thumbnail failures do not prevent classification. */ }
     const full = pdf.numPages <= 18 && new TextEncoder().encode(JSON.stringify(samples)).length <= EVIDENCE_BYTE_BUDGET;
-    return { title: title.slice(0, 240), author, hash, cover, pageCount: pdf.numPages, samples: full ? samples : budgetSamples(samples), evidenceStrategy: full ? 'full-text-v1' : 'distributed-pages-and-within-page-v1' };
+    return { title: title.slice(0, 240), author, hash, cover, pageCount: pdf.numPages, ...(fullSourceScan ? selectSourceEvidence(samples, pdf.numPages) : { samples: full ? samples : budgetSamples(samples), evidenceStrategy: full ? 'full-text-v1' as const : 'distributed-pages-and-within-page-v1' as const }) };
   } finally { await pdf.destroy(); }
 }

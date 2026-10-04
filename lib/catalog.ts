@@ -56,7 +56,9 @@ export type Book = {
   id: string; hash: string; title: string; author: string; filename: string;
   pageCount: number; size: number; addedAt: string; cover?: string;
   samples: Excerpt[]; status: 'extracting' | 'ready' | 'classifying' | 'complete' | 'error';
-  evidenceStrategy?: 'full-text-v1' | 'distributed-pages-and-within-page-v1';
+  evidenceStrategy?: 'full-text-v1' | 'distributed-pages-and-within-page-v1' | 'full-source-contiguous-v1';
+  sourceSampling?: import('./source-sampling.ts').SourceSampling;
+  evidenceRuns?: { id: string; createdAt: string; strategy: string }[];
   revision?: number; pdfUrl?: string; sourceUrl?: string;
   reference?: ReferenceLabels; detailedSubject?: DetailedSubject; qualifiers?: DetailedQualifiers;
   message?: string; result?: Classification; example?: boolean;

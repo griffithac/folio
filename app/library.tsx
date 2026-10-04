@@ -5,6 +5,7 @@ import { ArrowDownToLine, ArrowRight, ArrowUpRight, BookOpen, Check, CheckCheck,
 import { GENRES, LANGUAGES, LEVELS, TIME_PERIODS, bookNeedsReview, type Book, type Classification } from '@/lib/catalog';
 import type { DetailedSubject } from '@/lib/hierarchy';
 import ReferenceEditor from './reference-editor';
+import EvidenceComparison from './evidence-comparison';
 import DetailedSubjects from './detailed-subject';
 import LanguageDetails from './language-details';
 import QualifierDetails from './qualifier-details';
@@ -21,6 +22,11 @@ type Mode = 'grid' | 'list';
 const colors = ['sage', 'rose', 'blue', 'sand', 'olive', 'clay'];
 function labels(book: Book) {
   return { genre: book.corrections?.genre || book.result?.genre.label || '', language: book.corrections?.language || book.result?.language.label || '', readingLevel: book.corrections?.readingLevel || book.result?.readingLevel.label || '', timePeriod: book.corrections?.timePeriod || book.result?.timePeriod?.label || '', subcategory: book.corrections?.subcategory ?? book.result?.subcategory?.code ?? '' };
+}
+function evidenceStrategyLabel(strategy?: string) {
+  if (strategy === 'full-text-v1') return 'Full extracted text';
+  if (strategy === 'full-source-contiguous-v1') return 'Full-book scan with selected excerpts';
+  return 'Distributed page samples';
 }
 
 function Cover({ book, small = false }: { book: Book; small?: boolean }) {
@@ -57,7 +63,7 @@ function Dialog({ title, onClose, children, wide = false }: { title: string; onC
   </div>;
 }
 
-function Details({ book, onClose, onSave, onDelete, onRetry, onRefine, onQualify, busy }: { book: Book; onClose: () => void; onSave: (book: Book) => Promise<boolean>; onDelete: () => void; onRetry: () => void; onRefine: () => void; onQualify: () => void; busy: boolean }) {
+function Details({ book, onClose, onSave, onDelete, onRetry, onRefine, onQualify, onEvidence, busy }: { book: Book; onClose: () => void; onSave: (book: Book) => Promise<boolean>; onDelete: () => void; onRetry: () => void; onRefine: () => void; onQualify: () => void; onEvidence: () => void; busy: boolean }) {
   const current = labels(book);
   const [title, setTitle] = useState(book.title);
   const [genre, setGenre] = useState(current.genre);
@@ -86,14 +92,17 @@ function Details({ book, onClose, onSave, onDelete, onRetry, onRefine, onQualify
       <p className="fine-print">Subjects use selected broad Thema categories and their immediate subcategories; this is a suggested primary subject, not a complete catalog record. Reading level is an estimate, not Lexile, ATOS, or an age suitability rating. Jev’s confidence reflects its answer distribution; it does not certify correctness.</p>
       {!book.example && <div className="review-form"><h4>Make it yours</h4><p>Review the labels and correct anything that needs a human touch.</p><label>Book title<input value={title} onChange={e => setTitle(e.target.value)} maxLength={240} /></label><div className="form-columns"><label>Genre<select value={genre} onChange={e => { setGenre(e.target.value); setSub(''); }}>{Object.keys(GENRES).map(v => <option key={v}>{v}</option>)}</select></label><label>Language<select value={language} onChange={e => setLanguage(e.target.value)}>{Object.keys(LANGUAGES).map(v => <option key={v}>{v}</option>)}</select></label><label>Reading level<select value={level} onChange={e => setLevel(e.target.value)}>{LEVELS.map(v => <option key={v.label}>{v.label}</option>)}</select></label></div><div className="form-columns"><label>Subcategory<select value={sub} onChange={e => setSub(e.target.value)} disabled={!narrower.length}><option value="">Unspecified</option>{narrower.map(item => <option key={item.code} value={item.code}>{item.heading}</option>)}</select></label><label>Story setting<select value={time} onChange={e => setTime(e.target.value)}>{Object.keys(TIME_PERIODS).map(v => <option key={v}>{v}</option>)}</select></label></div><button className="primary-button" disabled={!title.trim() || busy || saving} onClick={() => void save({ ...book, title: title.trim(), corrections: { genre, language, readingLevel: level, subcategory: sub, timePeriod: time }, result: { ...result, reviewed: true } })}><CheckCheck size={16} /> Save & mark reviewed</button></div>}
       <div className="detail-footer"><span>{result.model}{result.reviewed ? ' · Reviewed in shared workspace' : ''}</span>{!book.example && <button className="text-button" onClick={onRetry} disabled={busy}>Reclassify <ArrowRight size={14} /></button>}</div>
-    </> : <div className="pending-detail"><FileText size={26} /><h4>{book.status === 'error' ? 'This book needs attention' : 'Ready for its next chapter'}</h4><p>{book.message || 'Your PDF has been read. Classify its subject, subcategory, language, reading level, and story setting.'}</p>{book.samples.length > 0 && <button className="primary-button" onClick={onRetry} disabled={busy}><Sparkles size={16} /> Classify book</button>}</div>}
+    </> : <div className="pending-detail"><FileText size={26} /><h4>{book.status === 'error' ? 'This book needs attention' : 'Ready for its next chapter'}</h4><p>{book.message || 'Your PDF has been read. Classify its subject, subcategory, language, reading level, and story setting.'}</p>{book.sourceSampling && <p role="status">These refreshed excerpts have not been classified yet. The previous Jev results are saved below for comparison.</p>}{book.samples.length > 0 && <button className="primary-button" onClick={onRetry} disabled={busy}><Sparkles size={16} /> Classify book</button>}</div>}
     {!book.example && book.samples.length > 0 && <DetailedSubjects book={book} busy={busy || saving} onRefine={onRefine} onSave={onSave} />}
     {!book.example && book.samples.length > 0 && <QualifierDetails book={book} busy={busy || saving} onRefine={onQualify} onSave={onSave} />}
-    {result?.evidence && <p className="fine-print">{result.evidence.strategy === 'full-text-v1' ? 'Full extracted text' : 'Distributed samples'} · {result.languageAnalysis?.requests || 1} Jev {(result.languageAnalysis?.requests || 1) === 1 ? 'request' : 'requests'} for initial labels · {result.evidence.questionCount} initial questions · {result.evidence.characters.toLocaleString()} excerpt characters. Story setting describes the events, not the publication date.</p>}
-    {book.samples.length > 0 && <details className="excerpt-details"><summary>{book.samples.length} {result?.evidence?.strategy === 'full-text-v1' ? 'text pages (full extraction)' : 'sampled pages'} · View the text sent to Jev</summary>{book.samples.map(sample => <div key={sample.page}><h5>Page {sample.page}</h5><p>{sample.text}</p></div>)}</details>}
+    {result?.evidence && <p className="fine-print">{evidenceStrategyLabel(result.evidence.strategy)} · {result.languageAnalysis?.requests || 1} Jev {(result.languageAnalysis?.requests || 1) === 1 ? 'request' : 'requests'} for initial labels · {result.evidence.questionCount} initial questions · {result.evidence.characters.toLocaleString()} excerpt characters. Story setting describes the events, not the publication date.</p>}
+    {book.sourceSampling && <p className="fine-print">Scanned {book.sourceSampling.scannedPages.toLocaleString()} PDF pages; {book.sourceSampling.textPages.toLocaleString()} contained text. Selected {book.samples.length} contiguous excerpts from {book.sourceSampling.characters.toLocaleString()} extracted characters, including passages around official names and possible dates. {book.sourceSampling.coveredAnchors}/{book.sourceSampling.matchedAnchors} distinct literal anchors appear in the excerpts. {book.sourceSampling.pruned ? 'Retrieval was pruned; details can remain missing. ' : ''}These matches guide retrieval, not classification. Jev receives the excerpts, not the entire long book.</p>}
+    {book.samples.length > 0 && <details className="excerpt-details"><summary>{book.samples.length} {book.evidenceStrategy === 'full-text-v1' ? 'text pages (full extraction)' : book.evidenceStrategy === 'full-source-contiguous-v1' ? 'selected source excerpts' : 'sampled pages'} · View the text sent to Jev</summary>{book.samples.map(sample => <div key={sample.page}><h5>Page {sample.page}</h5><p>{sample.text}</p></div>)}</details>}
     {!book.example && <>
       {!book.pdfUrl && book.revision && <p className="fine-print">This result came from the earlier browser beta. Reupload the same PDF to retain the original file in the shared workspace.</p>}
       {book.pdfUrl && <a className="text-button" href={book.pdfUrl} download><ArrowDownToLine size={14} /> Download original PDF</a>}
+      {book.pdfUrl && <div className="evidence-refresh"><p>Missing details? Scan the original PDF to select coherent passages across the book and around names or possible dates. The previous evidence and raw results are saved for comparison before Jev runs again. This is an experimental sampling method, not exhaustive coverage.</p>{busy && book.message && <p role="status">{book.message}</p>}<button className="secondary-button" disabled={busy || saving || (book.evidenceRuns?.length || 0) >= 10} onClick={onEvidence}><Search size={15} /> {busy ? 'Working on this book…' : 'Refresh evidence from original PDF'}</button>{(book.evidenceRuns?.length || 0) >= 10 && <p className="fine-print">The beta limit of ten saved comparison runs has been reached for this book.</p>}</div>}
+      {Boolean(book.evidenceRuns?.length) && <EvidenceComparison book={book} />}
       <ReferenceEditor book={book} onSave={onSave} disabled={busy || saving} />
       {confirmRemove ? <div className="remove-confirmation"><p>Remove “{book.title}” and its PDF from the shared workspace for everyone?</p><button className="delete-button" disabled={busy} onClick={onDelete}><Trash2 size={14} /> Yes, remove book</button><button className="text-button" onClick={() => setConfirmRemove(false)}>Keep book</button></div> : <button className="delete-button" disabled={busy || saving} onClick={() => setConfirmRemove(true)}><Trash2 size={14} /> Remove book</button>}
     </>}
@@ -191,7 +200,8 @@ export default function Library() {
 
   async function classify(original: Book) {
     const full = original.evidenceStrategy === 'full-text-v1' && new TextEncoder().encode(JSON.stringify(original.samples)).length <= EVIDENCE_BYTE_BUDGET;
-    const book: Book = { ...original, samples: full ? original.samples : budgetSamples(original.samples), evidenceStrategy: full ? 'full-text-v1' : 'distributed-pages-and-within-page-v1' };
+    const retrieved = original.evidenceStrategy === 'full-source-contiguous-v1';
+    const book: Book = { ...original, samples: full || retrieved ? original.samples : budgetSamples(original.samples), evidenceStrategy: full ? 'full-text-v1' : retrieved ? 'full-source-contiguous-v1' : 'distributed-pages-and-within-page-v1' };
     update(book.id, { status: 'classifying', message: 'Jev is finding this book’s place on your shelf…' });
     try {
       const response = await fetch('/api/classify', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ title: book.title, pageCount: book.pageCount, samples: book.samples, strategy: book.evidenceStrategy || 'distributed-pages-and-within-page-v1' }), signal: AbortSignal.timeout(60000) });
@@ -230,6 +240,22 @@ export default function Library() {
     try{await requestQualifiers(book);notify('Qualifier search and source checks saved in the shared workspace.');}
     catch(error){notify((error as Error).message);}
     finally{processing.current=false;setBusy(false);}
+  }
+  async function refreshEvidence(book: Book) {
+    if (processing.current || !book.pdfUrl) return;
+    processing.current = true; setBusy(true);
+    try {
+      const response = await fetch(book.pdfUrl); if (!response.ok) throw new Error('The original PDF could not be loaded.');
+      const file = new File([await response.arrayBuffer()], book.filename, { type: 'application/pdf' });
+      const extracted = await extractBook(file, message => update(book.id, { message }), true);
+      if (extracted.hash !== book.hash || extracted.pageCount !== book.pageCount) throw new Error('The PDF does not match this saved book. Existing results are retained.');
+      const saved = await fetch(`/api/library/${book.id}/resample`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ revision: book.revision, hash: book.hash, samples: extracted.samples, strategy: extracted.evidenceStrategy, sourceSampling: extracted.sourceSampling }) });
+      const data = await saved.json() as { book?: Book; error?: string }; if (!saved.ok || !data.book) throw new Error(data.error || 'Evidence refresh could not be saved.');
+      upsert(data.book);
+      if (await refreshConnection()) await classify(data.book);
+      notify('Refreshed evidence saved. The previous raw run is available for comparison in the book details.');
+    } catch (error) { notify((error as Error).message || 'Evidence refresh failed.'); }
+    finally { processing.current = false; setBusy(false); await refreshLibrary(); }
   }
   async function refineBook(book: Book) {
     if (processing.current) return;
@@ -336,7 +362,7 @@ export default function Library() {
       </main>
     </div>
     {toast && <div className="toast" role="status"><Check size={17} /><span>{toast}</span><button onClick={() => setToast('')} aria-label="Dismiss notification"><X size={16} /></button></div>}
-    {activeBook && <Details key={`${activeBook.id}-${activeBook.revision}`} book={activeBook} busy={busy} onClose={() => setSelected(null)} onSave={saveBook} onRefine={() => void refineBook(activeBook)} onQualify={() => void qualifyBook(activeBook)} onDelete={() => void removeBook(activeBook)} onRetry={() => { setSelected(null); void retryBooks([activeBook]); }} />}
+    {activeBook && <Details key={`${activeBook.id}-${activeBook.revision}`} book={activeBook} busy={busy} onClose={() => setSelected(null)} onSave={saveBook} onRefine={() => void refineBook(activeBook)} onQualify={() => void qualifyBook(activeBook)} onEvidence={() => void refreshEvidence(activeBook)} onDelete={() => void removeBook(activeBook)} onRetry={() => { setSelected(null); void retryBooks([activeBook]); }} />}
     {help && <Dialog title="A little order for your books" onClose={() => setHelp(false)}><div className="help-intro"><BookOpen size={30} strokeWidth={1.4} /><p>Folio gives every book a place on your shelf, with a little help from TypeSafe Jev.</p></div><ol className="help-steps"><li><b>Bring your books.</b><p>Drop up to 10 searchable PDFs at a time, 25 MB each. Scanned books need OCR first.</p></li><li><b>Let Jev read between the lines.</b><p>Short books use full text when they fit the budget. Longer books use up to 18 distributed pages, with passages within long pages. One initial Jev request asks about subject, subcategories, language, reading complexity, story setting, audience, form, and relevant technical facets. A second language comparison runs only if the language groups disagree. A detailed search then explores several Thema branches and checks supporting passages.</p></li><li><b>Find a place on your shelf.</b><p>Filter your books, inspect confidence, correct labels, and export the library with Thema and ISO language codes.</p></li></ol><div className="help-note"><ShieldCheck size={19} /><div><b>One shared public workspace</b><p>PDFs, thumbnails, excerpts, results, corrections, and reference labels are retained on the server and visible to everyone with this link. Only extracted text and metadata go to TypeSafe for classification. Anyone using this beta can add, edit, or remove books. Removal deletes the shared record and stored PDF.</p></div></div><div className="standards-note"><h4>Thoughtful labels, established vocabulary.</h4><p><a href="https://ns.editeur.org/thema/en" target="_blank" rel="noreferrer">Thema 1.6</a> supplies 31 selected broad subject categories. The initial labels use a selected broad vocabulary. The detailed search covers all 3,422 subject codes, explores several branches, and suggests multiple subjects when supported. Search limits and unresolved alternatives are shown for review.</p><p><a href="https://www.loc.gov/standards/iso639-2/php/code_list.php" target="_blank" rel="noreferrer">ISO 639</a> supplies all 486 ISO 639-2 language and special codes. Collective and broad language codes require care; individual varieties and scripts are not all distinguished. Uncertain languages remain undetermined.</p><p>Reading bands are Jev estimates, separate from <a href="https://hub.lexile.com/text-analyzer-user-guide/" target="_blank" rel="noreferrer">Lexile</a> and <a href="https://www.renaissance.com/edword/atos/" target="_blank" rel="noreferrer">ATOS</a>. They do not indicate age suitability. Review non-English results carefully.</p></div><p className="benchmark-link"><a href="/validation">Compare against reference labels <ArrowUpRight size={14} /></a></p><p className="benchmark-link"><a href="/testing">See the public-domain test results <ArrowUpRight size={14} /></a></p><a className="text-button" href="/site-qr.png" target="_blank" rel="noreferrer">Open the phone QR code <ArrowUpRight size={14} /></a><div className="help-footer"><span className={`connection-status ${connected ? 'online' : ''}`}><i />{connected === true ? 'Jev is connected' : connected === false ? 'Waiting for the owner’s TypeSafe API key' : 'Checking Jev connection'}</span><a href="https://docs.typesafe.ai" target="_blank" rel="noreferrer">Meet TypeSafe Jev <ArrowUpRight size={14} /></a></div></Dialog>}
   </div>;
 }
