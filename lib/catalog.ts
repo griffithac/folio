@@ -1,6 +1,7 @@
 import type { DetailedSubject } from './hierarchy.ts';
 import { THEMA, LANGUAGE_CODES } from './standards.ts';
 import type { LanguageAnalysis } from './language-classification.ts';
+import type { DetailedQualifiers } from './qualifier-search.ts';
 export const GENRES: Record<string, string> = Object.fromEntries([...THEMA.map(item => [item.label, `Thema ${item.code}: ${item.heading}`]), ['Other / uncertain', 'No selected category fits, or insufficient evidence.']]);
 export const LANGUAGES: Record<string, string> = Object.fromEntries(LANGUAGE_CODES.map(item => [item.label, item.english]));
 export const TIME_PERIODS: Record<string, string> = {
@@ -57,7 +58,7 @@ export type Book = {
   samples: Excerpt[]; status: 'extracting' | 'ready' | 'classifying' | 'complete' | 'error';
   evidenceStrategy?: 'full-text-v1' | 'distributed-pages-and-within-page-v1';
   revision?: number; pdfUrl?: string; sourceUrl?: string;
-  reference?: ReferenceLabels; detailedSubject?: DetailedSubject;
+  reference?: ReferenceLabels; detailedSubject?: DetailedSubject; qualifiers?: DetailedQualifiers;
   message?: string; result?: Classification; example?: boolean;
   corrections?: { genre: string; language: string; readingLevel: string; subcategory?: string; timePeriod?: string };
 };
@@ -79,7 +80,7 @@ export function needsReview(result: Classification, threshold = 0.7) {
     result.languageAnalysis?.needsReview || result.readingLevel.confidence < threshold || (result.subcategory && result.subcategory.confidence < threshold) || (result.timePeriod && result.timePeriod.confidence < threshold) || result.genre.label === 'Other / uncertain' || result.language.label === 'Other / uncertain');
 }
 export function bookNeedsReview(book: Book) {
-  return Boolean((book.result && needsReview(book.result)) || (book.detailedSubject?.needsReview && !book.detailedSubject.reviewed));
+  return Boolean((book.result && needsReview(book.result)) || (book.detailedSubject?.needsReview && !book.detailedSubject.reviewed) || (book.qualifiers?.needsReview && !book.qualifiers.reviewed));
 }
 export function sampledPageNumbers(pageCount: number): number[] {
   return [...new Set([

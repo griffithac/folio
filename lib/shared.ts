@@ -5,6 +5,7 @@ import { subjectNode, hierarchyQuestion } from './hierarchy.ts';
 import { SUBJECT_SEARCH_POLICY } from './subject-search.ts';
 import { inputSchema } from './classification.ts';
 import { languageAnalysisSchema, validateLanguageAnalysis } from './language-classification.ts';
+import { detailedQualifiersSchema, validateQualifiers } from './qualifier-validation.ts';
 const webUrl = z.string().url().max(2000).refine(s => /^https?:\/\//.test(s));
 const judgment=z.object({label:z.string().max(240),confidence:z.number().finite().min(0).max(1),probabilities:z.record(z.number().finite().min(0).max(1))});
 const probability=z.number().finite().min(0).max(1);
@@ -50,6 +51,7 @@ export const sharedBookSchema=z.object({
   status:z.enum(['ready','complete','error']),message:z.string().max(1000).optional(),result:result.optional(),
   evidenceStrategy:z.enum(['full-text-v1','distributed-pages-and-within-page-v1']).optional(),
   detailedSubject:detailedSubjectSchema.optional(),
+  qualifiers:detailedQualifiersSchema.optional(),
   revision:z.number().int().min(1).optional(),sourceUrl:webUrl.optional(),reference:referenceSchema.optional(),
   corrections:z.object({genre:z.string().max(100),language:z.string().max(100),readingLevel:z.string().max(100),subcategory:z.string().max(12).optional(),timePeriod:z.string().max(100).optional()}).optional(),
 }).superRefine((book,ctx)=>{
@@ -60,8 +62,15 @@ export const sharedBookSchema=z.object({
     const sample=book.samples.find(s=>s.page===citation.page);
     if(!sample||citation.end<=citation.start||sample.text.slice(citation.start,citation.end)!==citation.text||citation.text.includes('[… excerpt gap …]'))ctx.addIssue({code:z.ZodIssueCode.custom,message:'Subject quotation must match the book evidence exactly.'});
   }
+  if(book.qualifiers)try{
+    if(book.detailedSubject?.method!=='beam-and-source-check-v1')throw new Error('Supported detailed subjects are required.');
+    validateQualifiers(book.qualifiers,book,book.detailedSubject.subjects?.map(s=>s.code)||[]);
+  }catch{ctx.addIssue({code:z.ZodIssueCode.custom,message:'Qualifier judgments must match canonical subjects, decisions and source passages.'});}
 });
-export const MAX_UPLOAD=25*1024*1024+400000;
+// Detailed subject and qualifier audit trails need room alongside a cover and
+// excerpts. Keep the metadata limit bounded separately from the 25 MB PDF cap.
+export const MAX_BOOK_METADATA=750000;
+export const MAX_UPLOAD=25*1024*1024+MAX_BOOK_METADATA;
 export const json=(body:unknown,status=200)=>Response.json(body,{status,headers:{'Cache-Control':'no-store'}});
 export function sameOrigin(request:Request){const origin=request.headers.get('origin');return !origin||origin===new URL(request.url).origin;}
 export async function limitedBody(request:Request,limit:number){

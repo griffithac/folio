@@ -1,12 +1,12 @@
 import { env } from 'cloudflare:workers';
-import { sharedBookSchema, sameOrigin, json, limitedBody } from '@/lib/shared';
+import { sharedBookSchema, sameOrigin, json, limitedBody, MAX_BOOK_METADATA } from '@/lib/shared';
 export const dynamic='force-dynamic';
 type Context={params:Promise<{id:string}>};
 export async function PUT(request:Request,context:Context){
   if(!sameOrigin(request))return json({error:'Use Folio to edit shared books.'},403);
   if(!env.DB)return json({error:'Shared library is unavailable.'},503);
   try{
-    const {id}=await context.params;const body=await (await limitedBody(request,350000)).json();const parsed=sharedBookSchema.safeParse(body);
+    const {id}=await context.params;const body=await (await limitedBody(request,MAX_BOOK_METADATA)).json();const parsed=sharedBookSchema.safeParse(body);
     if(!parsed.success||parsed.data.id!==id||!parsed.data.revision)return json({error:'Valid book details and a revision are required.'},400);
     const current=await env.DB.prepare('SELECT hash,record,pdf_key FROM shared_books WHERE id=?').bind(id).first<{hash:string;record:string;pdf_key:string}>();
     if(!current)return json({error:'This book has been removed from the shared library.'},404);

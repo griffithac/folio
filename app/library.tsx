@@ -7,6 +7,8 @@ import type { DetailedSubject } from '@/lib/hierarchy';
 import ReferenceEditor from './reference-editor';
 import DetailedSubjects from './detailed-subject';
 import LanguageDetails from './language-details';
+import QualifierDetails from './qualifier-details';
+import type { DetailedQualifiers } from '@/lib/qualifier-search';
 import { exampleBooks } from '@/lib/examples';
 import { extractBook } from '@/lib/pdf';
 import { SUBCATEGORIES } from '@/lib/subcategories';
@@ -55,7 +57,7 @@ function Dialog({ title, onClose, children, wide = false }: { title: string; onC
   </div>;
 }
 
-function Details({ book, onClose, onSave, onDelete, onRetry, onRefine, busy }: { book: Book; onClose: () => void; onSave: (book: Book) => Promise<boolean>; onDelete: () => void; onRetry: () => void; onRefine: () => void; busy: boolean }) {
+function Details({ book, onClose, onSave, onDelete, onRetry, onRefine, onQualify, busy }: { book: Book; onClose: () => void; onSave: (book: Book) => Promise<boolean>; onDelete: () => void; onRetry: () => void; onRefine: () => void; onQualify: () => void; busy: boolean }) {
   const current = labels(book);
   const [title, setTitle] = useState(book.title);
   const [genre, setGenre] = useState(current.genre);
@@ -86,6 +88,7 @@ function Details({ book, onClose, onSave, onDelete, onRetry, onRefine, busy }: {
       <div className="detail-footer"><span>{result.model}{result.reviewed ? ' · Reviewed in shared workspace' : ''}</span>{!book.example && <button className="text-button" onClick={onRetry} disabled={busy}>Reclassify <ArrowRight size={14} /></button>}</div>
     </> : <div className="pending-detail"><FileText size={26} /><h4>{book.status === 'error' ? 'This book needs attention' : 'Ready for its next chapter'}</h4><p>{book.message || 'Your PDF has been read. Classify its subject, subcategory, language, reading level, and story setting.'}</p>{book.samples.length > 0 && <button className="primary-button" onClick={onRetry} disabled={busy}><Sparkles size={16} /> Classify book</button>}</div>}
     {!book.example && book.samples.length > 0 && <DetailedSubjects book={book} busy={busy || saving} onRefine={onRefine} onSave={onSave} />}
+    {!book.example && book.samples.length > 0 && <QualifierDetails book={book} busy={busy || saving} onRefine={onQualify} onSave={onSave} />}
     {result?.evidence && <p className="fine-print">{result.evidence.strategy === 'full-text-v1' ? 'Full extracted text' : 'Distributed samples'} · {result.languageAnalysis?.requests || 1} Jev {(result.languageAnalysis?.requests || 1) === 1 ? 'request' : 'requests'} for initial labels · {result.evidence.questionCount} initial questions · {result.evidence.characters.toLocaleString()} excerpt characters. Story setting describes the events, not the publication date.</p>}
     {book.samples.length > 0 && <details className="excerpt-details"><summary>{book.samples.length} {result?.evidence?.strategy === 'full-text-v1' ? 'text pages (full extraction)' : 'sampled pages'} · View the text sent to Jev</summary>{book.samples.map(sample => <div key={sample.page}><h5>Page {sample.page}</h5><p>{sample.text}</p></div>)}</details>}
     {!book.example && <>
@@ -197,7 +200,7 @@ export default function Library() {
         if (result.code === 'NOT_CONFIGURED') { setConnected(false); await persistBook({ ...book, status: 'ready', message: result.error }); return; }
         throw new Error(result.error || 'Classification could not be completed. Please retry.');
       }
-      const saved=await persistBook({ ...book, status: 'complete', result: result as Classification, detailedSubject:undefined, message: undefined }); setConnected(true);
+      const saved=await persistBook({ ...book, status: 'complete', result: result as Classification, detailedSubject:undefined, qualifiers:undefined, message: undefined }); setConnected(true);
       update(book.id,{status:'classifying',message:'Checking detailed subjects and supporting passages…'});
       try { await requestSubjects(saved); }
       catch(error){update(book.id,{status:'complete'});notify(`Initial labels saved. ${(error as Error).message}`);}
@@ -211,7 +214,22 @@ export default function Library() {
     const response=await fetch('/api/subjects',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({title:book.title,pageCount:book.pageCount,samples:book.samples,strategy:book.evidenceStrategy||'distributed-pages-and-within-page-v1'}),signal:AbortSignal.timeout(130000)});
     const data=await response.json() as DetailedSubject & {error?:string};
     if(!response.ok)throw new Error(data.error||'Detailed subject search could not finish. Retry it from the book details.');
-    await persistBook({...book,detailedSubject:data});
+    const saved=await persistBook({...book,detailedSubject:data,qualifiers:undefined});
+    if(data.subjects?.length)await requestQualifiers(saved);
+  }
+  async function requestQualifiers(book:Book) {
+    const response=await fetch('/api/qualifiers',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({bookId:book.id,revision:book.revision}),signal:AbortSignal.timeout(160000)});
+    const data=await response.json() as DetailedQualifiers & {error?:string};
+    if(!response.ok)throw new Error(data.error||'Qualifier search could not finish. Retry it from the book details.');
+    await persistBook({...book,qualifiers:data});
+    if(data.status!=='complete')throw new Error(data.stoppedReason);
+  }
+  async function qualifyBook(book:Book) {
+    if(processing.current)return;
+    processing.current=true;setBusy(true);
+    try{await requestQualifiers(book);notify('Qualifier search and source checks saved in the shared workspace.');}
+    catch(error){notify((error as Error).message);}
+    finally{processing.current=false;setBusy(false);}
   }
   async function refineBook(book: Book) {
     if (processing.current) return;
@@ -318,7 +336,7 @@ export default function Library() {
       </main>
     </div>
     {toast && <div className="toast" role="status"><Check size={17} /><span>{toast}</span><button onClick={() => setToast('')} aria-label="Dismiss notification"><X size={16} /></button></div>}
-    {activeBook && <Details key={`${activeBook.id}-${activeBook.revision}`} book={activeBook} busy={busy} onClose={() => setSelected(null)} onSave={saveBook} onRefine={() => void refineBook(activeBook)} onDelete={() => void removeBook(activeBook)} onRetry={() => { setSelected(null); void retryBooks([activeBook]); }} />}
+    {activeBook && <Details key={`${activeBook.id}-${activeBook.revision}`} book={activeBook} busy={busy} onClose={() => setSelected(null)} onSave={saveBook} onRefine={() => void refineBook(activeBook)} onQualify={() => void qualifyBook(activeBook)} onDelete={() => void removeBook(activeBook)} onRetry={() => { setSelected(null); void retryBooks([activeBook]); }} />}
     {help && <Dialog title="A little order for your books" onClose={() => setHelp(false)}><div className="help-intro"><BookOpen size={30} strokeWidth={1.4} /><p>Folio gives every book a place on your shelf, with a little help from TypeSafe Jev.</p></div><ol className="help-steps"><li><b>Bring your books.</b><p>Drop up to 10 searchable PDFs at a time, 25 MB each. Scanned books need OCR first.</p></li><li><b>Let Jev read between the lines.</b><p>Short books use full text when they fit the budget. Longer books use up to 18 distributed pages, with passages within long pages. One initial Jev request asks about subject, subcategories, language, reading complexity, story setting, audience, form, and relevant technical facets. A second language comparison runs only if the language groups disagree. A detailed search then explores several Thema branches and checks supporting passages.</p></li><li><b>Find a place on your shelf.</b><p>Filter your books, inspect confidence, correct labels, and export the library with Thema and ISO language codes.</p></li></ol><div className="help-note"><ShieldCheck size={19} /><div><b>One shared public workspace</b><p>PDFs, thumbnails, excerpts, results, corrections, and reference labels are retained on the server and visible to everyone with this link. Only extracted text and metadata go to TypeSafe for classification. Anyone using this beta can add, edit, or remove books. Removal deletes the shared record and stored PDF.</p></div></div><div className="standards-note"><h4>Thoughtful labels, established vocabulary.</h4><p><a href="https://ns.editeur.org/thema/en" target="_blank" rel="noreferrer">Thema 1.6</a> supplies 31 selected broad subject categories. The initial labels use a selected broad vocabulary. The detailed search covers all 3,422 subject codes, explores several branches, and suggests multiple subjects when supported. Search limits and unresolved alternatives are shown for review.</p><p><a href="https://www.loc.gov/standards/iso639-2/php/code_list.php" target="_blank" rel="noreferrer">ISO 639</a> supplies all 486 ISO 639-2 language and special codes. Collective and broad language codes require care; individual varieties and scripts are not all distinguished. Uncertain languages remain undetermined.</p><p>Reading bands are Jev estimates, separate from <a href="https://hub.lexile.com/text-analyzer-user-guide/" target="_blank" rel="noreferrer">Lexile</a> and <a href="https://www.renaissance.com/edword/atos/" target="_blank" rel="noreferrer">ATOS</a>. They do not indicate age suitability. Review non-English results carefully.</p></div><p className="benchmark-link"><a href="/validation">Compare against reference labels <ArrowUpRight size={14} /></a></p><p className="benchmark-link"><a href="/testing">See the public-domain test results <ArrowUpRight size={14} /></a></p><a className="text-button" href="/site-qr.png" target="_blank" rel="noreferrer">Open the phone QR code <ArrowUpRight size={14} /></a><div className="help-footer"><span className={`connection-status ${connected ? 'online' : ''}`}><i />{connected === true ? 'Jev is connected' : connected === false ? 'Waiting for the owner’s TypeSafe API key' : 'Checking Jev connection'}</span><a href="https://docs.typesafe.ai" target="_blank" rel="noreferrer">Meet TypeSafe Jev <ArrowUpRight size={14} /></a></div></Dialog>}
   </div>;
 }
