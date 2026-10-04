@@ -19,3 +19,18 @@
 .subject-evidence { padding: 16px 0; border-bottom: 1px solid var(--line, #e4e6df); }
 .subject-evidence h5 { margin: 0 0 8px; }
 .subject-evidence blockquote { margin: 12px 0; padding: 12px 16px; border-left: 3px solid #758260; background: #f4f5ef; white-space: pre-wrap; overflow-wrap: anywhere; font-size: 13px; line-height: 1.65; }
+.subject-evaluation { margin: 30px 0 42px; padding: 24px; border: 1px solid var(--line); border-radius: 12px; background: #fffdfa; }
+.subject-evaluation h3 { font-family: var(--serif); font-size: 25px; font-weight: 400; margin: 0 0 12px; }
+.subject-evaluation p { font-size: 13px; line-height: 1.75; color: #647062; }
+.validation-page .subject-metrics { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.subject-metrics > div { min-width: 0; }
+.evaluation-details { margin: 18px 0; }
+.evaluation-details summary { cursor: pointer; font-size: 13px; margin-bottom: 14px; }
+.subject-metric-table { min-width: 760px; }
+.evaluation-warnings { padding: 14px 20px; margin: 24px 0; background: #fbf3e7; border-radius: 8px; font-size: 13px; line-height: 1.7; }
+.subject-reference-fields { padding: 14px; margin: 14px 0; background: #edf1e9; border-radius: 8px; }
+.reference-code-list { font-size: 12px; padding-left: 20px; line-height: 1.8; }
+.subject-reference-fields a { font-size: 12px; color: var(--green); }
+.validation-page h2 { margin-top: 36px; }
+.reference-shelf td { overflow-wrap: anywhere; }
+@media(max-width:800px) { .validation-page .subject-metrics { grid-template-columns: repeat(2, minmax(0, 1fr)); } .subject-evaluation { padding: 15px; } }

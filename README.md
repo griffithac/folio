@@ -93,6 +93,16 @@ The search uses at most twelve requests, all counted against the public daily qu
 
 Supplementary metadata includes form, suggested intended audience (based on selected ONIX audience concepts), and independent technical tags. Natural language stays separate from code languages; HTML and CSS are explicitly markup/style languages. The 0.7 yes-probability display threshold is an unvalidated pilot policy. Audience is not a content-suitability guarantee. Technical prerequisites and prose difficulty are separate fields. ISBN, edition, publication date, publisher and series should come from verifiable source metadata; the app does not invent them.
 
+## Reference evaluation and review
+
+The validation page uses `reference-evaluation-v2`. Scalar agreement includes every book with an eligible reference label, including missing predictions. Reading-band distance excludes missing or invalid bands and reports its separate comparison count; an absent subcategory is not silently treated as an explicit “Unspecified” answer.
+
+Reference records can contain a complete or partial multi-label Thema 1.6 subject set, separately from the optional primary subject. Complete sets enable exact-code micro precision/recall/F1, per-code counts and macro F1 over the observed reference/prediction union (including extra-only codes). These follow the [standard precision, recall and averaging definitions](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.precision_recall_fscore_support.html). Undefined ratios remain null. Missing searches and explicit abstentions retain missed reference labels; an unrun search cannot earn an exact empty-set match. Broad section matches and actual official-ancestor relationships are diagnostics, never exact-code credit. Partial and legacy primary-only references show coverage of known labels only; their extra predictions are unjudged and excluded from complete-set metrics.
+
+Verified references require a named independent reviewer, role, method and review date. Edition references require an explicit edition-match check; verified language and reading-band labels must describe the uploaded edition or translation. Reviewer identity and expertise are self-attested in this public beta, not authenticated or certified. Legacy verified flags without review provenance are excluded from verified metrics. All eight existing catalog mappings remain provisional; no independently adjudicated expert corpus has been established.
+
+Review records disclose whether labels were established before seeing model predictions. Optional work grouping keys connect editions and translations; Folio warns if a group, or identical PDF fingerprint, crosses development and holdout. This check cannot establish an untouched holdout by itself. Mixed model versions are disclosed. “Export validation report” downloads the current shared report from `/api/validation?split=all` (also `development` or `holdout`), with its timestamp, metric version, counts, per-book mismatches, warnings, raw model outputs, original excerpts, source references and review provenance. The link is shareable; it is a fresh snapshot rather than an immutable benchmark run. Human corrections and suggestion approval never alter the raw prediction scores.
+
 ## Public-domain pilot
 
 The current report compares eight works spanning children’s fiction, fantasy, literary fiction, memoir, romance, science fiction, mystery and horror. Searchable text PDFs and sampled Jev results are preloaded in the shared workspace. Generated PDFs omit illustrations and the Gutenberg wrapper. Project Gutenberg lists their public-domain status in the USA; that is not a claim of worldwide status.
@@ -103,8 +113,26 @@ The current report compares eight works spanning children’s fiction, fantasy, 
 
 Reproduce with `python3 scripts/prepare-corpus.py` (requires reportlab), then `node --experimental-strip-types scripts/benchmark.ts`. Requires `pdftotext` and server-side `TYPESAFE_API_KEY` or ignored `.dev.vars`. Benchmark calls are billable, pin `jev-1.13.0`, and record probabilities, usage and method agreements in ignored `outputs`. `public/benchmarks.json` contains a shareable summary. Use `scripts/seed-library.ts <site-origin>` to preload the known test PDFs through the ordinary API; it deduplicates by file fingerprint and never overwrites tester corrections.
 
+## Backlog
+
+### Support common book formats for upload — planned
+
+Expand uploads beyond the current searchable-PDF support, using one classification and review workflow across formats.
+
+- **First priority:** EPUB, DOCX, TXT, HTML, Markdown, RTF and ODT, alongside PDF.
+- **Additional ebook formats:** FB2 and legacy MOBI, AZW and AZW3. Assess KFX compatibility before committing to support.
+- **Image-based books:** scanned PDFs, DjVu and comic archives (CBZ/CBR), with OCR and explicit handling of image-dependent content.
+- **Legacy documents:** assess DOC conversion for authors and publishers with older manuscripts.
+
+Acceptance criteria:
+
+1. Validate the actual format, provide clear unsupported/corrupt/encrypted-file errors, and enforce file, archive-entry and extracted-content limits. DRM-protected ebooks require an unprotected copy; DRM removal is outside scope.
+2. Retain the original upload and normalize text, metadata and structure for the shared classification pipeline. Evidence links must preserve real page, chapter or section locations rather than invent PDF page numbers.
+3. Apply the existing context limits, sampling strategy, detailed subject search, shared persistence, exports and deletion to every supported format. Report extraction gaps and OCR uncertainty for review.
+4. Compare classifications of the same book across formats using public-domain fixtures, including Unicode, illustrations, tables, footnotes and malformed files. Record differences separately from sampling-versus-full-text comparisons.
+
 ## Completion audit for the robust-classification goal
 
-Implemented and checked: complete subject taxonomy coverage; multiple candidate paths and subject suggestions; canonical-code validation; independent dimensions in one initial pass; exact source passages and support gates; bounded context and request budgets; official parent fallback; shared persistence, optimistic concurrency, deletion and raw-result/reference separation; reproducible regression and sampling tests.
+Implemented and checked: complete subject taxonomy coverage; multiple candidate paths and subject suggestions; canonical-code validation; independent dimensions in one initial pass; exact source passages and support gates; bounded context and request budgets; official parent fallback; shared persistence, optimistic concurrency, deletion and raw-result/reference separation; reproducible regression and sampling tests; multi-label reference evaluation with missing-prediction accounting, review provenance and split-leakage warnings.
 
 Still required before claiming exhaustive, validated classification: independently adjudicated multi-label reference books and untouched holdout evaluation; precision/recall and unsupported-label analysis by subject and language; broader sampling/full-text evaluation for long and uneven books; official place/time/interest/education/style qualifiers; expanded language handling beyond the selected 56 languages; reading-band validation independent of audience and technical prerequisites; handling scans, complex layouts, missing text and image-dependent works; and measured/calibrated review policies. The active goal remains incomplete. No test suite or confidence threshold alone proves universal correctness.

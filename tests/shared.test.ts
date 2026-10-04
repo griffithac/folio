@@ -6,7 +6,7 @@ import { subjectNodes, childrenOf, hierarchyQuestion, refineSubject } from '../l
 import type { Book, Classification, ReferenceLabels } from '../lib/catalog.ts';
 const judgment=(label:string)=>({label,confidence:.8,probabilities:{[label]:1}});
 const result:Classification={genre:judgment('Fantasy'),language:judgment('English'),readingLevel:{...judgment('Middle school'),score:2,range:'Grades 6–8'},model:'fixture',reviewed:false};
-const reference:ReferenceLabels={status:'verified',sourceName:'Independent reference',sourceUrl:'https://example.org/reference',scope:'edition',edition:'Test edition',notes:'Independently supplied labels',labels:{genre:'Fantasy',language:'English',readingLevel:'High school'},split:'holdout',updatedAt:'2026-10-03T00:00:00.000Z'};
+const reference:ReferenceLabels={status:'verified',sourceName:'Independent reference',sourceUrl:'https://example.org/reference',scope:'edition',edition:'Test edition',notes:'Independently supplied labels',labels:{genre:'Fantasy',language:'English',readingLevel:'High school'},split:'holdout',updatedAt:'2026-10-03T00:00:00.000Z',review:{reviewer:'Test reviewer',reviewerRole:'Fixture author',method:'expert-review',reviewedAt:'2026-10-03T00:00:00.000Z',independent:true,editionMatched:true,modelBlind:true}};
 const book:Book={id:'f62a7034-60c2-4fa5-96ef-6965d539141f',hash:'a'.repeat(64),title:'Book',author:'Author',filename:'book.pdf',pageCount:1,size:1000,addedAt:'2026-10-03T00:00:00.000Z',samples:[{page:1,text:'Readable book text. '.repeat(30)}],status:'complete',result,reference,revision:1};
 test('reference scoring uses original predictions, independent status, split and matching bands',()=>{
   const corrected={...book,corrections:{genre:'Romance',language:'French',readingLevel:'High school'}};

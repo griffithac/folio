@@ -63,6 +63,12 @@ export type ReferenceLabels = {
   status: 'provisional' | 'verified'; sourceName: string; sourceUrl: string;
   scope: 'work' | 'edition'; edition: string; notes: string;
   labels: { detailedSubject?: string; genre?: string; subcategory?: string; language?: string; readingLevel?: string; timePeriod?: string };
+  subjectReference?: { codes: string[]; coverage: 'complete' | 'partial'; taxonomyVersion: 'Thema 1.6' };
+  review?: {
+    reviewer: string; reviewerRole: string; method: 'publisher-metadata' | 'catalog-metadata' | 'expert-review';
+    reviewedAt: string; independent: boolean; editionMatched: boolean; modelBlind: boolean;
+  };
+  workKey?: string;
   readingMeasure?: { system: 'ATOS' | 'Lexile'; value: string; sourceUrl: string; edition: string };
   split: 'development' | 'holdout'; updatedAt: string;
 };
